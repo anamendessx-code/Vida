@@ -4,7 +4,7 @@ Vídeo vertical (1080×1920, 30 fps, ~1:58) com locução em PT-BR, feito a part
 "Líderes do Brasil × Adriano Amaral" e das gravações da reunião.
 
 - `LIDERES_x_ADRIANO_AMARAL.mp4`: vídeo final.
-- `scripts/render.py`: renderizador do motion (texto cinético, cards das empresas, split-screen pai/filho, revelação do logo).
+- `scripts/render.py`: renderizador do motion (texto cinético, cards das empresas, split-screen, revelação do logo).
 - `scripts/music.py`: trilha sintetizada (pad, arpejo, percussão, riser e impacto) sincronizada com as cenas.
 - `assets/logo_circle.png`: logo do Líderes do Brasil.
 
@@ -21,5 +21,3 @@ Vídeo vertical (1080×1920, 30 fps, ~1:58) com locução em PT-BR, feito a part
 | Daher | Presidente, Líderes do Brasil |
 | Cláudia | Vice-presidente, Líderes do Brasil |
 | Pedro | Sócio, Líderes do Brasil |
-| Adriano Amaral | Pai |
-| Adriano Amaral | Filho |

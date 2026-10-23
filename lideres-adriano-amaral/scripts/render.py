@@ -289,7 +289,7 @@ SEGS = [
     dict(t0=0.00, t1=3.90, l=L('7772', 0.2, 0.75, (1.14, 1.0), (0.2, -0.1)), dim=0.6, fadein=0.9, flash=False),
     dict(t0=3.90, t1=5.90, l=L('7769', 0.5, 0.8, (1.0, 1.1), (0, 0), (-0.3, -0.3)), dim=0.72),
     dict(t0=5.90, t1=8.20, l=L('7768', 2.0, 0.8, (1.12, 1.0), (0.1, 0.1), (-0.3, -0.3)), dim=0.72),
-    dict(t0=8.20, t1=11.05, l=L('7774', 0.0, 0.6, (1.15, 1.05)), dim=0.38, blur=7),
+    dict(t0=8.20, t1=11.05, l=L('7769', 5.0, 0.8, (1.0, 1.1), (0, 0), (-0.3, -0.3)), dim=0.8),
     # S2 — apresentação
     dict(t0=11.05, t1=13.50, l=L('7772', 6.0, 0.75, (1.32, 1.2), (0.55, 0.5), (0.2, 0.15)), dim=0.82),
     dict(t0=13.50, t1=15.60, l=L('7771', 2.5, 0.8, (1.06, 1.16), (0, 0), (-0.2, -0.25)), dim=0.82),
@@ -406,17 +406,6 @@ def ov_s1(c, t):
         reveal(c, fit('OS LÍDERES DO BRASIL', 'Black', 960, 100), W / 2, 1235, t, 5.0, 8.0)
         reveal(c, text_img('TIVERAM UM ENCONTRO', 'Light', 54, tracking=6), W / 2, 1340, t, 5.95, 8.05)
         reveal(c, fit('MUITO ESPECIAL', 'Black', 960, 92, color=SOFT), W / 2, 1430, t, 7.05, 8.05)
-    if 8.2 <= t < 11.3:
-        a = fade_in_out(t, 8.25, 10.85)
-        pop(c, logo_sized(170), W / 2, 640, t, 8.25, 10.85, s0=0.6)
-        reveal(c, text_img('LÍDERES DO BRASIL', 'SemiBold', 42, tracking=12), W / 2, 790, t, 8.35, 10.85)
-        reveal(c, text_img('×', 'Light', 70, SOFT), W / 2, 862, t, 8.5, 10.85)
-        reveal(c, fit('ADRIANO AMARAL', 'Black', 980, 128), W / 2, 965, t, 8.6, 10.85)
-        if t >= 10.15:
-            pop(c, pill('PAI & FILHO', 44, tracking=8, padx=40, pady=20), W / 2, 1100, t, 10.15, 10.85, s0=1.4)
-        if 8.8 < t:
-            ln = eo((t - 8.8) / 0.7) * 520 * (1 - ei((t - 10.85) / 0.3))
-            hbar(c, W / 2, 1040, ln, 3, ACCENT, a=a, anchor='c')
 
 def lower_third(c, t, t0, t1, name, role):
     if t < t0 or t > t1 + 0.4: return
@@ -431,8 +420,6 @@ def ov_s2(c, t):
     if 11.05 <= t < 15.9:
         reveal(c, fit('DUAS GERAÇÕES.', 'Black', 940, 112), W / 2, 330, t, 11.1, 15.45)
         reveal(c, text_img('UMA HISTÓRIA', 'Light', 54, SOFT, tracking=14), W / 2, 445, t, 12.6, 15.45)
-    lower_third(c, t, 11.45, 13.3, 'ADRIANO AMARAL', 'PAI')
-    lower_third(c, t, 13.65, 15.4, 'ADRIANO AMARAL', 'FILHO')
     if 15.6 <= t < 19.9:
         # seam band
         a = fade_in_out(t, 15.75, 19.5, 0.3, 0.3)
@@ -443,9 +430,6 @@ def ov_s2(c, t):
         words = [(15.85, 16.15, 'EMPREENDEDORISMO'), (16.15, 17.3, 'VISÃO EMPRESARIAL'), (17.3, 19.45, 'GRANDES NEGÓCIOS')]
         for k, (a0, a1, wd) in enumerate(words):
             reveal(c, fit(wd, 'Black', 900, 84), W / 2, H / 2, t, a0, a1 - 0.18 if k < 2 else a1, dur=0.35, out_dur=0.18)
-        pa = fade_in_out(t, 16.0, 19.45)
-        put(c, pill('PAI', 30, tracking=8), 130, H / 2 - 140, pa)
-        put(c, pill('FILHO', 30, tracking=8), 150, H / 2 + 140, pa)
 
 COMPANIES = ['Arthur D. Little', 'Magna Capital', 'ITEC', 'IDEA Corporate Minority Holdings',
              'Nia', 'Oasis Cloud', 'VennTure Capital', 'Engemega']
@@ -658,8 +642,6 @@ def ov_s6(c, t):
 
 PORTRAITS = [('7768', 2.0, 600, 640, 600, 'DAHER', 'PRESIDENTE'),
              ('7772', 1.0, 520, 800, 560, 'CLÁUDIA', 'VICE-PRESIDENTE'),
-             ('7774', 0.5, 700, 690, 560, 'ADRIANO', 'PAI'),
-             ('7771', 3.0, 545, 600, 620, 'ADRIANO', 'FILHO'),
              ('7769', 2.0, 510, 760, 640, 'PEDRO', 'SÓCIO')]
 PSZ = 168
 
@@ -708,15 +690,14 @@ def ov_final(c, t):
     reveal(c, fit('GRANDIOSO POR AÍ', 'Black', 960, 104, color=SOFT), W / 2, 1050, t, 111.95, 113.6)
     if t >= 113.75:
         reveal(c, fit('LÍDERES DO BRASIL', 'Black', 960, 104), W / 2, 950, t, 113.8)
-        reveal(c, text_img('×  ADRIANO AMARAL', 'SemiBold', 46, SOFT, tracking=10), W / 2, 1045, t, 114.15)
         for k, (im, nm, rl) in enumerate(portrait_imgs()):
-            x = W / 2 + (k - 2) * 205
+            x = W / 2 + (k - 1) * 240
             st = 114.5 + k * 0.12
-            pop(c, im, x, 1200, t, st, s0=0.6, dur=0.45)
-            reveal(c, nm, x, 1315, t, st + 0.2)
-            reveal(c, rl, x, 1348, t, st + 0.3)
+            pop(c, im, x, 1150, t, st, s0=0.6, dur=0.45)
+            reveal(c, nm, x, 1265, t, st + 0.2)
+            reveal(c, rl, x, 1298, t, st + 0.3)
         if t >= 115.3:
-            pop(c, pill('EM BREVE', 46, tracking=14, padx=48, pady=22), W / 2, 1460, t, 115.3, s0=1.5)
+            pop(c, pill('EM BREVE', 46, tracking=14, padx=48, pady=22), W / 2, 1420, t, 115.3, s0=1.5)
     # end fade
     if t > DUR - 0.6:
         c.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * clamp((t - (DUR - 0.6)) / 0.6)))))
