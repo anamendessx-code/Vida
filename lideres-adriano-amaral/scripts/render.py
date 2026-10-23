@@ -690,14 +690,8 @@ def ov_final(c, t):
     reveal(c, fit('GRANDIOSO POR AÍ', 'Black', 960, 104, color=SOFT), W / 2, 1050, t, 111.95, 113.6)
     if t >= 113.75:
         reveal(c, fit('LÍDERES DO BRASIL', 'Black', 960, 104), W / 2, 950, t, 113.8)
-        for k, (im, nm, rl) in enumerate(portrait_imgs()):
-            x = W / 2 + (k - 1) * 240
-            st = 114.5 + k * 0.12
-            pop(c, im, x, 1150, t, st, s0=0.6, dur=0.45)
-            reveal(c, nm, x, 1265, t, st + 0.2)
-            reveal(c, rl, x, 1298, t, st + 0.3)
-        if t >= 115.3:
-            pop(c, pill('EM BREVE', 46, tracking=14, padx=48, pady=22), W / 2, 1420, t, 115.3, s0=1.5)
+        if t >= 114.6:
+            pop(c, pill('EM BREVE', 46, tracking=14, padx=48, pady=22), W / 2, 1110, t, 114.6, s0=1.5)
     # end fade
     if t > DUR - 0.6:
         c.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * clamp((t - (DUR - 0.6)) / 0.6)))))
