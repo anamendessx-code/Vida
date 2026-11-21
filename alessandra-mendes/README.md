@@ -13,3 +13,7 @@ Projeto de posicionamento, conteúdo, funil e CRM.
 | `prototipo/direcao-visual.html` | Direção visual v1 aprovada |
 | `prototipo/pagina-de-vendas.html` | Página de vendas com CTAs, oferta do dia e cadastro da análise grátis |
 | `prototipo/banco-antes-depois.html` + `prototipo/banco/` | Curadoria de antes e depois com licença CC BY |
+| `gravacao/300-ideias-gravacao-ale.pdf` | Ideias de vídeos e fotos para o dia de gravação |
+| `gravacao/banco-de-takes-ale.pdf` | Banco de takes reaproveitáveis (reações, bordões, fórmulas de montagem) |
+| `gravacao/atendimento-whatsapp-ale.pdf` | Atendimento no WhatsApp: jornada, mensagens com o nome da cliente, ideias e automação |
+| `motion-acompanhamento/ACOMPANHAMENTO_REAL_ALE.mp4` | Motion 9:16 "Acompanhamento real" (57 s, locução + trilha). Scripts em `scripts/` |
