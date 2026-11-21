@@ -12,3 +12,4 @@ Projeto de posicionamento, conteúdo, funil e CRM.
 | `prototipo/analise-de-pele.html` | Espelho da Pele: pré-avaliação facial por foto com IA (protótipo) |
 | `prototipo/direcao-visual.html` | Direção visual v1 aprovada |
 | `prototipo/pagina-de-vendas.html` | Página de vendas com CTAs, oferta do dia e cadastro da análise grátis |
+| `prototipo/banco-antes-depois.html` + `prototipo/banco/` | Curadoria de antes e depois com licença CC BY |

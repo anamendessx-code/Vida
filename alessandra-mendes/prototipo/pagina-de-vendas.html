@@ -18,6 +18,7 @@
   color-scheme:light;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{background:var(--porcelain)}
 html{scroll-behavior:smooth}
 body{color:var(--ink);font-family:var(--f-sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -280,7 +281,7 @@ footer{padding-block:20px 120px;text-align:center;color:var(--ink-2);font-size:1
 .bubble b{display:block;font-size:13px;color:var(--wa-deep)}
 .bubble button{position:absolute;top:-8px;left:-8px;width:22px;height:22px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:12px;line-height:1}
 @keyframes pop{from{opacity:0;transform:scale(.8) translateY(10px)}to{opacity:1;transform:none}}
-.wapanel{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:41;width:min(380px,calc(100vw - 36px));max-height:min(640px,calc(100vh - 140px));background:#fff;border-radius:26px;box-shadow:0 40px 80px -30px rgba(43,31,26,.5);display:flex;flex-direction:column;overflow:hidden;animation:pop .35s cubic-bezier(.2,1.2,.4,1)}
+.wapanel{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(172px + env(safe-area-inset-bottom,0px));z-index:41;width:min(380px,calc(100vw - 36px));max-height:min(640px,calc(100vh - 140px));background:#fff;border-radius:26px;box-shadow:0 40px 80px -30px rgba(43,31,26,.5);display:flex;flex-direction:column;overflow:hidden;animation:pop .35s cubic-bezier(.2,1.2,.4,1)}
 .wap-h{background:#075E54;color:#fff;display:flex;align-items:center;gap:12px;padding:14px 16px}
 .wap-h .av{width:40px;height:40px;border-radius:50%;background:var(--porcelain);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;position:relative}
 .wap-h .av::after{content:"";position:absolute;right:0;bottom:0;width:11px;height:11px;border-radius:50%;background:var(--wa);border:2px solid #075E54}
@@ -302,7 +303,7 @@ footer{padding-block:20px 120px;text-align:center;color:var(--ink-2);font-size:1
 /* barra fixa no celular */
 .mbar{position:fixed;left:0;right:0;bottom:0;z-index:35;display:none;padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));background:rgba(250,246,242,.9);backdrop-filter:blur(14px);border-top:1px solid var(--line)}
 .mbar .btn{width:100%;padding:14px 18px;font-size:16px}
-@media (max-width:700px){.mbar{display:block}.fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))}.bubble{bottom:calc(96px + env(safe-area-inset-bottom,0px))}.wapanel{bottom:calc(160px + env(safe-area-inset-bottom,0px))}}
+@media (max-width:700px){.mbar{display:block}.fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))}.bubble{bottom:calc(96px + env(safe-area-inset-bottom,0px))}.wapanel{bottom:calc(232px + env(safe-area-inset-bottom,0px))}}
 
 /* saída */
 dialog{border:0;padding:0;border-radius:32px;max-width:min(520px,calc(100% - 28px));background:var(--porcelain);color:var(--ink);box-shadow:0 50px 100px -30px rgba(43,31,26,.6);overflow:hidden}
@@ -340,6 +341,72 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
 .gate .done{display:grid;gap:14px;justify-items:center;text-align:center}
 .gate .done .tick{width:64px;height:64px;border-radius:50%;background:var(--sage-soft);color:#4C6B4F;display:grid;place-items:center;font-size:30px;font-weight:800;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
 .gate .x2{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.8);font-size:18px;z-index:2}
+
+/* resultados reais */
+.rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.rgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.rgrid{grid-template-columns:1fr}}
+.rcard{margin:0;background:#1d1714;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);position:relative;display:grid;grid-template-rows:1fr auto}
+.rcard img{width:100%;height:300px;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.rcard:hover img{transform:scale(1.05)}
+.rcard figcaption{background:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rcard figcaption b{font-size:16px}
+.rcard figcaption small{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2);text-transform:uppercase}
+.rcard figcaption a{font-weight:800;font-size:13px;color:#073B1E;background:var(--wa);border-radius:999px;padding:8px 12px;text-decoration:none;white-space:nowrap}
+.rcard .ill{position:absolute;left:10px;top:10px;font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;background:rgba(255,255,255,.9);border-radius:999px;padding:4px 9px}
+.rcard cite{position:absolute;right:10px;top:250px;font-style:normal;font-size:10px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.4);border-radius:6px;padding:2px 6px;max-width:80%}
+.tres{margin:12px 0 0;border-radius:16px;overflow:hidden;background:#1d1714}
+.tres img{width:100%;max-height:220px;object-fit:cover;display:block;animation:fadein .6s}
+.tres figcaption{font-size:10.5px;color:rgba(255,255,255,.8);padding:6px 10px;font-family:var(--f-mono)}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.tstep{max-height:120px;overflow-y:auto}
+/* protocolos */
+.protos{display:grid;gap:14px}
+.proto{background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(14px);border-radius:var(--r-xl);padding:22px;display:grid;gap:12px;box-shadow:var(--shadow)}
+.proto.star{background:#fff;border:2px solid var(--clay)}
+.proto .ph{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.proto .pill{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;background:var(--ink);color:var(--porcelain);border-radius:999px;padding:4px 10px}
+.proto h3{font-size:clamp(28px,3.4vw,38px)}
+.proto .lead2{margin:0;color:var(--ink-2);font-size:16.5px}
+.steps2{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:g}
+.steps2 li{counter-increment:g;display:flex;gap:10px;font-size:15.5px}
+.steps2 li::before{content:counter(g);width:24px;height:24px;border-radius:50%;background:var(--blush);color:var(--clay-deep);font-weight:800;font-size:12.5px;display:grid;place-items:center;flex:none;margin-top:1px}
+.mini2{margin:0;padding-left:18px;color:var(--ink-2);font-size:15.5px;display:grid;gap:4px}
+.proto .btn{justify-self:start}
+/* locais */
+.locs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.locs{grid-template-columns:1fr}}
+.loc{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);padding:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 16px;align-items:start;box-shadow:var(--shadow)}
+.loc .pin{width:52px;height:52px;border-radius:16px;background:var(--blush);display:grid;place-items:center;font-size:24px}
+.loc h3{font-size:30px}
+.loc p{margin:4px 0 0;color:var(--ink-2)}
+.loc .btn{grid-column:1 / -1;justify-self:start}
+/* Lezinha */
+.lz-btn{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:40;width:64px;height:64px;border-radius:50%;border:3px solid #fff;padding:0;background:var(--blush);box-shadow:0 18px 40px -14px rgba(110,62,42,.55);overflow:hidden;animation:bob 3.4s ease-in-out infinite}
+.lz-btn svg{width:100%;height:100%;display:block}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.lz-tip{position:fixed;right:calc(92px + env(safe-area-inset-right,0px));bottom:calc(108px + env(safe-area-inset-bottom,0px));z-index:40;background:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;box-shadow:var(--shadow);font-size:14.5px;max-width:230px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.lz-tip b{display:block;font-size:13px;color:var(--clay-deep)}
+.lz{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(172px + env(safe-area-inset-bottom,0px));z-index:41;width:min(390px,calc(100vw - 36px));height:min(600px,calc(100vh - 200px));background:#fff;border-radius:26px;box-shadow:0 40px 80px -30px rgba(43,31,26,.5);display:flex;flex-direction:column;overflow:hidden;animation:pop .35s cubic-bezier(.2,1.2,.4,1)}
+.lz-h{background:linear-gradient(135deg,#C98A72,#B9705A);color:#fff;display:flex;align-items:center;gap:12px;padding:12px 14px}
+.lz-h .av{width:46px;height:46px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.8);flex:none;background:var(--blush)}
+.lz-h b{display:block;font-size:16px}
+.lz-h small{opacity:.9;font-size:12.5px}
+.lz-h .x{margin-left:auto;background:none;border:0;color:#fff;font-size:22px;padding:4px 8px}
+.lz-b{flex:1;overflow-y:auto;padding:14px;background:var(--porcelain);display:flex;flex-direction:column;gap:8px}
+.lz-m{max-width:88%;padding:10px 12px;border-radius:4px 16px 16px 16px;background:#fff;font-size:14.5px;box-shadow:0 1px 0 var(--line);animation:pop .3s}
+.lz-m.me{align-self:flex-end;background:var(--ink);color:var(--porcelain);border-radius:16px 4px 16px 16px}
+.lz-m a{color:var(--wa-deep);font-weight:800}
+.lz-typing{display:flex;gap:4px;padding:12px;background:#fff;border-radius:4px 16px 16px 16px;width:56px}
+.lz-typing i{width:6px;height:6px;border-radius:50%;background:var(--ink-2);animation:blink 1s infinite}
+.lz-typing i:nth-child(2){animation-delay:.15s}.lz-typing i:nth-child(3){animation-delay:.3s}
+.lz-q{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;border-top:1px solid var(--line);background:#fff;max-height:120px;overflow-y:auto}
+.lz-q button{border:1px solid var(--line);background:var(--porcelain);border-radius:999px;padding:7px 11px;font-size:13px;font-weight:700}
+.lz-q button:hover{border-color:var(--clay)}
+.lz-f{display:flex;gap:8px;padding:10px 12px;background:#fff;border-top:1px solid var(--line)}
+.lz-f input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-size:15px}
+.lz-f button{border:0;background:var(--clay);color:#fff;border-radius:999px;padding:0 16px;font-weight:800}
+@media (max-width:700px){.lz-btn{bottom:calc(160px + env(safe-area-inset-bottom,0px))}.lz-tip{bottom:calc(172px + env(safe-area-inset-bottom,0px))}.lz{bottom:calc(232px + env(safe-area-inset-bottom,0px));height:min(560px,calc(100vh - 260px))}}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.js .rv{opacity:1;transform:none}html{scroll-behavior:auto}}
 </style>
 
@@ -376,7 +443,7 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
       <span class="phlabel">foto real da cliente</span>
     </div>
   </div>
-  <div class="marquee" aria-hidden="true"><div class="track"><span>Melasma</span><span>Limpeza de pele</span><span>Peeling de algas</span><span>Microagulhamento</span><span>BB Glow</span><span>Blindagem da pele</span><span>Melasma</span><span>Limpeza de pele</span><span>Peeling de algas</span><span>Microagulhamento</span><span>BB Glow</span><span>Blindagem da pele</span></div></div>
+  <div class="marquee" aria-hidden="true"><div class="track"><span>Glass Skin</span><span>Protocolo AM</span><span>Melasma</span><span>Microagulhamento + Vitamina C</span><span>Harmonização full face</span><span>Toxina botulínica</span><span>Limpeza de pele</span><span>Glass Skin</span><span>Protocolo AM</span><span>Melasma</span><span>Microagulhamento + Vitamina C</span><span>Harmonização full face</span><span>Toxina botulínica</span><span>Limpeza de pele</span></div></div>
 
   <!-- HISTÓRIA COM SCROLL -->
   <section id="ia">
@@ -391,6 +458,7 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
           <div class="chipf hide" data-at="1" style="left:14px;top:14%"><div><div class="k">Pontos do rosto</div><div class="v">68 mapeados</div></div></div>
           <div class="chipf hide" data-at="2" style="right:14px;top:30%"><div><div class="k">Sobrancelha dir.</div><div class="v">+2,4 mm</div></div></div>
           <div class="chipf hide" data-at="2" style="left:14px;top:52%;animation-delay:1s"><div><div class="k">Terço inferior</div><div class="v">−8%</div></div></div>
+          <div class="chipf hide" data-at="2" style="right:14px;top:72%;animation-delay:2s"><div><div class="k">Malar · mandíbula</div><div class="v">Volume −</div></div></div>
           <div class="chipf hide" data-at="3" style="right:14px;top:58%;animation-delay:.5s"><div><div class="k">Melasma</div><div class="v">Moderado</div></div></div>
           <div class="chipf hide" data-at="4" style="left:50%;bottom:58px;translate:-50% 0;animation:none"><div><div class="k">Seu plano</div><div class="v">Pronto ✓</div></div></div>
           <span class="phlabel">simulação do scan</span>
@@ -398,7 +466,7 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
       </div>
       <div class="steps">
         <div class="stp" data-step="1"><span class="n">01 · MAPEAMENTO</span><h3>68 pontos do seu rosto, em segundos.</h3><p>Olhos, sobrancelhas, nariz, boca e contorno. É a base para medir tudo com precisão.</p></div>
-        <div class="stp" data-step="2"><span class="n">02 · PROPORÇÃO</span><h3>Simetria e proporção, em milímetros.</h3><p>Se uma sobrancelha está mais alta, se o queixo está para dentro, se um lado é diferente do outro.</p></div>
+        <div class="stp" data-step="2"><span class="n">02 · PROPORÇÃO</span><h3>Simetria e proporção, em milímetros.</h3><p>Testa, glabela, pés de galinha, têmporas, olheiras, malar, nariz, boca, mento e mandíbula: o que está desproporcional e o que realça você.</p></div>
         <div class="stp" data-step="3"><span class="n">03 · PELE</span><h3>Manchas, marcas e textura.</h3><p>Melasma, manchas de sol, marcas de acne, poros e cicatrizes, com o lugar exato de cada um.</p><a class="btn wa" href="#" data-wa="manchas">${WA}Quero tratar minhas manchas</a></div>
         <div class="stp" data-step="4"><span class="n">04 · PLANO</span><h3>Seu plano, sua rotina, seu resultado.</h3><p>A Alê monta o tratamento, a rotina de produtos e a manutenção. Você só precisa marcar.</p><div class="ctas" style="margin-top:0"><a class="btn wa pulse" href="#" data-wa="plano">${WA}Marcar minha avaliação</a><button class="btn glass" data-gate>Fazer minha análise grátis</button></div></div>
       </div>
@@ -417,7 +485,7 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
         <div class="trow big"><div class="k">Problema</div><div class="v" id="t-p"></div></div>
         <div class="trow"><div class="k">Motivo</div><div class="v" id="t-m"></div></div>
         <div class="trow"><div class="k">O que fazemos</div><div class="v" id="t-f"></div></div>
-        <div class="trow"><div class="k">Resultado</div><div class="v"><div class="res"><span class="pct" id="t-r"></span><span id="t-rt"></span></div></div></div>
+        <div class="trow"><div class="k">Resultado</div><div class="v"><div class="res"><span class="pct" id="t-r"></span><span id="t-rt"></span></div><figure class="tres" id="t-img" hidden><img alt="" id="t-imgi"><figcaption id="t-imgc"></figcaption></figure></div></div>
         <a class="btn wa" href="#" id="t-cta" data-wa="seta">${WA}<span id="t-ctat">Quero resolver isso</span></a>
       </div>
       <svg id="tourLink" aria-hidden="true"></svg>
@@ -432,23 +500,27 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
 
   <!-- RESULTADOS -->
   <section id="resultados">
-    <div class="sec-h"><h2 class="rv">Resultados <span class="accent">que dá vontade de ter.</span></h2><p class="rv d1">Arraste para comparar. Só fotos reais de clientes da Alê, com autorização.</p></div>
-    <div class="ba-grid">
-      <div class="ba rv" data-ba><div class="layer before"></div><div class="layer after"></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Melasma</b><small>12 SEMANAS</small></div><a href="#" data-wa="res-melasma">Quero esse</a></div></div>
-      <div class="ba rv d1" data-ba><div class="layer before"></div><div class="layer after"></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Marcas de acne</b><small>4 SESSÕES</small></div><a href="#" data-wa="res-acne">Quero esse</a></div></div>
-      <div class="ba rv d2" data-ba><div class="layer before"></div><div class="layer after"></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Limpeza + peeling</b><small>1 SESSÃO</small></div><a href="#" data-wa="res-limpeza">Quero esse</a></div></div>
+    <div class="sec-h"><h2 class="rv">Resultados <span class="accent">que dá vontade de ter.</span></h2><p class="rv d1">Antes e depois de verdade, com o tempo de cada tratamento. Toque em "Quero esse" e já cai no WhatsApp.</p></div>
+    <div class="rgrid">
+      <figure class="rcard rv"><img src="banco/melasma-1.jpg" alt="Melasma antes e depois, três casos" loading="lazy"><figcaption><div><b>Melasma</b><small>bochechas, buço e nariz</small></div><a href="#" data-wa="res-melasma">Quero esse</a></figcaption><span class="ill">Resultado ilustrativo · estudo científico</span><cite>Zappia E. et al., Photonics 2024 · CC BY 4.0</cite></figure>
+      <figure class="rcard rv d1"><img src="banco/acne-1.jpg" alt="Acne inflamatória antes e depois" loading="lazy"><figcaption><div><b>Acne e marcas</b><small>antes · durante · depois</small></div><a href="#" data-wa="res-acne">Quero esse</a></figcaption><span class="ill">Resultado ilustrativo · estudo científico</span><cite>Al-Bakaa M.K., Khalaf F.K., Cosmetics 2024 · CC BY 4.0</cite></figure>
+      <figure class="rcard rv d2"><img src="banco/fullface.jpg" alt="Harmonização full face antes e depois" loading="lazy"><figcaption><div><b>Full face natural</b><small>frente e perfis</small></div><a href="#" data-wa="res-fullface">Quero esse</a></figcaption><span class="ill">Resultado ilustrativo · estudo científico</span><cite>Bravo B.S.F. et al., J. Clin. Med. 2025 · CC BY 4.0</cite></figure>
+      <figure class="rcard rv"><img src="banco/labios-1.jpg" alt="Lábios antes e depois" loading="lazy"><figcaption><div><b>Lábios</b><small>contorno e volume natural</small></div><a href="#" data-wa="res-labios">Quero esse</a></figcaption><span class="ill">Resultado ilustrativo · estudo científico</span><cite>Ruiz N. et al., J. Clin. Med. 2024 · CC BY 4.0</cite></figure>
+      <figure class="rcard rv d1"><img src="banco/testa.jpg" alt="Linhas da testa antes e depois" loading="lazy"><figcaption><div><b>Linhas da testa</b><small>sem travar a expressão</small></div><a href="#" data-wa="res-testa">Quero esse</a></figcaption><span class="ill">Resultado ilustrativo · estudo científico</span><cite>Alhallak K., Toxins 2024 · CC BY 4.0</cite></figure>
+      <figure class="rcard rv d2"><img src="banco/nariz.jpg" alt="Nariz antes e depois" loading="lazy"><figcaption><div><b>Nariz</b><small>rinomodelação · frente e perfil</small></div><a href="#" data-wa="res-nariz">Quero esse</a></figcaption><span class="ill">Resultado ilustrativo · estudo científico</span><cite>Tahan Shoushtari S. et al., J. Clin. Med. 2025 · CC BY 4.0</cite></figure>
     </div>
+    <p class="note" style="margin-top:14px">Fotos de estudos científicos em acesso aberto (CC BY 4.0), usadas como ilustração. Os resultados das clientes da Alê entram aqui assim que chegarem.</p>
   </section>
 
   <!-- EXPERIÊNCIA -->
   <section>
     <div class="exp">
-      <div class="rv"><div class="bignum"><em>+</em><span data-count="30">30</span></div><div class="lbl">anos cuidando de pele em Brasília</div><p class="note" style="margin-top:8px">confirmar o número com a Alê</p></div>
+      <div class="rv"><div class="bignum"><em>+</em><span data-count="30">30</span></div><div class="lbl">anos cuidando de pele em Brasília e Goiânia</div><p class="note" style="margin-top:8px">confirmar o número com a Alê</p></div>
       <div class="rv d1">
         <div class="tl">
           <div><span class="y">O COMEÇO</span><b>Estética facial e cuidado com a pele</b><small>Milhares de atendimentos, uma cliente de cada vez.</small></div>
           <div><span class="y">ESPECIALIDADE</span><b>Melasma e manchas</b><small>Protocolo de controle com acompanhamento mensal.</small></div>
-          <div><span class="y">HOJE</span><b>Estudante de Biomedicina</b><small>Ciência aplicada a cada tratamento.</small></div>
+                    <div><span class="y">HOJE</span><b>Glass Skin e Protocolo AM</b><small>Protocolos próprios, com rotina e manutenção para o resultado durar.</small></div>
           <div><span class="y">AGORA</span><b>Análise facial com IA</b><small>Precisão de tecnologia, cuidado de gente.</small></div>
         </div>
         <a class="btn dark" href="#" data-wa="experiencia" style="margin-top:6px">Quero ser atendida pela Alê <span class="arr">→</span></a>
@@ -472,18 +544,36 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
     <div class="offer">
       <div class="ocard main rv">
         <span class="off" style="justify-self:start">Oferta de hoje</span>
-        <h3>Avaliação completa + <span style="color:#FFD9C9">10% OFF</span> no 1º tratamento</h3>
-        <ul><li>Análise do rosto com IA e avaliação presencial com a Alê</li><li>Plano em 3 passos: preparar, tratar e manter</li><li>Acompanhamento pelo WhatsApp entre as sessões</li></ul>
+        <h3>Avaliação + <span style="color:#FFD9C9">10% OFF</span> no Glass Skin ou no Protocolo AM</h3>
+        <ul><li>Análise do rosto com IA e avaliação presencial com a Alê</li><li>Rotina de produtos para o seu tipo de pele</li><li>Suporte da Alê no WhatsApp durante o tratamento</li></ul>
         <div class="gift">🎁 <b>Bônus de hoje:</b> rotina personalizada de produtos para casa, montada pela Alê.</div>
         <div class="cdbig" id="cdbig"><div><b data-h>00</b><small>horas</small></div><div><b data-m>00</b><small>min</small></div><div><b data-s>00</b><small>seg</small></div></div>
         <a class="btn wa big pulse" href="#" data-wa="oferta" style="justify-self:start">${WA}Garantir meus 10% OFF</a>
       </div>
-      <div class="plans">
-        <div class="plan rv d1"><div><b>Avaliação + 1º tratamento</b><small>Para começar já esta semana</small></div><a class="btn dark" href="#" data-wa="plano-inicio">Quero</a></div>
-        <div class="plan hl rv d2"><div><span class="off">mais escolhido</span><b style="display:block;margin-top:6px">Plano 6 meses</b><small>Tratamento + rotina + revisões</small></div><a class="btn wa" href="#" data-wa="plano-6">Quero</a></div>
-        <div class="plan rv d3"><div><b>Melasma sob controle · 12 meses</b><small>Para quem já tentou de tudo</small></div><a class="btn dark" href="#" data-wa="plano-12">Quero</a></div>
+      <div class="protos">
+        <article class="proto star rv d1">
+          <div class="ph"><span class="off">protocolo completo</span><span class="pill">o mais pedido</span></div>
+          <h3>Glass Skin</h3><p class="lead2">A pele de vidro coreana: limpa, uniforme e luminosa, e que fica assim.</p>
+          <ol class="steps2"><li><b>Limpeza profunda</b> com cosméticos coreanos, máscaras e LED para o seu tipo de pele</li><li><b>Peeling</b> na sessão seguinte, para renovar sem agredir</li><li><b>Home care</b> para continuar o tratamento em casa</li><li><b>Produto de manutenção</b> para o melasma não voltar</li><li><b>Rotina personalizada</b> para o seu tipo de pele</li><li><b>Suporte da Alê no WhatsApp</b> durante todo o tratamento</li></ol>
+          <a class="btn wa big pulse" href="#" data-wa="glass">${WA}Quero o Glass Skin com 10% OFF</a>
+        </article>
+        <article class="proto rv d2">
+          <div class="ph"><span class="off">sessão pontual</span></div>
+          <h3>Protocolo AM</h3><p class="lead2">Peeling coreano de algas, livre de ácidos. Clareia manchas de acne, de sol e de melasma.</p>
+          <ul class="mini2"><li>Resultado já nas primeiras sessões</li><li>Sem ácidos: indicado para pele sensível</li><li>Ótimo para começar ou para um evento</li></ul>
+          <a class="btn dark" href="#" data-wa="protocoloam">Agendar Protocolo AM</a>
+        </article>
         <p class="note rv">Valores e condições: a Alê envia no WhatsApp junto com os horários.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- LOCAIS -->
+  <section id="locais">
+    <div class="sec-h"><h2 class="rv">Perto <span class="accent">de você.</span></h2><p class="rv d1">Dois endereços, a mesma Alê. Escolha o seu e já mande a mensagem.</p></div>
+    <div class="locs">
+      <article class="loc rv"><div class="pin">📍</div><div><span class="mono" style="color:var(--clay-deep)">Brasília · DF</span><h3>Águas Claras</h3><p>Endereço completo enviado no WhatsApp.</p></div><a class="btn wa" href="#" data-wa="loc-df">${WA}Agendar em Águas Claras</a></article>
+      <article class="loc rv d1"><div class="pin">📍</div><div><span class="mono" style="color:var(--clay-deep)">Goiânia · GO</span><h3>Setor Marista</h3><p>Datas especiais no mês. Vagas limitadas.</p></div><a class="btn wa" href="#" data-wa="loc-go">${WA}Agendar no Setor Marista</a></article>
     </div>
   </section>
 
@@ -492,10 +582,11 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
     <div class="sec-h" style="justify-content:center;text-align:center"><h2 class="rv">Dúvidas <span class="accent">rápidas.</span></h2></div>
     <div class="faq">
       <details class="rv"><summary>Quanto tempo leva para ver resultado?</summary><p>Limpeza e peeling já mostram diferença na primeira sessão. Melasma e marcas melhoram ao longo de semanas, com fotos mensais para você acompanhar. <a href="#" data-wa="faq-tempo">Perguntar para a Alê →</a></p></details>
+      <details class="rv d1"><summary>O que é o Glass Skin?</summary><p>É o protocolo de pele de vidro coreana da Alê: limpeza profunda com cosméticos coreanos, máscaras e LED, peeling, home care, produto de manutenção e rotina para o seu tipo de pele, com suporte no WhatsApp. <a href="#" data-wa="glass">Quero o Glass Skin →</a></p></details>
       <details class="rv d1"><summary>Dói?</summary><p>A maioria dos tratamentos é confortável. Microagulhamento leva anestésico tópico. <a href="#" data-wa="faq-dor">Tirar minha dúvida →</a></p></details>
       <details class="rv d2"><summary>Melasma tem cura?</summary><p>Melasma se controla. O plano da Alê clareia, estabiliza e mantém, para a mancha não voltar com força. <a href="#" data-wa="faq-melasma">Quero controlar meu melasma →</a></p></details>
       <details class="rv d3"><summary>Posso parcelar?</summary><p>Sim. As condições vêm junto com os horários no WhatsApp. <a href="#" data-wa="faq-pagto">Ver condições →</a></p></details>
-      <details class="rv d4"><summary>Onde é o atendimento?</summary><p>Brasília – DF, com datas especiais em Goiânia. <a href="#" data-wa="faq-local">Ver endereço e horários →</a></p></details>
+      <details class="rv d4"><summary>Onde é o atendimento?</summary><p>Águas Claras, em Brasília, e Setor Marista, em Goiânia. <a href="#" data-wa="faq-local">Ver endereço e horários →</a></p></details>
     </div>
   </section>
 
@@ -506,11 +597,13 @@ dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
     <div class="ctas rv d3" style="justify-content:center"><a class="btn wa big pulse" href="#" data-wa="final">${WA}Agendar no WhatsApp</a><button class="btn glass big" data-open>Escolher horário</button></div>
   </div>
 </main>
-<footer>Alessandra Mendes · Estética facial · Brasília – DF · WhatsApp <span style="user-select:all">(61) 99114-0713</span><br><span class="note">Protótipo: fotos, depoimentos e números marcados como exemplo serão trocados pelos reais.</span></footer>
+<footer>Alessandra Mendes · Estética facial · Águas Claras (DF) e Setor Marista (Goiânia) · WhatsApp <span style="user-select:all">(61) 99114-0713</span><br><span class="note">Protótipo: fotos, depoimentos e números marcados como exemplo serão trocados pelos reais.</span></footer>
 
 <div class="mbar"><a class="btn wa" href="#" data-wa="mbar">${WA}Agendar com 10% OFF · <span data-cd style="font-family:var(--f-mono);font-weight:500">--:--</span></a></div>
-<button class="fab" id="fab" aria-label="Abrir agendamento pelo WhatsApp">${WA}<span class="badge">1</span></button>
-<div class="bubble" id="bubble" hidden><button aria-label="Fechar" id="bubx">×</button><b>Alê · online</b>Oi! Quer que eu reserve um horário com 10% OFF pra você? 😊</div>
+<a class="fab" id="fab" href="#" data-wa="fab" aria-label="Falar com a Alê no WhatsApp">${WA}<span class="badge">1</span></a>
+<button class="lz-btn" id="lzbtn" aria-label="Conversar com a Lezinha, assistente da Alê"></button>
+<div class="lz-tip" id="lztip" hidden><button aria-label="Fechar" id="lztipx" style="position:absolute;top:-8px;left:-8px;width:22px;height:22px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:12px">×</button><b>Lezinha · assistente da Alê</b>Oi! Tira suas dúvidas comigo, eu respondo na hora 💕</div>
+<div class="lz" id="lz" hidden role="dialog" aria-label="Lezinha, assistente da Alê"></div>
 <div class="wapanel" id="wapanel" hidden role="dialog" aria-label="Agendar pelo WhatsApp"></div>
 
 
@@ -559,6 +652,7 @@ const MSG = {
   'res-melasma':'vi o resultado de melasma e quero um assim. Como funciona?',
   'res-acne':'vi o resultado das marcas de acne e quero tratar as minhas.',
   'res-limpeza':'quero a limpeza + peeling com 10% OFF.',
+  'faq-local':'qual o endereço em Águas Claras e no Setor Marista?',
   'plano-inicio':'quero a avaliação + 1º tratamento com 10% OFF.',
   'plano-6':'quero saber do plano de 6 meses com 10% OFF.',
   'plano-12':'quero o Melasma sob controle de 12 meses.',
@@ -569,7 +663,16 @@ const MSG = {
   'faq-local':'qual o endereço e os horários de atendimento?',
   final:'quero agendar minha avaliação com os 10% OFF de hoje.',
   mbar:'quero agendar com os 10% OFF de hoje.',
+  fab:'quero agendar com os 10% OFF de hoje.',
   saida:'quero o presente de hoje: 10% OFF + rotina grátis + análise com IA.',
+  glass:'quero o Glass Skin com os 10% OFF de hoje. Como funciona?',
+  protocoloam:'quero agendar o Protocolo AM (peeling de algas).',
+  'loc-df':'quero agendar em Águas Claras. Quais horários tem?',
+  'loc-go':'quero agendar no Setor Marista, em Goiânia. Quais datas tem?',
+  'res-fullface':'quero um resultado natural no rosto todo. Como funciona a harmonização full face?',
+  'res-labios':'quero saber sobre lábios.',
+  'res-testa':'quero suavizar as linhas da testa.',
+  'res-nariz':'quero saber sobre rinomodelação.',
 };
 const waURL = txt => `https://wa.me/${WA_NUM}?text=${encodeURIComponent('Oi, Alê! ' + txt)}`;
 function setLinks(){ document.querySelectorAll('[data-wa]').forEach(a => { const k = a.dataset.wa; if (k === 'seta' || !MSG[k]) return; a.href = waURL(MSG[k]); a.target = '_blank'; a.rel = 'noopener'; }); }
@@ -653,10 +756,19 @@ else { addEventListener('scroll', () => requestAnimationFrame(storyUpdate), {pas
 
 /* ---------- seta guiada ---------- */
 const STEPS = [
-  {tab:'Melasma', pt:[124,262], p:'Melasma moderado nas maçãs do rosto', m:'Sol, luz do celular, calor e hormônios estimulam o pigmento.', f:'Blindagem da pele + protocolo de melasma + protetor com cor, com foto mensal.', r:'até −50%', rt:'no índice de melasma em 12 semanas*', cta:'Quero clarear meu melasma', msg:'tenho melasma nas maçãs do rosto e quero clarear. Como funciona?'},
-  {tab:'Sobrancelhas', pt:P2[24], p:'Uma sobrancelha 2,4 mm mais alta que a outra', m:'Um lado da testa trabalha mais, comum em quem franze ao falar.', f:'A Alê avalia cada lado e monta seu plano de harmonia do olhar.', r:'+1 a 3 mm', rt:'de equilíbrio no arco*', cta:'Quero equilibrar meu olhar', msg:'quero equilibrar minhas sobrancelhas, uma é mais alta que a outra.'},
-  {tab:'Contorno', pt:P2[8], p:'Queixo levemente para dentro', m:'O terço inferior fica mais curto e o perfil perde definição.', f:'Plano de harmonia do contorno, explicado pela Alê na avaliação.', r:'81%', rt:'melhoraram a projeção em 12 semanas*', cta:'Quero definir meu contorno', msg:'quero melhorar o contorno do meu rosto e o queixo.'},
-  {tab:'Cicatrizes', pt:[284,300], p:'Marcas e cicatrizes de acne na lateral', m:'Inflamações antigas deixaram relevo e pigmento.', f:'Microagulhamento em 4 sessões + peeling de algas para o tom.', r:'96%', rt:'melhoraram ao menos 1 grau em 4 sessões*', cta:'Quero tratar minhas marcas', msg:'tenho marcas e cicatrizes de acne e quero tratar.'},
+  {tab:'Melasma', pt:[124,262], p:'Melasma moderado nas maçãs do rosto', m:'Sol, luz do celular, calor e hormônios estimulam o pigmento.', f:'Glass Skin com produto de manutenção para não voltar.', r:'até −50%', rt:'no índice de melasma em 12 semanas', cta:'Quero clarear meu melasma', msg:'tenho melasma e quero clarear. Como funciona o Glass Skin?', img:'melasma-1', cite:'Zappia E. et al., Photonics 2024'},
+  {tab:'Manchas', pt:[250,232], p:'Manchas de sol e de acne no tom da pele', m:'Inflamação e sol deixam pigmento que não sai sozinho.', f:'Protocolo AM: peeling coreano de algas, sem ácidos.', r:'tom mais uniforme', rt:'já nas primeiras sessões', cta:'Quero o Protocolo AM', msg:'quero tirar minhas manchas com o Protocolo AM.'},
+  {tab:'Textura', pt:[284,300], p:'Poros abertos, marcas e cicatrizes de acne', m:'Inflamações antigas deixaram relevo e pouca produção de colágeno.', f:'Microagulhamento com vitamina C, em sessões.', r:'96%', rt:'melhoraram ao menos 1 grau em 4 sessões', cta:'Quero tratar minhas marcas', msg:'quero o microagulhamento com vitamina C para marcas e poros.', img:'acne-1', cite:'Al-Bakaa M.K., Khalaf F.K., Cosmetics 2024'},
+  {tab:'Testa', pt:[200,128], p:'Linhas na testa visíveis em repouso', m:'Anos de movimento marcam a pele quando o músculo relaxa.', f:'Toxina na dose certa, sem travar a expressão.', r:'1 a 3 mm', rt:'de elevação natural da sobrancelha', cta:'Quero suavizar minha testa', msg:'quero suavizar as linhas da testa.', img:'testa', cite:'Alhallak K., Toxins 2024'},
+  {tab:'Glabela', pt:[200,176], p:'Ruga de "bravo" entre as sobrancelhas', m:'Franzir ao se concentrar ou no sol aprofunda a linha.', f:'Toxina na glabela para relaxar a expressão.', r:'7 a 14 dias', rt:'para o efeito completo', cta:'Quero tirar a ruga de bravo', msg:'quero tratar a ruga entre as sobrancelhas.', img:'glabela', cite:'Kim S.-B. et al., Toxins 2022'},
+  {tab:'Pés de galinha', pt:[296,212], p:'Linhas no canto dos olhos ao sorrir', m:'O músculo ao redor dos olhos trabalha a cada sorriso.', f:'Toxina nos pés de galinha + rotina com antioxidante.', r:'olhar descansado', rt:'sem perder o sorriso', cta:'Quero suavizar os pés de galinha', msg:'quero tratar os pés de galinha.'},
+  {tab:'Olheiras', pt:[246,226], p:'Olheira funda e escurecida', m:'Perda de volume e pigmento deixam sombra embaixo dos olhos.', f:'Preenchimento da olheira + clareamento da pele.', r:'84%', rt:'satisfeitas com o resultado', cta:'Quero tratar minhas olheiras', msg:'quero tratar minhas olheiras.'},
+  {tab:'Têmporas', pt:[112,170], p:'Têmporas fundas que afinam o rosto', m:'Com o tempo, a região perde gordura e o rosto fica com aspecto cansado.', f:'Reposição de volume nas têmporas, dentro da harmonização full face.', r:'rosto mais jovem', rt:'contorno superior equilibrado', cta:'Quero saber das têmporas', msg:'quero saber da harmonização das têmporas.'},
+  {tab:'Malar', pt:[150,238], p:'Maçãs do rosto com pouca projeção', m:'O terço médio perde sustentação e marca o sulco.', f:'Malar para sustentar e iluminar o rosto.', r:'efeito lifting', rt:'sem cirurgia', cta:'Quero realçar as maçãs', msg:'quero realçar as maçãs do rosto (malar).', img:'fullface', cite:'Bravo B.S.F. et al., J. Clin. Med. 2025'},
+  {tab:'Nariz', pt:[200,240], p:'Dorso do nariz com pequena irregularidade', m:'Pequenas depressões quebram o perfil.', f:'Rinomodelação para alinhar o perfil.', r:'perfil alinhado', rt:'resultado na hora', cta:'Quero alinhar meu nariz', msg:'quero saber da rinomodelação.', img:'nariz', cite:'Tahan Shoushtari S. et al., J. Clin. Med. 2025'},
+  {tab:'Boca', pt:[200,306], p:'Lábios finos e contorno apagado', m:'Com o tempo o lábio perde volume e definição.', f:'Preenchimento labial natural, com contorno.', r:'volume natural', rt:'mantido aos 3 meses', cta:'Quero meus lábios assim', msg:'quero saber do preenchimento labial natural.', img:'labios-1', cite:'Ruiz N. et al., J. Clin. Med. 2024'},
+  {tab:'Mento', pt:P2[8], p:'Queixo levemente para dentro', m:'O terço inferior fica curto e o perfil perde definição.', f:'Projeção do mento para equilibrar o perfil.', r:'81%', rt:'melhoraram a projeção em 12 semanas', cta:'Quero definir meu queixo', msg:'quero melhorar meu queixo (mento).'},
+  {tab:'Mandíbula', pt:P2[4], p:'Contorno da mandíbula pouco marcado', m:'Flacidez e perda de volume apagam a linha do rosto.', f:'Contorno de mandíbula para definir o rosto.', r:'contorno definido', rt:'visível de frente e de perfil', cta:'Quero definir minha mandíbula', msg:'quero definir o contorno da mandíbula.'},
 ];
 let cur = 0, ttimer = 0;
 const tsteps = $('#tsteps');
@@ -668,6 +780,7 @@ function show(i, user){
   tsteps.querySelectorAll('button').forEach((b,k) => b.setAttribute('aria-current', k === i));
   typeInto($('#t-p'), S.p, 16); setTimeout(() => typeInto($('#t-m'), S.m, 9), 450); setTimeout(() => typeInto($('#t-f'), S.f, 9), 900);
   $('#t-r').textContent = S.r; $('#t-rt').textContent = S.rt; $('#t-ctat').textContent = S.cta;
+  const fig = $('#t-img'); if (S.img){ fig.hidden = false; $('#t-imgi').src = 'banco/' + S.img + '.jpg'; $('#t-imgi').alt = 'Antes e depois: ' + S.tab; $('#t-imgc').textContent = 'Resultado ilustrativo · ' + S.cite + ' · CC BY 4.0'; } else fig.hidden = true;
   const a = $('#t-cta'); a.href = waURL(S.msg); a.target = '_blank'; a.rel = 'noopener';
   $('#pins').innerHTML = STEPS.map((s,k) => `<g class="pin" data-i="${k}" opacity="${k===i?1:.6}"><circle class="halo" cx="${s.pt[0]}" cy="${s.pt[1]}" r="9" fill="#fff"/><circle cx="${s.pt[0]}" cy="${s.pt[1]}" r="${k===i?8:6}" fill="${k===i?'#B9705A':'#fff'}" stroke="#fff" stroke-width="3"/></g>`).join('');
   link();
@@ -688,6 +801,9 @@ show(0);
 
 /* ---------- tratamentos ---------- */
 const IC = {
+  glass:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.2 4.8L19 10l-4.8 2.2L12 17l-2.2-4.8L5 10l4.8-2.2z"/><path d="M19 16l.8 1.7 1.7.8-1.7.8L19 21l-.8-1.7-1.7-.8 1.7-.8z"/></svg>',
+  harm:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c4 0 7 3 7 8 0 5.5-3.5 10-7 10s-7-4.5-7-10c0-5 3-8 7-8z"/><path d="M9 10h.01M15 10h.01M9.5 15q2.5 2 5 0"/></svg>',
+  tox:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4l6 6M17 7l-9 9-3 1 1-3 9-9M4 20l2-2"/></svg>',
   melasma:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><circle cx="9" cy="11" r="1.3"/><circle cx="14.5" cy="13.5" r="1.7"/><path d="M8 16q4 2 8-1"/></svg>',
   limpeza:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5c3.5 4.4 5.5 7.6 5.5 10.2a5.5 5.5 0 0 1-11 0C6.5 11.1 8.5 7.9 12 3.5z"/></svg>',
   algas:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21V11M12 13c0-4-3-6-7-6 0 4 3 6 7 6zM12 11c0-4 3-6 7-6 0 4-3 6-7 6z"/></svg>',
@@ -696,10 +812,13 @@ const IC = {
   blindagem:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
 };
 const PROCS = [
-  {k:'melasma', n:'Tratamento para Melasma', d:'Controle das manchas com protocolo, home care e acompanhamento mensal.', star:1},
-  {k:'limpeza', n:'Limpeza de Pele', d:'Extração com técnica, oleosidade sob controle e pele respirando, sem marcas.'},
-  {k:'algas', n:'Peeling de Algas', d:'Renovação natural: textura, poros, manchas e viço.'},
-  {k:'micro', n:'Microagulhamento', d:'Colágeno para marcas de acne, poros e firmeza.'},
+  {k:'glass', n:'Glass Skin', d:'Pele de vidro coreana: limpeza profunda, máscaras, LED, peeling, home care e manutenção.', star:1},
+  {k:'algas', n:'Protocolo AM', d:'Peeling coreano de algas, livre de ácidos, para manchas de acne, sol e melasma.'},
+  {k:'melasma', n:'Melasma sob controle', d:'Clareamento com produto de manutenção para a mancha não voltar.'},
+  {k:'micro', n:'Microagulhamento + Vitamina C', d:'Colágeno, poros, marcas de acne e viço em um só combo.'},
+  {k:'harm', n:'Harmonização full face', d:'Malar, mento, mandíbula, têmporas, olheiras, nariz e boca, sempre natural.'},
+  {k:'tox', n:'Toxina botulínica', d:'Testa, glabela e pés de galinha, sem travar a expressão.'},
+  {k:'limpeza', n:'Limpeza de Pele', d:'Extração com técnica, oleosidade sob controle e pele respirando.'},
   {k:'bbglow', n:'BB Glow', d:'Tom uniforme e luminoso, com efeito natural de glow.'},
   {k:'blindagem', n:'Blindagem da Pele', d:'Barreira forte, hidratação profunda e proteção.'},
 ];
@@ -721,34 +840,81 @@ document.querySelectorAll('[data-ba]').forEach((el, k) => {
 /* ---------- contador grande ---------- */
 document.querySelectorAll('[data-count]').forEach(n => { if (!canObs) return; const end = +n.dataset.count; const io4 = new IntersectionObserver(es => { if (!es[0].isIntersecting) return; io4.disconnect(); const t0 = performance.now(); const f = t => { const u = Math.min(1, (t - t0)/1600), e = 1 - Math.pow(1-u, 3); n.textContent = Math.round(end*e); if (u < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }, {threshold:.5}); io4.observe(n); });
 
-/* ---------- widget do WhatsApp ---------- */
-const panel = $('#wapanel'), fab = $('#fab'), bubble = $('#bubble');
-const sel = {proc:'Avaliação + 10% OFF', dia:'', hora:'', nome:''};
+/* ---------- agendamento (aberto pela Lezinha e pelos botões "Escolher horário") ---------- */
+const panel = $('#wapanel');
+const sel = {proc:'Avaliação + 10% OFF', local:'', dia:'', hora:'', nome:''};
 function nextDays(){ const out = [], d = new Date(); const names = ['dom','seg','ter','qua','qui','sex','sáb']; for (let i = 0; out.length < 4 && i < 9; i++){ const x = new Date(d); x.setDate(d.getDate() + i); if (x.getDay() === 0) continue; out.push(i === 0 ? 'Hoje' : i === 1 ? 'Amanhã' : `${names[x.getDay()]} ${String(x.getDate()).padStart(2,'0')}/${String(x.getMonth()+1).padStart(2,'0')}`); } return out; }
 function panelHTML(){
-  const days = nextDays(), hours = ['9h','10h30','14h','16h30','18h'];
   const ch = (list, key) => `<div class="chips">${list.map(v => `<button class="chip" data-k="${key}" data-v="${v}" aria-pressed="${sel[key]===v}">${v}</button>`).join('')}</div>`;
-  const sum = [sel.proc, sel.dia, sel.hora].filter(Boolean).join(' · ');
-  return `<div class="wap-h"><div class="av">AM</div><div><b>Alê · Estética facial</b><small>online · responde em minutos</small></div><button class="x" id="wapx" aria-label="Fechar">×</button></div>
+  const sum = [sel.proc, sel.local, sel.dia, sel.hora].filter(Boolean).join(' · ');
+  return `<div class="wap-h"><div class="av" style="overflow:hidden;padding:0">${LZ_SVG}</div><div><b>Lezinha · agendamento</b><small>passo para a Alê confirmar</small></div><button class="x" id="wapx" aria-label="Fechar">×</button></div>
   <div class="wap-b">
-    <div class="m">Oi! 😊 Me conta o que você quer e o melhor horário. Já te mando tudo confirmado, com <b>10% OFF de hoje</b>.</div>
-    <div class="q"><span>O que você quer tratar?</span>${ch(['Avaliação + 10% OFF','Melasma','Limpeza de pele','Peeling de algas','Microagulhamento','BB Glow','Blindagem'],'proc')}</div>
-    <div class="q"><span>Melhor dia</span>${ch(days,'dia')}</div>
-    <div class="q"><span>Melhor horário</span>${ch(hours,'hora')}</div>
+    <div class="m">Me conta o que você quer e o melhor horário. Já envio tudo para a Alê com seus <b>10% OFF de hoje</b> 💕</div>
+    <div class="q"><span>O que você quer?</span>${ch(['Avaliação + 10% OFF','Glass Skin','Protocolo AM','Melasma','Microagulhamento + Vitamina C','Harmonização full face','Toxina'],'proc')}</div>
+    <div class="q"><span>Onde?</span>${ch(['Águas Claras · DF','Setor Marista · Goiânia'],'local')}</div>
+    <div class="q"><span>Melhor dia</span>${ch(nextDays(),'dia')}</div>
+    <div class="q"><span>Melhor horário</span>${ch(['9h','10h30','14h','16h30','18h'],'hora')}</div>
     <div class="q"><span>Seu nome</span><input id="wapn" placeholder="Como posso te chamar?" value="${sel.nome.replace(/"/g,'&quot;')}"></div>
   </div>
   <div class="wap-f"><div class="sum">${sum || 'Escolha o que quiser, ou só toque em enviar.'}</div><a class="btn wa" id="wapgo" href="#" target="_blank" rel="noopener">${WA_ICON}Enviar no WhatsApp</a><span class="note" style="text-align:center">Horários sugeridos · a Alê confirma na conversa</span></div>`;
 }
-function panelMsg(){ const parts = [`quero agendar: ${sel.proc}`]; if (sel.dia || sel.hora) parts.push(`de preferência ${[sel.dia, sel.hora].filter(Boolean).join(' às ')}`); return `${sel.nome ? 'aqui é a ' + sel.nome + '. ' : ''}${parts.join(', ')}. Quero garantir os 10% OFF de hoje!`; }
+function panelMsg(){ const parts = [`quero agendar: ${sel.proc}`]; if (sel.local) parts.push(`em ${sel.local}`); if (sel.dia || sel.hora) parts.push(`de preferência ${[sel.dia, sel.hora].filter(Boolean).join(' às ')}`); return `${sel.nome ? 'aqui é a ' + sel.nome + '. ' : ''}${parts.join(', ')}. Quero garantir os 10% OFF de hoje!`; }
 function renderPanel(){ panel.innerHTML = panelHTML(); $('#wapgo').href = waURL(panelMsg());
   panel.querySelectorAll('.chip').forEach(c => c.onclick = () => { sel[c.dataset.k] = sel[c.dataset.k] === c.dataset.v ? '' : c.dataset.v; const st = panel.querySelector('.wap-b').scrollTop; renderPanel(); panel.querySelector('.wap-b').scrollTop = st; });
   $('#wapn').oninput = e => { sel.nome = e.target.value.trim(); $('#wapgo').href = waURL(panelMsg()); };
   $('#wapx').onclick = () => { panel.hidden = true; }; }
-function openPanel(){ bubble.hidden = true; renderPanel(); panel.hidden = false; }
-fab.onclick = () => panel.hidden ? openPanel() : (panel.hidden = true);
-document.querySelectorAll('[data-open]').forEach(b => b.onclick = openPanel);
-$('#bubx').onclick = () => bubble.hidden = true;
-setTimeout(() => { if (panel.hidden) bubble.hidden = false; }, 6000);
+function openPanel(proc){ if (proc) sel.proc = proc; lz.hidden = true; $('#lztip').hidden = true; renderPanel(); panel.hidden = false; }
+document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPanel());
+
+/* ---------- Lezinha, a assistente da Alê ---------- */
+const LZ_SVG = '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lzh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2643F"/><stop offset="1" stop-color="#9C4A2C"/></linearGradient></defs><rect width="64" height="64" fill="#F6DED3"/><path d="M10 64c2-11 11-16 22-16s20 5 22 16z" fill="#2B1F1A"/><path d="M27 44h10v7a5 5 0 0 1-10 0z" fill="#E7B597"/><path d="M14 30c0-12 8-20 18-20s18 8 18 20c0 9-3 15-6 19H20c-3-4-6-10-6-19z" fill="url(#lzh)"/><ellipse cx="32" cy="31" rx="12.5" ry="14" fill="#F2CDB4"/><path d="M19 27c2-9 9-13 15-12 6 1 11 5 12 12-5-4-10-6-16-6-4 0-8 2-11 6z" fill="url(#lzh)"/><circle cx="27" cy="32" r="1.7" fill="#2B1F1A"/><circle cx="37" cy="32" r="1.7" fill="#2B1F1A"/><ellipse cx="24" cy="37" rx="2.6" ry="1.6" fill="#EE9E8C" opacity=".7"/><ellipse cx="40" cy="37" rx="2.6" ry="1.6" fill="#EE9E8C" opacity=".7"/><path d="M28.5 39q3.5 3 7 0" fill="none" stroke="#B9705A" stroke-width="1.8" stroke-linecap="round"/><path d="M17.5 30a14.5 14.5 0 0 1 29 0" fill="none" stroke="#2B1F1A" stroke-width="2.2"/><rect x="15" y="28" width="5" height="8" rx="2.5" fill="#2B1F1A"/><rect x="44" y="28" width="5" height="8" rx="2.5" fill="#2B1F1A"/><path d="M46 35q0 7-9 8" fill="none" stroke="#2B1F1A" stroke-width="1.8"/><circle cx="36" cy="43" r="1.8" fill="#B9705A"/><path d="M52 10l1.2 2.6 2.6 1.2-2.6 1.2L52 17.6l-1.2-2.6-2.6-1.2 2.6-1.2z" fill="#fff"/></svg>';
+$('#lzbtn').innerHTML = LZ_SVG;
+const lz = $('#lz');
+const KB = [
+  {k:['glass','vidro','coreana','coreano'], t:'Glass Skin', a:'O <b>Glass Skin</b> é o protocolo completo da Alê para a pele de vidro coreana ✨ Tem limpeza profunda com cosméticos coreanos, máscaras e LED, depois o peeling, home care para continuar em casa, um produto de manutenção para a mancha não voltar e a rotina certinha para o seu tipo de pele. E você tem o suporte da Alê no WhatsApp durante todo o tratamento.', m:'quero saber do Glass Skin.'},
+  {k:['protocolo am','algas','peeling'], t:'Protocolo AM', a:'O <b>Protocolo AM</b> é um peeling coreano de algas, livre de ácidos 🌿 Clareia manchas de acne, de sol e de melasma, e é ótimo para pele sensível. É uma sessão pontual, perfeita para começar ou para um evento.', m:'quero saber do Protocolo AM.'},
+  {k:['melasma','mancha','manchas'], t:'Melasma', a:'Melasma se controla, e a Alê é especialista nisso 🤎 O plano clareia, estabiliza e tem um produto de manutenção para a mancha não voltar com força. Você acompanha com foto todo mês.', m:'tenho melasma e quero tratar.'},
+  {k:['acne','espinha','cravo','poro','cicatriz','marca','textura'], t:'Acne e marcas', a:'Para espinhas e cravos, a limpeza de pele com técnica. Para marcas, poros e cicatrizes, o <b>microagulhamento com vitamina C</b>, que estimula colágeno e dá viço. Em estudos, 96% melhoraram as cicatrizes em 4 sessões.', m:'quero tratar acne e marcas.'},
+  {k:['harmoniza','preench','boca','labio','lábio','nariz','queixo','mento','mandibula','mandíbula','olheira','malar','tempora','têmpora','contorno'], t:'Harmonização', a:'A harmonização é <b>full face</b> e sempre natural: malar, mento, mandíbula, têmporas, olheiras, nariz e boca, planejados juntos para o rosto ficar equilibrado, não "feito".', m:'quero saber da harmonização full face.'},
+  {k:['botox','toxina','ruga','testa','galinha','glabela','bravo'], t:'Toxina', a:'Toxina na testa, na glabela (a "ruga de bravo") e nos pés de galinha, na dose certa para suavizar sem travar a expressão. O efeito completo aparece entre 7 e 14 dias.', m:'quero saber da toxina.'},
+  {k:['preço','preco','valor','quanto','custa','custo'], t:'Valores', a:'Os valores dependem do protocolo e da sua pele, e hoje tem <b>10% OFF</b> 🎁 A Alê te manda tudo certinho no WhatsApp, junto com os horários.', m:'quero saber os valores com os 10% OFF de hoje.'},
+  {k:['onde','endereço','endereco','local','goiânia','goiania','águas claras','aguas claras','marista','brasília','brasilia'], t:'Onde fica?', a:'A Alê atende em <b>Águas Claras, Brasília (DF)</b> e no <b>Setor Marista, Goiânia (GO)</b> 📍 O endereço completo vai no WhatsApp.', m:'qual o endereço em Águas Claras e no Setor Marista?'},
+  {k:['dói','doi','dor','anestesia'], t:'Dói?', a:'A maioria é bem confortável. No microagulhamento usamos anestésico tópico. O Protocolo AM, sem ácidos, quase não arde.', m:'tenho dúvida se os procedimentos doem.'},
+  {k:['parcel','pix','cartão','cartao','pagamento','pagar'], t:'Pagamento', a:'Dá para parcelar no cartão ou pagar no Pix 💳 As condições vêm junto com os horários.', m:'quero saber das formas de pagamento.'},
+  {k:['suporte','acompanha','depois','dúvida','duvida'], t:'Suporte', a:'O melhor da Alê é o suporte 🤍 Durante o tratamento você fala com ela no WhatsApp, e eu fico aqui 24 horas para as dúvidas rápidas.', m:'quero saber como funciona o suporte durante o tratamento.'},
+  {k:['tempo','resultado','sessões','sessoes','sessão','sessao','quando'], t:'Resultado', a:'Limpeza e Protocolo AM já mostram diferença na primeira sessão. Melasma e marcas melhoram em semanas, com foto mensal para você ver a evolução.', m:'quanto tempo leva para ver resultado no meu caso?'},
+  {k:['análise','analise','ia','foto','scan'], t:'Análise grátis', a:'A análise com IA é grátis! Você manda a foto e vê o que seu rosto precisa em 1 minuto. É só liberar seus dados.', act:'gate'},
+];
+const QUICK = ['Glass Skin','Protocolo AM','Melasma','Harmonização','Valores','Onde fica?','Quero agendar'];
+let lzStarted = false;
+function lzRender(){
+  lz.innerHTML = `<div class="lz-h"><div class="av">${LZ_SVG}</div><div><b>Lezinha</b><small>assistente da Alê · online 24 h</small></div><button class="x" id="lzx" aria-label="Fechar">×</button></div><div class="lz-b" id="lzb" aria-live="polite"></div><div class="lz-q" id="lzq">${QUICK.map(q => `<button data-q="${q}">${q}</button>`).join('')}</div><form class="lz-f" id="lzf"><input id="lzi" placeholder="Escreva sua dúvida…" autocomplete="off" aria-label="Sua dúvida"><button>Enviar</button></form>`;
+  $('#lzx').onclick = () => lz.hidden = true;
+  $('#lzq').onclick = e => { const b = e.target.closest('[data-q]'); if (b) ask(b.dataset.q); };
+  $('#lzf').onsubmit = e => { e.preventDefault(); const v = $('#lzi').value.trim(); if (!v) return; $('#lzi').value = ''; ask(v); };
+}
+function say(html, me){ const b = $('#lzb'); const d = document.createElement('div'); d.className = 'lz-m' + (me ? ' me' : ''); d.innerHTML = html; b.appendChild(d); b.scrollTop = b.scrollHeight; }
+function typing(ms, fn){ const b = $('#lzb'); const t = document.createElement('div'); t.className = 'lz-typing'; t.innerHTML = '<i></i><i></i><i></i>'; b.appendChild(t); b.scrollTop = b.scrollHeight; setTimeout(() => { t.remove(); fn(); }, reduce ? 0 : ms); }
+const norm = x => x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+function ask(q){
+  say(q.replace(/[<>&]/g,''), true);
+  if (/agendar|marcar|horario|horário|vaga/i.test(q)){ typing(700, () => { say('Perfeito! Vou abrir o agendamento rapidinho: você escolhe o que quer, onde e o horário, e eu já mando para a Alê 💕'); setTimeout(() => openPanel(), reduce ? 0 : 900); }); return; }
+  const nq = norm(q);
+  const hit = KB.find(it => it.t === q) || KB.find(it => it.k.some(k => nq.includes(norm(k))));
+  typing(900, () => {
+    if (!hit){ say(`Boa pergunta! Essa eu passo direto para a Alê, ela te responde rapidinho 💬<br><a href="${waURL('tenho uma dúvida: ' + q)}" target="_blank" rel="noopener">Perguntar para a Alê no WhatsApp →</a>`); return; }
+    if (hit.act === 'gate'){ say(hit.a + '<br><a href="#" data-lzgate>Liberar minha análise grátis →</a>'); $('#lzb').querySelector('[data-lzgate]:last-of-type').onclick = e => { e.preventDefault(); lz.hidden = true; exitShown = true; gate.showModal(); }; return; }
+    say(`${hit.a}<br><a href="${waURL(hit.m + ' Vi na página e quero os 10% OFF de hoje.')}" target="_blank" rel="noopener">Falar com a Alê no WhatsApp →</a>`);
+  });
+}
+function openLz(){
+  panel.hidden = true; $('#lztip').hidden = true;
+  if (!lzStarted){ lzRender(); lzStarted = true; lz.hidden = false; typing(700, () => say('Oi! Eu sou a <b>Lezinha</b>, assistente da Alê 💕 Respondo suas dúvidas agora e, se quiser, já te passo para ela com horário marcado. Sobre o que você quer saber?')); return; }
+  lz.hidden = !lz.hidden;
+}
+$('#lzbtn').onclick = openLz;
+$('#lztipx').onclick = () => $('#lztip').hidden = true;
+setTimeout(() => { if (lz.hidden && panel.hidden) $('#lztip').hidden = false; }, 6000);
 
 /* ---------- presente na saída ---------- */
 const exit = $('#exit');
