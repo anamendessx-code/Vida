@@ -10,3 +10,5 @@ Projeto de posicionamento, conteúdo, funil e CRM.
 | `crm/crm_alessandra_modelo.csv` | Modelo de planilha do CRM (importar no Google Sheets) |
 | `prototipo/crm-funil.html` | Protótipo interativo do funil e do CRM (dados fictícios) |
 | `prototipo/analise-de-pele.html` | Espelho da Pele: pré-avaliação facial por foto com IA (protótipo) |
+| `prototipo/direcao-visual.html` | Direção visual v1 aprovada |
+| `prototipo/pagina-de-vendas.html` | Página de vendas com CTAs, oferta do dia e cadastro da análise grátis |

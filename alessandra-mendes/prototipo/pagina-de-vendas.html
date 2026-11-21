@@ -1,0 +1,787 @@
+<title>Alê da Pele</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: página de vendas longa em blocos; scroll conta a história (scan de IA fixo enquanto os passos passam), CTA para o WhatsApp em todo bloco, oferta do dia fixa no topo, botão e widget de WhatsApp flutuantes.
+   Visual claro único, por escolha (direção visual v1 aprovada): porcelana, café, terracota, aurora em movimento, vidro fosco, grotesca forte + mono. */
+:root{
+  --porcelain:#FAF6F2; --white:#FFFFFF; --ink:#2B1F1A; --ink-2:#6E5A50; --line:rgba(120,84,66,.14);
+  --clay:#B9705A; --clay-deep:#97523E; --blush:#F3DCD2; --peach:#F7C9B2; --champagne:#EAD3AE; --sage:#7F9C82; --sage-soft:#E5EEE3;
+  --wa:#25D366; --wa-deep:#128C4A;
+  --glass:rgba(255,255,255,.64); --glass-line:rgba(255,255,255,.92);
+  --f-sans:"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --shadow:0 30px 60px -30px rgba(110,62,42,.35), 0 2px 6px -2px rgba(110,62,42,.08);
+  --r-xl:32px; --r-lg:22px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--porcelain)}
+html{scroll-behavior:smooth}
+body{color:var(--ink);font-family:var(--f-sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;letter-spacing:-.035em;text-wrap:balance;font-weight:800}
+.accent{color:var(--clay)}
+.it{font-style:italic;font-weight:600}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--clay-deep);background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(10px);border-radius:999px;padding:6px 12px}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--clay);box-shadow:0 0 0 4px rgba(185,112,90,.18);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.35}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:15px 24px;font-weight:800;font-size:16px;border:1px solid transparent;text-decoration:none;transition:transform .25s,box-shadow .25s,background .25s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn.dark{background:var(--ink);color:var(--porcelain)}
+.btn.wa{background:var(--wa);color:#073B1E}
+.btn.wa:hover{background:#2EE072}
+.btn.glass{background:var(--glass);border-color:var(--glass-line);backdrop-filter:blur(10px);color:var(--ink)}
+.btn.clay{background:var(--clay);color:#fff}
+.btn.big{padding:19px 30px;font-size:18px}
+.btn svg{width:20px;height:20px;flex:none}
+.btn .arr{transition:transform .25s}
+.btn:hover .arr{transform:translateX(4px)}
+.pulse{position:relative}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:999px;border:2px solid currentColor;opacity:0;animation:ring 2.2s infinite}
+.btn.wa.pulse::after{border-color:var(--wa)}
+@keyframes ring{0%{opacity:.6;transform:scale(.96)}100%{opacity:0;transform:scale(1.12)}}
+.off{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:11px;font-weight:500;letter-spacing:.04em;background:#FDE7DE;color:#A2442F;border-radius:999px;padding:4px 9px;text-transform:uppercase}
+
+/* aurora */
+.aurora{position:fixed;inset:-20vmax;z-index:0;pointer-events:none;filter:blur(60px);opacity:.75}
+.aurora span{position:absolute;border-radius:50%;mix-blend-mode:multiply;animation:drift 22s ease-in-out infinite alternate}
+.aurora span:nth-child(1){width:48vmax;height:48vmax;left:8%;top:2%;background:radial-gradient(circle,#F7C9B2,transparent 65%)}
+.aurora span:nth-child(2){width:42vmax;height:42vmax;right:6%;top:10%;background:radial-gradient(circle,#EAD3AE,transparent 65%);animation-duration:28s}
+.aurora span:nth-child(3){width:40vmax;height:40vmax;left:30%;top:45%;background:radial-gradient(circle,#F3DCD2,transparent 65%);animation-duration:34s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmax,-4vmax) scale(1.1)}100%{transform:translate(-5vmax,5vmax) scale(.95)}}
+.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,header,footer,.offerbar{position:relative;z-index:1}
+
+/* faixa de oferta + barra */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--ink)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30}
+.offerbar{background:var(--ink);color:var(--porcelain);font-size:14px}
+.offerbar .wrap{display:flex;align-items:center;justify-content:center;gap:12px 18px;flex-wrap:wrap;padding-block:9px}
+.offerbar b{color:#FFD9C9}
+.offerbar .cd{font-family:var(--f-mono);font-size:13px;background:rgba(255,255,255,.1);border-radius:8px;padding:3px 8px;font-variant-numeric:tabular-nums}
+.offerbar a{color:#073B1E;background:var(--wa);border-radius:999px;padding:6px 14px;font-weight:800;text-decoration:none;font-size:13.5px}
+.bar{padding-block:12px}
+.bar-in{display:flex;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(16px);border-radius:999px;padding:7px 7px 7px 14px;box-shadow:0 10px 30px -20px rgba(110,62,42,.35)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+.logo b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--porcelain);font-size:13px}
+.bar nav{display:flex;gap:2px;margin-left:auto}
+.bar nav a{padding:8px 12px;border-radius:999px;color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
+.bar nav a:hover{background:rgba(255,255,255,.85);color:var(--ink)}
+.bar .btn{padding:10px 16px;font-size:14px}
+@media (max-width:860px){.bar nav{display:none}.bar .btn{margin-left:auto}}
+
+section{padding-block:64px;scroll-margin-top:120px}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px 28px;margin-bottom:28px;flex-wrap:wrap}
+.sec-h h2{font-size:clamp(36px,5.2vw,62px);line-height:1}
+.sec-h p{margin:0;color:var(--ink-2);max-width:44ch;font-size:18px}
+.note{font-family:var(--f-mono);font-size:11px;color:var(--ink-2);letter-spacing:.03em}
+
+/* revelação ao rolar */
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}.js .rv.d4{transition-delay:.32s}.js .rv.d5{transition-delay:.4s}
+.caret{display:inline-block;width:.08em;height:.9em;background:var(--clay);vertical-align:-.08em;margin-left:.04em;animation:blink 1s infinite}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-block:28px 36px}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:26px}}
+.hero h1{font-size:clamp(46px,7vw,92px);line-height:.95;margin-block:18px 16px}
+.hero h1 .rot{color:var(--clay);font-style:italic;font-weight:600;white-space:nowrap}
+.hero .lead{font-size:20px;color:var(--ink-2);max-width:42ch;margin:0}
+.hero .sub{font-size:clamp(22px,2.4vw,28px);font-weight:700;letter-spacing:-.02em;margin:0 0 10px}
+.hero h1 .rot{display:inline-block;min-width:4ch}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.trust{display:flex;align-items:center;gap:14px;margin-top:24px;flex-wrap:wrap}
+.faces{display:flex}
+.faces span{width:34px;height:34px;border-radius:50%;border:2px solid var(--porcelain);margin-left:-10px;background:linear-gradient(140deg,#E9C3A9,#C98D6F)}
+.faces span:first-child{margin-left:0;background:linear-gradient(140deg,#F1D2BE,#D9A588)}
+.faces span:nth-child(3){background:linear-gradient(140deg,#C99474,#8E5B3F)}
+.trust small{color:var(--ink-2);font-size:14px}
+.trust b{color:var(--ink)}
+.scan{position:relative;aspect-ratio:4/5;border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow);background:linear-gradient(160deg,#EBC7B1,#D39C80 60%,#B97E62)}
+.scan .ph{position:absolute;inset:0;background:radial-gradient(ellipse 34% 40% at 50% 46%,rgba(255,226,208,.55),transparent 70%),radial-gradient(ellipse 60% 24% at 50% 100%,rgba(70,40,28,.35),transparent 70%)}
+.scan > svg{position:absolute;inset:0;width:100%;height:100%}
+.scan .sweep{position:absolute;left:0;right:0;height:26%;top:-26%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.35) 80%,rgba(255,255,255,.9) 99%,transparent);animation:sweep 4.2s cubic-bezier(.6,0,.4,1) infinite;mix-blend-mode:soft-light;pointer-events:none}
+@keyframes sweep{0%{top:-26%}60%{top:100%}100%{top:100%}}
+.chipf{position:absolute;display:flex;align-items:center;gap:10px;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(14px);border-radius:16px;padding:10px 12px;box-shadow:0 14px 30px -18px rgba(60,30,20,.5);animation:float 6s ease-in-out infinite;transition:opacity .5s,transform .5s}
+.chipf .k{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em}
+.chipf .v{font-weight:800;font-size:17px;letter-spacing:-.02em}
+.chipf svg{width:34px;height:34px;flex:none}
+.chipf.hide{opacity:0;transform:translateY(10px) scale(.95)}
+@keyframes float{50%{translate:0 -8px}}
+.phlabel{position:absolute;left:16px;bottom:16px;font-family:var(--f-mono);font-size:11px;color:rgba(255,255,255,.92);background:rgba(43,31,26,.35);backdrop-filter:blur(6px);border-radius:999px;padding:6px 10px}
+.mesh line{stroke:#fff;stroke-width:1}
+.mesh circle{fill:#fff}
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding-block:16px;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marquee .track{display:flex;gap:40px;width:max-content;animation:mq 32s linear infinite}
+.marquee span{font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-.03em;display:inline-flex;align-items:center;gap:40px;white-space:nowrap}
+.marquee span::after{content:"✦";color:var(--clay);font-size:.6em}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* história com scroll */
+.story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start}
+@media (max-width:900px){.story{grid-template-columns:1fr;gap:0}}
+.story .stick{position:sticky;top:130px}
+@media (max-width:900px){.story .stick{top:110px;z-index:2;max-width:330px;margin-inline:auto;width:100%}}
+.story .scan{aspect-ratio:4/5}
+.steps{display:grid;gap:0}
+.stp{min-height:72vh;display:flex;flex-direction:column;justify-content:center;gap:14px;padding-block:20px}
+@media (max-width:900px){.stp{min-height:auto;padding-block:36px;background:var(--glass);backdrop-filter:blur(14px);border-radius:var(--r-lg);padding-inline:20px;margin-top:18px;border:1px solid var(--glass-line);position:relative;z-index:3}}
+.stp .n{font-family:var(--f-mono);font-size:12px;color:var(--clay-deep);letter-spacing:.08em}
+.stp h3{font-size:clamp(30px,3.8vw,46px);line-height:1.02}
+.stp p{margin:0;color:var(--ink-2);font-size:18px;max-width:40ch}
+.stp .btn{align-self:flex-start}
+.meter{position:absolute;left:16px;right:16px;top:16px;display:flex;gap:6px}
+.meter i{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.35);overflow:hidden;position:relative}
+.meter i b{position:absolute;inset:0;width:0;background:#fff;border-radius:4px}
+
+/* faixa CTA */
+.band{background:var(--ink);color:var(--porcelain);border-radius:var(--r-xl);padding:clamp(24px,4vw,40px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(185,112,90,.55),transparent 65%);right:-160px;top:-260px;animation:drift 18s ease-in-out infinite alternate}
+.band h3{font-size:clamp(28px,3.6vw,44px);line-height:1.02;position:relative}
+.band p{margin:8px 0 0;opacity:.78;position:relative}
+.band .acts{display:flex;gap:10px;flex-wrap:wrap;position:relative;justify-content:flex-end}
+@media (max-width:760px){.band{grid-template-columns:1fr}.band .acts{justify-content:flex-start}}
+
+/* seta guiada */
+.tour{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:center;position:relative}
+@media (max-width:900px){.tour{grid-template-columns:1fr}}
+.tcard{background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(18px);border-radius:var(--r-xl);padding:clamp(20px,3vw,32px);box-shadow:var(--shadow);display:grid;gap:16px;min-width:0}
+.tstep{display:flex;gap:6px;flex-wrap:wrap}
+.tstep button{border:1px solid var(--line);background:rgba(255,255,255,.75);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;color:var(--ink-2)}
+.tstep button[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--porcelain)}
+.trow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;align-items:start;padding-top:14px;border-top:1px solid var(--line)}
+@media (max-width:520px){.trow{grid-template-columns:1fr;gap:4px}}
+.trow .k{font-family:var(--f-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--clay-deep);padding-top:4px}
+.trow .v{font-size:17px;min-height:1.5em}
+.trow.big .v{font-size:clamp(23px,2.5vw,29px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.res{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.res .pct{font-size:40px;font-weight:800;letter-spacing:-.04em;color:var(--clay)}
+#tourLink{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:3}
+@media (max-width:900px){#tourLink{display:none}}
+#pins .pin{cursor:pointer}
+#pins .halo{animation:halo 1.8s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes halo{0%{transform:scale(.6);opacity:.8}100%{transform:scale(2.2);opacity:0}}
+
+/* procedimentos */
+.procs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.procs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.procs{grid-template-columns:1fr}}
+.proc{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;display:grid;gap:12px;align-content:start;transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
+.proc:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.proc.star{background:var(--ink);color:var(--porcelain);border-color:var(--ink)}
+.proc.star p{color:rgba(250,246,242,.75)}
+.proc .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--blush);color:var(--clay-deep)}
+.proc.star .ic{background:rgba(255,255,255,.12);color:#FFD9C9}
+.proc .ic svg{width:24px;height:24px}
+.proc h3{font-size:24px;letter-spacing:-.03em}
+.proc p{margin:0;color:var(--ink-2);font-size:15.5px}
+.proc .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:4px}
+.proc .btn{padding:11px 16px;font-size:14.5px}
+.proc .tagx{position:absolute;top:16px;right:16px}
+
+/* antes/depois */
+.ba-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.ba-grid{grid-template-columns:1fr}}
+.ba{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);user-select:none;touch-action:pan-y}
+.ba .layer{position:absolute;inset:0}
+.ba .before{background:radial-gradient(circle at 34% 46%,rgba(120,70,45,.45) 0 9%,transparent 15%),radial-gradient(circle at 66% 48%,rgba(120,70,45,.4) 0 8%,transparent 14%),radial-gradient(circle at 50% 64%,rgba(120,70,45,.3) 0 6%,transparent 11%),linear-gradient(165deg,#DDAE91,#C08566 70%,#A46C50)}
+.ba .after{background:radial-gradient(circle at 50% 40%,rgba(255,240,230,.55),transparent 55%),linear-gradient(165deg,#EBC4AA,#D19C7E 70%,#B88064)}
+.ba .handle{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;transform:translateX(-50%)}
+.ba .handle::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:44px;border-radius:50%;transform:translate(-50%,-50%);background:var(--glass);border:1px solid #fff;backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+.ba .handle::before{content:"‹ ›";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;font-weight:800;font-size:15px;white-space:nowrap}
+.ba .tag{position:absolute;top:14px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(10px);border-radius:999px;padding:5px 10px}
+.ba .ph{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);font-family:var(--f-mono);font-size:11px;color:rgba(255,255,255,.9);text-align:center;letter-spacing:.05em}
+.ba .cap{position:absolute;left:12px;right:12px;bottom:12px;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(14px);border-radius:16px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ba .cap b{font-size:15px}
+.ba .cap small{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2)}
+.ba .cap a{font-weight:800;font-size:13px;color:#073B1E;background:var(--wa);border-radius:999px;padding:8px 12px;text-decoration:none;white-space:nowrap}
+
+/* experiência */
+.exp{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:center}
+@media (max-width:900px){.exp{grid-template-columns:1fr}}
+.bignum{font-size:clamp(110px,18vw,220px);font-weight:800;letter-spacing:-.07em;line-height:.85;color:var(--ink)}
+.bignum em{font-style:normal;color:var(--clay)}
+.exp .lbl{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-top:8px}
+.tl{display:grid;gap:0;border-left:2px solid var(--line);margin-left:8px}
+.tl div{position:relative;padding:0 0 22px 24px}
+.tl div::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--porcelain);border:2px solid var(--clay)}
+.tl b{display:block;font-size:17px}
+.tl small{color:var(--ink-2);font-size:14.5px}
+.tl .y{font-family:var(--f-mono);font-size:11.5px;color:var(--clay-deep)}
+
+/* prova */
+.proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.proof{grid-template-columns:1fr}}
+.quote{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;display:grid;gap:14px;align-content:start}
+.quote .stars{color:var(--clay);letter-spacing:2px}
+.quote p{margin:0;font-size:17px}
+.quote .who{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}
+.quote .who span{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,#EBC4AA,#C08566)}
+.wachat{background:#EFE7DD;border-radius:var(--r-lg);padding:18px;display:grid;gap:8px;align-content:start}
+.wachat .m{background:#fff;border-radius:12px 12px 12px 4px;padding:9px 12px;font-size:15px;max-width:92%}
+.wachat .m.me{justify-self:end;background:#DCF3D0;border-radius:12px 12px 4px 12px}
+.wachat time{display:block;font-family:var(--f-mono);font-size:10px;color:#8A7A6E;text-align:right;margin-top:2px}
+
+/* oferta */
+.offer{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:18px;align-items:stretch}
+@media (max-width:900px){.offer{grid-template-columns:1fr}}
+.ocard{border-radius:var(--r-xl);padding:clamp(24px,4vw,40px);display:grid;gap:18px;align-content:start;position:relative;overflow:hidden}
+.ocard.main{background:var(--ink);color:var(--porcelain)}
+.ocard.main::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(185,112,90,.5),transparent 65%);left:-200px;bottom:-280px;animation:drift 20s ease-in-out infinite alternate}
+.ocard.main > *{position:relative}
+.ocard h3{font-size:clamp(32px,4vw,48px);line-height:1}
+.ocard ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.ocard li{display:flex;gap:12px;align-items:flex-start;font-size:17px}
+.ocard li::before{content:"✓";width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.12);color:#FFD9C9;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none;margin-top:1px}
+.ocard .gift{background:rgba(255,255,255,.08);border:1px dashed rgba(255,217,201,.5);border-radius:18px;padding:14px 16px;font-size:15.5px}
+.ocard .gift b{color:#FFD9C9}
+.cdbig{display:flex;gap:8px}
+.cdbig div{background:rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;text-align:center;min-width:64px}
+.cdbig b{display:block;font-size:30px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.cdbig small{font-family:var(--f-mono);font-size:10px;opacity:.7;text-transform:uppercase}
+.plans{display:grid;gap:12px}
+.plan{background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(14px);border-radius:var(--r-lg);padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;align-items:center;box-shadow:0 1px 0 var(--line)}
+.plan b{font-size:19px;letter-spacing:-.02em}
+.plan small{display:block;color:var(--ink-2);font-size:14.5px}
+.plan.hl{border:2px solid var(--clay);background:#fff}
+.plan .btn{padding:11px 16px;font-size:14.5px}
+
+/* faq */
+.faq{display:grid;gap:10px;max-width:860px;margin-inline:auto}
+.faq details{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:6px 20px}
+.faq summary{cursor:pointer;list-style:none;padding:14px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:24px;color:var(--clay);transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{margin:0 0 16px;color:var(--ink-2)}
+.faq a{color:var(--wa-deep);font-weight:800}
+
+.final{text-align:center;display:grid;gap:18px;justify-items:center;padding-block:80px 40px}
+.final h2{font-size:clamp(44px,7vw,96px);line-height:.95}
+.final p{color:var(--ink-2);font-size:19px;max-width:46ch;margin:0}
+footer{padding-block:20px 120px;text-align:center;color:var(--ink-2);font-size:14px}
+
+/* WhatsApp flutuante + widget */
+.fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;width:64px;height:64px;border-radius:50%;background:var(--wa);border:0;display:grid;place-items:center;box-shadow:0 18px 40px -12px rgba(18,140,74,.6);transition:transform .25s}
+.fab:hover{transform:scale(1.06)}
+.fab svg{width:32px;height:32px}
+.fab::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--wa);animation:ring 2s infinite}
+.fab .badge{position:absolute;top:-2px;right:-2px;min-width:22px;height:22px;border-radius:999px;background:#E5484D;color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center;border:2px solid var(--porcelain)}
+.bubble{position:fixed;right:calc(92px + env(safe-area-inset-right,0px));bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:40;background:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;box-shadow:var(--shadow);font-size:14.5px;max-width:240px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.bubble b{display:block;font-size:13px;color:var(--wa-deep)}
+.bubble button{position:absolute;top:-8px;left:-8px;width:22px;height:22px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:12px;line-height:1}
+@keyframes pop{from{opacity:0;transform:scale(.8) translateY(10px)}to{opacity:1;transform:none}}
+.wapanel{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:41;width:min(380px,calc(100vw - 36px));max-height:min(640px,calc(100vh - 140px));background:#fff;border-radius:26px;box-shadow:0 40px 80px -30px rgba(43,31,26,.5);display:flex;flex-direction:column;overflow:hidden;animation:pop .35s cubic-bezier(.2,1.2,.4,1)}
+.wap-h{background:#075E54;color:#fff;display:flex;align-items:center;gap:12px;padding:14px 16px}
+.wap-h .av{width:40px;height:40px;border-radius:50%;background:var(--porcelain);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;position:relative}
+.wap-h .av::after{content:"";position:absolute;right:0;bottom:0;width:11px;height:11px;border-radius:50%;background:var(--wa);border:2px solid #075E54}
+.wap-h b{display:block;font-size:15.5px}
+.wap-h small{opacity:.8;font-size:12.5px}
+.wap-h .x{margin-left:auto;background:none;border:0;color:#fff;font-size:22px;line-height:1;padding:4px 8px}
+.wap-b{padding:14px;overflow-y:auto;background:#EFE7DD;display:grid;gap:12px}
+.wap-b .m{background:#fff;border-radius:4px 14px 14px 14px;padding:10px 12px;font-size:14.5px;max-width:92%}
+.wap-b .q{display:grid;gap:8px}
+.wap-b .q > span{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid rgba(0,0,0,.08);background:#fff;border-radius:999px;padding:7px 12px;font-size:13.5px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.wap-b input{width:100%;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:10px 12px;font-size:15px;background:#fff}
+.wap-f{padding:12px 14px;background:#fff;border-top:1px solid var(--line);display:grid;gap:8px}
+.wap-f .sum{font-size:13px;color:var(--ink-2)}
+.wap-f .btn{width:100%}
+
+/* barra fixa no celular */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:35;display:none;padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));background:rgba(250,246,242,.9);backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.mbar .btn{width:100%;padding:14px 18px;font-size:16px}
+@media (max-width:700px){.mbar{display:block}.fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))}.bubble{bottom:calc(96px + env(safe-area-inset-bottom,0px))}.wapanel{bottom:calc(160px + env(safe-area-inset-bottom,0px))}}
+
+/* saída */
+dialog{border:0;padding:0;border-radius:32px;max-width:min(520px,calc(100% - 28px));background:var(--porcelain);color:var(--ink);box-shadow:0 50px 100px -30px rgba(43,31,26,.6);overflow:hidden}
+dialog::backdrop{background:rgba(43,31,26,.45);backdrop-filter:blur(4px)}
+.exit{display:grid;gap:16px;padding:30px;text-align:center;justify-items:center;position:relative}
+.exit::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -10%,rgba(247,201,178,.9),transparent 60%);pointer-events:none}
+.exit > *{position:relative}
+.exit .gift-ic{width:72px;height:72px;border-radius:22px;background:var(--ink);color:#FFD9C9;display:grid;place-items:center;font-size:34px;animation:wiggle 1.6s ease-in-out infinite}
+@keyframes wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-4deg)}}
+.exit h3{font-size:clamp(30px,6vw,40px);line-height:1}
+.exit p{margin:0;color:var(--ink-2)}
+.exit ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;text-align:left}
+.exit li{display:flex;gap:10px;font-size:16px}
+.exit li::before{content:"🎁";flex:none}
+.exit .btn{width:100%}
+.exit .no{background:none;border:0;color:var(--ink-2);font-size:13.5px;text-decoration:underline}
+.toast{position:fixed;left:50%;top:calc(110px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:50;background:var(--ink);color:var(--porcelain);border-radius:999px;padding:10px 16px;font-size:14px;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;animation:pop .4s}
+
+/* cadastro da análise grátis */
+.gate{display:grid;gap:16px;padding:30px;position:relative}
+.gate::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% -10%,rgba(247,201,178,.9),transparent 55%);pointer-events:none}
+.gate > *{position:relative}
+.gate h3{font-size:clamp(28px,5.4vw,36px);line-height:1.02}
+.gate p{margin:0;color:var(--ink-2)}
+.gate .perks{display:flex;flex-wrap:wrap;gap:6px}
+.gate .perks span{font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 10px}
+.fld{display:grid;gap:6px}
+.fld span{font-size:13px;font-weight:700;color:var(--ink-2)}
+.fld input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px 14px;font-size:16px}
+.fld input:focus{outline:none;border-color:var(--clay);box-shadow:0 0 0 3px rgba(185,112,90,.18)}
+.fld input[aria-invalid="true"]{border-color:#C0453A}
+.ok{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);text-align:left}
+.ok input{width:19px;height:19px;accent-color:var(--clay);flex:none;margin-top:1px}
+.gerr{font-size:14px;color:#A2442F;background:#FDE7DE;border-radius:12px;padding:10px 12px}
+.gate .done{display:grid;gap:14px;justify-items:center;text-align:center}
+.gate .done .tick{width:64px;height:64px;border-radius:50%;background:var(--sage-soft);color:#4C6B4F;display:grid;place-items:center;font-size:30px;font-weight:800;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.gate .x2{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.8);font-size:18px;z-index:2}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.js .rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+
+<div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="top">
+  <div class="offerbar"><div class="wrap"><span>🎁 <b>Só hoje: 10% OFF</b> no 1º tratamento + rotina de produtos grátis</span><span class="cd" data-cd>--:--:--</span><a href="#" data-wa="oferta">Garantir agora</a></div></div>
+  <header class="wrap bar"><div class="bar-in">
+    <a class="logo" href="#inicio"><b>AM</b>Alessandra Mendes</a>
+    <nav aria-label="Seções"><a href="#ia">Análise com IA</a><a href="#tratamentos">Tratamentos</a><a href="#resultados">Resultados</a><a href="#oferta">Oferta</a><a href="#duvidas">Dúvidas</a></nav>
+    <a class="btn wa" href="#" data-wa="topo">${WA}Agendar</a>
+  </div></header>
+</div>
+
+<main class="wrap">
+  <!-- HERO -->
+  <div id="inicio" class="hero">
+    <div>
+      <span class="eyebrow rv"><i></i>Estética facial · Brasília · com IA</span>
+      <h1 class="rv d1">Chega de conviver com <span class="rot" id="rot">manchas</span>.</h1>
+      <p class="sub rv d1">Sua pele, lida por IA e cuidada pela Alê.</p>
+      <p class="lead rv d2">Em 1 minuto você descobre o que seu rosto precisa. Em 1 mensagem você já sai com horário marcado.</p>
+      <div class="ctas rv d3"><a class="btn wa big pulse" href="#" data-wa="hero">${WA}Agendar com 10% OFF</a><button class="btn glass big" data-gate>Fazer análise grátis <span class="arr">→</span></button></div>
+      <div class="trust rv d4"><div class="faces"><span></span><span></span><span></span><span></span></div><small><b>+30 anos</b> cuidando de pele · <b>4,9 ★</b> das clientes · <span class="off">vagas da semana: 6</span></small></div>
+    </div>
+    <div class="scan rv d2" id="heroScan" aria-label="Scan facial com IA">
+      <div class="ph"></div>
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" class="mesh" id="mesh0"></svg>
+      <div class="sweep"></div>
+      <div class="chipf" style="left:14px;top:18%"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(43,31,26,.1)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#B9705A" stroke-width="4" stroke-dasharray="94" stroke-dashoffset="26" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg><div><div class="k">Simetria</div><div class="v">92%</div></div></div>
+      <div class="chipf" style="right:14px;top:46%;animation-delay:1.5s"><div><div class="k">Melasma · maçãs</div><div class="v">Moderado</div></div></div>
+      <div class="chipf" style="left:18px;bottom:66px;animation-delay:3s"><div><div class="k">Plano sugerido</div><div class="v">3 passos</div></div></div>
+      <span class="phlabel">foto real da cliente</span>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true"><div class="track"><span>Melasma</span><span>Limpeza de pele</span><span>Peeling de algas</span><span>Microagulhamento</span><span>BB Glow</span><span>Blindagem da pele</span><span>Melasma</span><span>Limpeza de pele</span><span>Peeling de algas</span><span>Microagulhamento</span><span>BB Glow</span><span>Blindagem da pele</span></div></div>
+
+  <!-- HISTÓRIA COM SCROLL -->
+  <section id="ia">
+    <div class="sec-h"><h2 class="rv">Como a IA <span class="accent">lê o seu rosto.</span></h2><p class="rv d1">Role a página e veja a análise acontecendo, ponto por ponto.</p></div>
+    <div class="story" id="story">
+      <div class="stick">
+        <div class="scan" id="storyScan">
+          <div class="ph"></div>
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" class="mesh" id="mesh1"></svg>
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" id="spots"></svg>
+          <div class="meter"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+          <div class="chipf hide" data-at="1" style="left:14px;top:14%"><div><div class="k">Pontos do rosto</div><div class="v">68 mapeados</div></div></div>
+          <div class="chipf hide" data-at="2" style="right:14px;top:30%"><div><div class="k">Sobrancelha dir.</div><div class="v">+2,4 mm</div></div></div>
+          <div class="chipf hide" data-at="2" style="left:14px;top:52%;animation-delay:1s"><div><div class="k">Terço inferior</div><div class="v">−8%</div></div></div>
+          <div class="chipf hide" data-at="3" style="right:14px;top:58%;animation-delay:.5s"><div><div class="k">Melasma</div><div class="v">Moderado</div></div></div>
+          <div class="chipf hide" data-at="4" style="left:50%;bottom:58px;translate:-50% 0;animation:none"><div><div class="k">Seu plano</div><div class="v">Pronto ✓</div></div></div>
+          <span class="phlabel">simulação do scan</span>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="stp" data-step="1"><span class="n">01 · MAPEAMENTO</span><h3>68 pontos do seu rosto, em segundos.</h3><p>Olhos, sobrancelhas, nariz, boca e contorno. É a base para medir tudo com precisão.</p></div>
+        <div class="stp" data-step="2"><span class="n">02 · PROPORÇÃO</span><h3>Simetria e proporção, em milímetros.</h3><p>Se uma sobrancelha está mais alta, se o queixo está para dentro, se um lado é diferente do outro.</p></div>
+        <div class="stp" data-step="3"><span class="n">03 · PELE</span><h3>Manchas, marcas e textura.</h3><p>Melasma, manchas de sol, marcas de acne, poros e cicatrizes, com o lugar exato de cada um.</p><a class="btn wa" href="#" data-wa="manchas">${WA}Quero tratar minhas manchas</a></div>
+        <div class="stp" data-step="4"><span class="n">04 · PLANO</span><h3>Seu plano, sua rotina, seu resultado.</h3><p>A Alê monta o tratamento, a rotina de produtos e a manutenção. Você só precisa marcar.</p><div class="ctas" style="margin-top:0"><a class="btn wa pulse" href="#" data-wa="plano">${WA}Marcar minha avaliação</a><button class="btn glass" data-gate>Fazer minha análise grátis</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="band rv"><div><h3>Seu horário com <span style="color:#FFD9C9">10% OFF</span> está esperando.</h3><p>Desconto válido só hoje · termina em <span data-cd style="font-family:var(--f-mono)">--:--:--</span></p></div><div class="acts"><a class="btn wa big" href="#" data-wa="faixa1">${WA}Agendar agora</a></div></div>
+
+  <!-- SETA GUIADA -->
+  <section>
+    <div class="sec-h"><h2 class="rv">O que a gente vê, <span class="accent">a gente resolve.</span></h2><p class="rv d1">Toque em cada ponto: o problema, o motivo, o que a Alê faz e o resultado esperado.</p></div>
+    <div class="tour" id="tour">
+      <div class="scan rv" id="tourScan"><div class="ph"></div><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" class="mesh" id="mesh2"></svg><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" id="pins"></svg><span class="phlabel">pontos medidos por IA</span></div>
+      <div class="tcard rv d1">
+        <div class="tstep" id="tsteps"></div>
+        <div class="trow big"><div class="k">Problema</div><div class="v" id="t-p"></div></div>
+        <div class="trow"><div class="k">Motivo</div><div class="v" id="t-m"></div></div>
+        <div class="trow"><div class="k">O que fazemos</div><div class="v" id="t-f"></div></div>
+        <div class="trow"><div class="k">Resultado</div><div class="v"><div class="res"><span class="pct" id="t-r"></span><span id="t-rt"></span></div></div></div>
+        <a class="btn wa" href="#" id="t-cta" data-wa="seta">${WA}<span id="t-ctat">Quero resolver isso</span></a>
+      </div>
+      <svg id="tourLink" aria-hidden="true"></svg>
+    </div>
+  </section>
+
+  <!-- TRATAMENTOS -->
+  <section id="tratamentos">
+    <div class="sec-h"><h2 class="rv">Tratamentos que <span class="accent">mudam a sua pele.</span></h2><p class="rv d1">Todos começam com avaliação. Todos têm 10% OFF hoje.</p></div>
+    <div class="procs" id="procs"></div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section id="resultados">
+    <div class="sec-h"><h2 class="rv">Resultados <span class="accent">que dá vontade de ter.</span></h2><p class="rv d1">Arraste para comparar. Só fotos reais de clientes da Alê, com autorização.</p></div>
+    <div class="ba-grid">
+      <div class="ba rv" data-ba><div class="layer before"></div><div class="layer after"></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Melasma</b><small>12 SEMANAS</small></div><a href="#" data-wa="res-melasma">Quero esse</a></div></div>
+      <div class="ba rv d1" data-ba><div class="layer before"></div><div class="layer after"></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Marcas de acne</b><small>4 SESSÕES</small></div><a href="#" data-wa="res-acne">Quero esse</a></div></div>
+      <div class="ba rv d2" data-ba><div class="layer before"></div><div class="layer after"></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Limpeza + peeling</b><small>1 SESSÃO</small></div><a href="#" data-wa="res-limpeza">Quero esse</a></div></div>
+    </div>
+  </section>
+
+  <!-- EXPERIÊNCIA -->
+  <section>
+    <div class="exp">
+      <div class="rv"><div class="bignum"><em>+</em><span data-count="30">30</span></div><div class="lbl">anos cuidando de pele em Brasília</div><p class="note" style="margin-top:8px">confirmar o número com a Alê</p></div>
+      <div class="rv d1">
+        <div class="tl">
+          <div><span class="y">O COMEÇO</span><b>Estética facial e cuidado com a pele</b><small>Milhares de atendimentos, uma cliente de cada vez.</small></div>
+          <div><span class="y">ESPECIALIDADE</span><b>Melasma e manchas</b><small>Protocolo de controle com acompanhamento mensal.</small></div>
+          <div><span class="y">HOJE</span><b>Estudante de Biomedicina</b><small>Ciência aplicada a cada tratamento.</small></div>
+          <div><span class="y">AGORA</span><b>Análise facial com IA</b><small>Precisão de tecnologia, cuidado de gente.</small></div>
+        </div>
+        <a class="btn dark" href="#" data-wa="experiencia" style="margin-top:6px">Quero ser atendida pela Alê <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROVA SOCIAL -->
+  <section>
+    <div class="sec-h"><h2 class="rv">Quem fez, <span class="accent">conta.</span></h2><p class="rv d1">Layout pronto: entram prints e depoimentos reais, com autorização.</p></div>
+    <div class="proof">
+      <div class="quote rv"><div class="stars">★★★★★</div><p>"[Exemplo] Já tinha tentado de tudo pro melasma. Foi a primeira vez que alguém me explicou por que ele voltava."</p><div class="who"><span></span>Cliente · Asa Sul</div></div>
+      <div class="wachat rv d1"><div class="m">[Exemplo] Alê, olha minha pele hoje 😭 nem passei base</div><div class="m">ninguém acredita que é a mesma pessoa<time>21:14</time></div><div class="m me">Que orgulho! Continua o protetor de 2 em 2h ☀️<time>21:16 ✓✓</time></div></div>
+      <div class="quote rv d2"><div class="stars">★★★★★</div><p>"[Exemplo] Ela me mandou a rotina, acompanha toda semana e responde rápido. Outro nível."</p><div class="who"><span style="background:linear-gradient(140deg,#C99474,#8E5B3F)"></span>Cliente · Águas Claras</div></div>
+    </div>
+    <div style="text-align:center;margin-top:26px" class="rv"><a class="btn wa big pulse" href="#" data-wa="depoimentos">${WA}Quero ser a próxima</a></div>
+  </section>
+
+  <!-- OFERTA -->
+  <section id="oferta">
+    <div class="offer">
+      <div class="ocard main rv">
+        <span class="off" style="justify-self:start">Oferta de hoje</span>
+        <h3>Avaliação completa + <span style="color:#FFD9C9">10% OFF</span> no 1º tratamento</h3>
+        <ul><li>Análise do rosto com IA e avaliação presencial com a Alê</li><li>Plano em 3 passos: preparar, tratar e manter</li><li>Acompanhamento pelo WhatsApp entre as sessões</li></ul>
+        <div class="gift">🎁 <b>Bônus de hoje:</b> rotina personalizada de produtos para casa, montada pela Alê.</div>
+        <div class="cdbig" id="cdbig"><div><b data-h>00</b><small>horas</small></div><div><b data-m>00</b><small>min</small></div><div><b data-s>00</b><small>seg</small></div></div>
+        <a class="btn wa big pulse" href="#" data-wa="oferta" style="justify-self:start">${WA}Garantir meus 10% OFF</a>
+      </div>
+      <div class="plans">
+        <div class="plan rv d1"><div><b>Avaliação + 1º tratamento</b><small>Para começar já esta semana</small></div><a class="btn dark" href="#" data-wa="plano-inicio">Quero</a></div>
+        <div class="plan hl rv d2"><div><span class="off">mais escolhido</span><b style="display:block;margin-top:6px">Plano 6 meses</b><small>Tratamento + rotina + revisões</small></div><a class="btn wa" href="#" data-wa="plano-6">Quero</a></div>
+        <div class="plan rv d3"><div><b>Melasma sob controle · 12 meses</b><small>Para quem já tentou de tudo</small></div><a class="btn dark" href="#" data-wa="plano-12">Quero</a></div>
+        <p class="note rv">Valores e condições: a Alê envia no WhatsApp junto com os horários.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="duvidas">
+    <div class="sec-h" style="justify-content:center;text-align:center"><h2 class="rv">Dúvidas <span class="accent">rápidas.</span></h2></div>
+    <div class="faq">
+      <details class="rv"><summary>Quanto tempo leva para ver resultado?</summary><p>Limpeza e peeling já mostram diferença na primeira sessão. Melasma e marcas melhoram ao longo de semanas, com fotos mensais para você acompanhar. <a href="#" data-wa="faq-tempo">Perguntar para a Alê →</a></p></details>
+      <details class="rv d1"><summary>Dói?</summary><p>A maioria dos tratamentos é confortável. Microagulhamento leva anestésico tópico. <a href="#" data-wa="faq-dor">Tirar minha dúvida →</a></p></details>
+      <details class="rv d2"><summary>Melasma tem cura?</summary><p>Melasma se controla. O plano da Alê clareia, estabiliza e mantém, para a mancha não voltar com força. <a href="#" data-wa="faq-melasma">Quero controlar meu melasma →</a></p></details>
+      <details class="rv d3"><summary>Posso parcelar?</summary><p>Sim. As condições vêm junto com os horários no WhatsApp. <a href="#" data-wa="faq-pagto">Ver condições →</a></p></details>
+      <details class="rv d4"><summary>Onde é o atendimento?</summary><p>Brasília – DF, com datas especiais em Goiânia. <a href="#" data-wa="faq-local">Ver endereço e horários →</a></p></details>
+    </div>
+  </section>
+
+  <div class="final">
+    <span class="eyebrow rv"><i></i>Termina em <span data-cd>--:--:--</span></span>
+    <h2 class="rv d1">Sua melhor pele <span class="accent it">começa hoje.</span></h2>
+    <p class="rv d2">Escolha o horário, mande a mensagem pronta e garanta seus 10% OFF.</p>
+    <div class="ctas rv d3" style="justify-content:center"><a class="btn wa big pulse" href="#" data-wa="final">${WA}Agendar no WhatsApp</a><button class="btn glass big" data-open>Escolher horário</button></div>
+  </div>
+</main>
+<footer>Alessandra Mendes · Estética facial · Brasília – DF · WhatsApp <span style="user-select:all">(61) 99114-0713</span><br><span class="note">Protótipo: fotos, depoimentos e números marcados como exemplo serão trocados pelos reais.</span></footer>
+
+<div class="mbar"><a class="btn wa" href="#" data-wa="mbar">${WA}Agendar com 10% OFF · <span data-cd style="font-family:var(--f-mono);font-weight:500">--:--</span></a></div>
+<button class="fab" id="fab" aria-label="Abrir agendamento pelo WhatsApp">${WA}<span class="badge">1</span></button>
+<div class="bubble" id="bubble" hidden><button aria-label="Fechar" id="bubx">×</button><b>Alê · online</b>Oi! Quer que eu reserve um horário com 10% OFF pra você? 😊</div>
+<div class="wapanel" id="wapanel" hidden role="dialog" aria-label="Agendar pelo WhatsApp"></div>
+
+
+<dialog id="gate" aria-label="Análise grátis com IA"><form class="gate" id="gateForm" novalidate>
+  <button type="button" class="x2" id="gatex" aria-label="Fechar">×</button>
+  <span class="eyebrow" style="justify-self:start"><i></i>Análise com IA · grátis</span>
+  <h3>Libere sua análise <span class="accent">grátis</span></h3>
+  <p>Informe seus dados para receber o resultado e o seu plano. Leva 10 segundos.</p>
+  <div class="perks"><span>✓ 68 pontos do rosto</span><span>✓ Manchas e simetria</span><span>✓ Plano da Alê</span></div>
+  <label class="fld"><span>Nome</span><input id="g-nome" autocomplete="name" placeholder="Seu nome"></label>
+  <label class="fld"><span>WhatsApp</span><input id="g-whats" inputmode="tel" autocomplete="tel" placeholder="(61) 9 0000-0000"></label>
+  <label class="fld"><span>E-mail</span><input id="g-email" type="email" inputmode="email" autocomplete="email" placeholder="voce@email.com"></label>
+  <label class="ok"><input type="checkbox" id="g-ok"><span>Autorizo a Alessandra Mendes a usar meus dados para enviar o resultado da análise e me chamar no WhatsApp e por e-mail com novidades e promoções. Posso cancelar quando quiser (LGPD).</span></label>
+  <div id="gerr"></div>
+  <button class="btn dark big" id="gatego" disabled>Liberar minha análise grátis <span class="arr">→</span></button>
+  <p class="note" style="text-align:center">Sem autorização, a análise não é liberada.</p>
+</form></dialog>
+<dialog id="exit"><div class="exit">
+  <div class="gift-ic">🎁</div>
+  <h3>Espera! Tem um <span class="accent">presente</span> pra você.</h3>
+  <p>Fique e garanta agora, só hoje:</p>
+  <ul><li><b>10% OFF</b> no 1º tratamento</li><li>Rotina de produtos personalizada <b>grátis</b></li><li>Análise do rosto com IA <b>grátis</b></li></ul>
+  <a class="btn wa big pulse" href="#" data-wa="saida">${WA}Quero meu presente</a>
+  <button class="btn glass" data-gate data-from-exit>Quero a análise grátis com IA</button>
+  <button class="no" id="exitno">Não, prefiro pagar o valor cheio</button>
+</div></dialog>
+
+<script>
+(() => {
+const WA_NUM = '5561991140713';
+const WA_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>';
+document.querySelectorAll('a,button').forEach(el => { if (el.innerHTML.includes('${WA}')) el.innerHTML = el.innerHTML.replaceAll('${WA}', WA_ICON); });
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = s => document.querySelector(s);
+
+/* ---------- mensagens do WhatsApp por contexto ---------- */
+const MSG = {
+  topo:'quero agendar minha avaliação com os 10% OFF de hoje.',
+  hero:'vi sua página e quero agendar com os 10% OFF de hoje.',
+  oferta:'quero garantir a oferta de hoje: avaliação + 10% OFF no 1º tratamento + rotina grátis.',
+  manchas:'quero tratar minhas manchas. Pode me mandar os horários com 10% OFF?',
+  plano:'quero marcar minha avaliação e montar meu plano com você.',
+  faixa1:'quero agendar agora com os 10% OFF.',
+  experiencia:'quero ser atendida por você! Quais horários tem esta semana?',
+  depoimentos:'vi os resultados das suas clientes e quero ser a próxima!',
+  'res-melasma':'vi o resultado de melasma e quero um assim. Como funciona?',
+  'res-acne':'vi o resultado das marcas de acne e quero tratar as minhas.',
+  'res-limpeza':'quero a limpeza + peeling com 10% OFF.',
+  'plano-inicio':'quero a avaliação + 1º tratamento com 10% OFF.',
+  'plano-6':'quero saber do plano de 6 meses com 10% OFF.',
+  'plano-12':'quero o Melasma sob controle de 12 meses.',
+  'faq-tempo':'quanto tempo leva para eu ver resultado no meu caso?',
+  'faq-dor':'tenho uma dúvida sobre os procedimentos, dói?',
+  'faq-melasma':'quero controlar meu melasma. Como é o tratamento?',
+  'faq-pagto':'quais são as condições de pagamento com os 10% OFF?',
+  'faq-local':'qual o endereço e os horários de atendimento?',
+  final:'quero agendar minha avaliação com os 10% OFF de hoje.',
+  mbar:'quero agendar com os 10% OFF de hoje.',
+  saida:'quero o presente de hoje: 10% OFF + rotina grátis + análise com IA.',
+};
+const waURL = txt => `https://wa.me/${WA_NUM}?text=${encodeURIComponent('Oi, Alê! ' + txt)}`;
+function setLinks(){ document.querySelectorAll('[data-wa]').forEach(a => { const k = a.dataset.wa; if (k === 'seta' || !MSG[k]) return; a.href = waURL(MSG[k]); a.target = '_blank'; a.rel = 'noopener'; }); }
+setLinks();
+
+/* ---------- contagem até o fim do dia ---------- */
+function tick(){
+  const now = new Date(), end = new Date(now); end.setHours(23,59,59,999);
+  let s = Math.max(0, Math.floor((end - now)/1000));
+  const h = String(Math.floor(s/3600)).padStart(2,'0'), m = String(Math.floor(s%3600/60)).padStart(2,'0'), ss = String(s%60).padStart(2,'0');
+  document.querySelectorAll('[data-cd]').forEach(el => el.textContent = el.closest('.mbar') ? `${h}:${m}` : `${h}:${m}:${ss}`);
+  const cb = $('#cdbig'); if (cb){ cb.querySelector('[data-h]').textContent = h; cb.querySelector('[data-m]').textContent = m; cb.querySelector('[data-s]').textContent = ss; }
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- revelar ao rolar ---------- */
+const canObs = 'IntersectionObserver' in window && !reduce;
+const typed = new WeakSet();
+if (canObs){
+  document.documentElement.classList.add('js');
+  const vh = innerHeight;
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(el => { if (el.getBoundingClientRect().top < vh * .95) el.classList.add('in'); else io.observe(el); });
+}
+
+/* ---------- palavra girando no título ---------- */
+const WORDS = ['manchas','melasma','espinhas','poros','marcas','pele cansada'];
+let wi = 0;
+function typeWord(el, w, done){ let i = 0; el.textContent = ''; const t = setInterval(() => { el.textContent = w.slice(0, ++i); if (i >= w.length){ clearInterval(t); done && done(); } }, 70); }
+function eraseWord(el, done){ const t = setInterval(() => { el.textContent = el.textContent.slice(0, -1); if (!el.textContent){ clearInterval(t); done(); } }, 40); }
+if (!reduce){ const rot = $('#rot'); const loop = () => setTimeout(() => eraseWord(rot, () => { wi = (wi + 1) % WORDS.length; typeWord(rot, WORDS[wi], loop); }), 2200); loop(); }
+
+/* ---------- malha facial ---------- */
+function landmarks(cx, cy, s, asym){
+  const P = [];
+  for (let i = 0; i <= 16; i++){ const t = (190 + i*10) * Math.PI/180; P.push([cx + 96*s*Math.cos(t), cy - 8*s - 128*s*Math.sin(t)]); }
+  const brow = (dir, dy) => { for (let i = 0; i < 5; i++){ const u = i/4; P.push([cx + dir*(22 + 58*u)*s, cy - 58*s - Math.sin(u*Math.PI)*12*s + u*6*s + dy]); } };
+  brow(-1,0); brow(1,-asym);
+  for (let i = 0; i < 4; i++) P.push([cx, cy - 34*s + i*16*s]);
+  for (let i = 0; i < 5; i++) P.push([cx + (i-2)*10*s, cy + 34*s - Math.abs(i-2)*3*s]);
+  const eye = dir => { const ex = cx + dir*46*s, ey = cy - 20*s; [[-1,0],[-.45,-.55],[.45,-.55],[1,0],[.45,.45],[-.45,.45]].forEach(([u,v]) => P.push([ex + u*17*s*dir, ey + v*12*s])); };
+  eye(-1); eye(1);
+  const my = cy + 72*s;
+  [[-1,0],[-.6,-.45],[-.2,-.6],[0,-.5],[.2,-.6],[.6,-.45],[1,0],[.6,.6],[.2,.8],[0,.8],[-.2,.8],[-.6,.6]].forEach(([u,v]) => P.push([cx + u*30*s, my + v*16*s]));
+  [[-.8,0],[-.3,-.15],[0,-.12],[.3,-.15],[.8,0],[.3,.2],[0,.22],[-.3,.2]].forEach(([u,v]) => P.push([cx + u*30*s, my + v*16*s]));
+  return P;
+}
+const GROUPS = [[0,17],[17,22],[22,27],[27,31],[31,36],[36,42,1],[42,48,1],[48,60,1],[60,68,1]];
+const EXTRA = [[0,36],[16,45],[2,48],[14,54],[4,48],[12,54],[8,57],[31,48],[35,54],[27,39],[27,42],[30,33],[17,36],[26,45],[21,27],[22,27],[3,31],[13,35],[6,59],[10,55]];
+function edges(){ const E = []; GROUPS.forEach(([a,b,c]) => { for (let i = a; i < b-1; i++) E.push([i,i+1,.75]); if (c) E.push([b-1,a,.75]); }); EXTRA.forEach(([a,b]) => E.push([a,b,.35])); return E; }
+const EDGES = edges();
+function drawMesh(svg, P, prog){
+  const nPts = Math.round(68 * Math.min(1, prog*1.6)), lp = Math.max(0, Math.min(1, (prog - .3)/.5));
+  let s = '';
+  EDGES.forEach(([a,b,o], i) => { if (lp <= 0) return; const k = Math.min(1, Math.max(0, lp*EDGES.length - i*.6)); if (k <= 0) return; const x2 = P[a][0] + (P[b][0]-P[a][0])*k, y2 = P[a][1] + (P[b][1]-P[a][1])*k; s += `<line x1="${P[a][0].toFixed(1)}" y1="${P[a][1].toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke-opacity="${o}"/>`; });
+  for (let i = 0; i < nPts; i++) s += `<circle cx="${P[i][0].toFixed(1)}" cy="${P[i][1].toFixed(1)}" r="2.6"/>`;
+  svg.innerHTML = s;
+}
+const P0 = landmarks(200, 230, 1.05, 4), P1 = landmarks(200, 230, 1.05, 6), P2 = landmarks(200, 230, 1.05, 6);
+// hero: desenha ao carregar
+(() => { const svg = $('#mesh0'); if (reduce){ drawMesh(svg, P0, 1); return; } const t0 = performance.now(); const f = t => { const u = Math.min(1, (t - t0)/2400); drawMesh(svg, P0, u); if (u < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); })();
+drawMesh($('#mesh2'), P2, 1);
+
+/* ---------- história ligada ao scroll ---------- */
+const story = $('#story'), mesh1 = $('#mesh1'), spots = $('#spots'), bars = [...document.querySelectorAll('#storyScan .meter b')], chips = [...document.querySelectorAll('#storyScan [data-at]')];
+const SPOTS = [[128,262,26],[272,262,24],[200,300,14],[285,302,10],[116,300,8],[254,170,7],[266,184,6]];
+function storyUpdate(){
+  const r = story.getBoundingClientRect(), vh = innerHeight;
+  const p = Math.min(1, Math.max(0, (vh*.55 - r.top) / (r.height - vh*.35)));
+  const stage = Math.min(4, Math.floor(p*4) + (p > 0 ? 1 : 0));
+  bars.forEach((b,i) => b.style.width = Math.min(100, Math.max(0, (p*4 - i)*100)) + '%');
+  drawMesh(mesh1, P1, Math.min(1, p*2.2));
+  const sp = Math.max(0, Math.min(1, (p - .5)/.25));
+  spots.innerHTML = sp ? `<defs><radialGradient id="sg"><stop offset="0" stop-color="#7A3E26" stop-opacity=".6"/><stop offset="1" stop-color="#7A3E26" stop-opacity="0"/></radialGradient></defs>` + SPOTS.map(([x,y,rr],i) => { const k = Math.min(1, Math.max(0, sp*SPOTS.length - i)); return k ? `<circle cx="${x}" cy="${y}" r="${rr*k}" fill="url(#sg)"/><circle cx="${x}" cy="${y}" r="${(rr+8)*k}" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="3 4" opacity="${.9*k}"/>` : ''; }).join('') : '';
+  if (p > .5 && p < .76) spots.innerHTML += `<line x1="${P1[19][0]-30}" y1="${P1[19][1]}" x2="${P1[24][0]+30}" y2="${P1[19][1]}" stroke="#FFD9C9" stroke-width="1.5" stroke-dasharray="4 4"/><line x1="${P1[24][0]-30}" y1="${P1[24][1]}" x2="${P1[24][0]+30}" y2="${P1[24][1]}" stroke="#FFD9C9" stroke-width="1.5"/>`;
+  if (p > .25 && p < .76) spots.innerHTML += `<line x1="60" y1="${P1[19][1]-4}" x2="340" y2="${P1[19][1]-4}" stroke="#fff" stroke-opacity=".5" stroke-dasharray="2 5"/><line x1="60" y1="${P1[33][1]}" x2="340" y2="${P1[33][1]}" stroke="#fff" stroke-opacity=".5" stroke-dasharray="2 5"/><line x1="60" y1="${P1[8][1]}" x2="340" y2="${P1[8][1]}" stroke="#fff" stroke-opacity=".5" stroke-dasharray="2 5"/>`;
+  chips.forEach(c => c.classList.toggle('hide', +c.dataset.at > stage || (+c.dataset.at < stage - 1 && +c.dataset.at !== 4)));
+}
+if (reduce){ drawMesh(mesh1, P1, 1); chips.forEach(c => c.classList.remove('hide')); bars.forEach(b => b.style.width = '100%'); }
+else { addEventListener('scroll', () => requestAnimationFrame(storyUpdate), {passive:true}); storyUpdate(); }
+
+/* ---------- seta guiada ---------- */
+const STEPS = [
+  {tab:'Melasma', pt:[124,262], p:'Melasma moderado nas maçãs do rosto', m:'Sol, luz do celular, calor e hormônios estimulam o pigmento.', f:'Blindagem da pele + protocolo de melasma + protetor com cor, com foto mensal.', r:'até −50%', rt:'no índice de melasma em 12 semanas*', cta:'Quero clarear meu melasma', msg:'tenho melasma nas maçãs do rosto e quero clarear. Como funciona?'},
+  {tab:'Sobrancelhas', pt:P2[24], p:'Uma sobrancelha 2,4 mm mais alta que a outra', m:'Um lado da testa trabalha mais, comum em quem franze ao falar.', f:'A Alê avalia cada lado e monta seu plano de harmonia do olhar.', r:'+1 a 3 mm', rt:'de equilíbrio no arco*', cta:'Quero equilibrar meu olhar', msg:'quero equilibrar minhas sobrancelhas, uma é mais alta que a outra.'},
+  {tab:'Contorno', pt:P2[8], p:'Queixo levemente para dentro', m:'O terço inferior fica mais curto e o perfil perde definição.', f:'Plano de harmonia do contorno, explicado pela Alê na avaliação.', r:'81%', rt:'melhoraram a projeção em 12 semanas*', cta:'Quero definir meu contorno', msg:'quero melhorar o contorno do meu rosto e o queixo.'},
+  {tab:'Cicatrizes', pt:[284,300], p:'Marcas e cicatrizes de acne na lateral', m:'Inflamações antigas deixaram relevo e pigmento.', f:'Microagulhamento em 4 sessões + peeling de algas para o tom.', r:'96%', rt:'melhoraram ao menos 1 grau em 4 sessões*', cta:'Quero tratar minhas marcas', msg:'tenho marcas e cicatrizes de acne e quero tratar.'},
+];
+let cur = 0, ttimer = 0;
+const tsteps = $('#tsteps');
+tsteps.innerHTML = STEPS.map((s,i) => `<button data-i="${i}">${s.tab}</button>`).join('');
+tsteps.onclick = e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i, true); };
+function typeInto(el, txt, speed){ if (reduce){ el.textContent = txt; return; } el.innerHTML = ''; let i = 0; const c = document.createElement('span'); c.className = 'caret'; const s = document.createElement('span'); el.append(s, c); const step = () => { s.textContent = txt.slice(0, ++i); if (i < txt.length) setTimeout(step, speed); else c.remove(); }; step(); }
+function show(i, user){
+  cur = i; const S = STEPS[i];
+  tsteps.querySelectorAll('button').forEach((b,k) => b.setAttribute('aria-current', k === i));
+  typeInto($('#t-p'), S.p, 16); setTimeout(() => typeInto($('#t-m'), S.m, 9), 450); setTimeout(() => typeInto($('#t-f'), S.f, 9), 900);
+  $('#t-r').textContent = S.r; $('#t-rt').textContent = S.rt; $('#t-ctat').textContent = S.cta;
+  const a = $('#t-cta'); a.href = waURL(S.msg); a.target = '_blank'; a.rel = 'noopener';
+  $('#pins').innerHTML = STEPS.map((s,k) => `<g class="pin" data-i="${k}" opacity="${k===i?1:.6}"><circle class="halo" cx="${s.pt[0]}" cy="${s.pt[1]}" r="9" fill="#fff"/><circle cx="${s.pt[0]}" cy="${s.pt[1]}" r="${k===i?8:6}" fill="${k===i?'#B9705A':'#fff'}" stroke="#fff" stroke-width="3"/></g>`).join('');
+  link();
+  clearTimeout(ttimer); ttimer = setTimeout(() => show((cur + 1) % STEPS.length), user ? 10000 : 7000);
+}
+$('#pins').addEventListener('click', e => { const g = e.target.closest('.pin'); if (g) show(+g.dataset.i, true); });
+function link(){
+  const tour = $('#tour'), svg = $('#tourLink'), sc = $('#tourScan'), card = tour.querySelector('.tcard');
+  const T = tour.getBoundingClientRect(), A = sc.getBoundingClientRect(), C = card.getBoundingClientRect();
+  if (C.left < A.right - 4){ svg.innerHTML = ''; return; }
+  const S = STEPS[cur], scale = Math.max(A.width/400, A.height/500), ox = (A.width - 400*scale)/2, oy = (A.height - 500*scale)/2;
+  const x1 = A.left - T.left + ox + S.pt[0]*scale, y1 = A.top - T.top + oy + S.pt[1]*scale, x2 = C.left - T.left + 2, y2 = C.top - T.top + 96, mx = (x1 + x2)/2;
+  svg.setAttribute('viewBox', `0 0 ${T.width} ${T.height}`);
+  svg.innerHTML = `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="#B9705A" stroke-width="2" stroke-dasharray="6 6" pathLength="400"><animate attributeName="stroke-dashoffset" from="400" to="0" dur="0.9s" fill="freeze"/></path><circle cx="${x2}" cy="${y2}" r="5" fill="#B9705A"/>`;
+}
+addEventListener('resize', link);
+show(0);
+
+/* ---------- tratamentos ---------- */
+const IC = {
+  melasma:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><circle cx="9" cy="11" r="1.3"/><circle cx="14.5" cy="13.5" r="1.7"/><path d="M8 16q4 2 8-1"/></svg>',
+  limpeza:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5c3.5 4.4 5.5 7.6 5.5 10.2a5.5 5.5 0 0 1-11 0C6.5 11.1 8.5 7.9 12 3.5z"/></svg>',
+  algas:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21V11M12 13c0-4-3-6-7-6 0 4 3 6 7 6zM12 11c0-4 3-6 7-6 0 4-3 6-7 6z"/></svg>',
+  micro:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="5" width="14" height="5" rx="2.5"/><path d="M7 10v2M10 10v2M13 10v2M16 10v2M12 5V3M12 12v9"/></svg>',
+  bbglow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3.5"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></svg>',
+  blindagem:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+};
+const PROCS = [
+  {k:'melasma', n:'Tratamento para Melasma', d:'Controle das manchas com protocolo, home care e acompanhamento mensal.', star:1},
+  {k:'limpeza', n:'Limpeza de Pele', d:'Extração com técnica, oleosidade sob controle e pele respirando, sem marcas.'},
+  {k:'algas', n:'Peeling de Algas', d:'Renovação natural: textura, poros, manchas e viço.'},
+  {k:'micro', n:'Microagulhamento', d:'Colágeno para marcas de acne, poros e firmeza.'},
+  {k:'bbglow', n:'BB Glow', d:'Tom uniforme e luminoso, com efeito natural de glow.'},
+  {k:'blindagem', n:'Blindagem da Pele', d:'Barreira forte, hidratação profunda e proteção.'},
+];
+$('#procs').innerHTML = PROCS.map((p,i) => `<article class="proc rv d${i%3+1} ${p.star?'star':''}">${p.star ? '<span class="off tagx">especialidade</span>' : ''}<div class="ic">${IC[p.k]}</div><h3>${p.n}</h3><p>${p.d}</p><div class="row"><span class="off">−10% hoje</span><a class="btn ${p.star?'wa':'dark'}" href="${waURL(`quero agendar ${p.n} com os 10% OFF de hoje.`)}" target="_blank" rel="noopener">${p.star ? WA_ICON : ''}Agendar</a></div></article>`).join('');
+if (canObs){ const io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io2.unobserve(e.target); } }), {threshold:.12}); document.querySelectorAll('#procs .rv').forEach(el => io2.observe(el)); }
+
+/* ---------- antes/depois ---------- */
+document.querySelectorAll('[data-ba]').forEach((el, k) => {
+  const after = el.querySelector('.after'), h = el.querySelector('.handle');
+  const set = v => { v = Math.min(98, Math.max(2, v)); after.style.clipPath = `inset(0 0 0 ${v}%)`; h.style.left = v + '%'; };
+  set(50);
+  let drag = false; const at = e => { const r = el.getBoundingClientRect(); set((e.clientX - r.left)/r.width*100); };
+  el.addEventListener('pointerdown', e => { if (e.target.closest('a')) return; drag = true; el.setPointerCapture(e.pointerId); at(e); });
+  el.addEventListener('pointermove', e => { if (drag) at(e); });
+  el.addEventListener('pointerup', () => drag = false);
+  if (canObs){ const io3 = new IntersectionObserver(es => { if (!es[0].isIntersecting) return; io3.disconnect(); let t0 = null; const sw = ts => { if (drag) return; t0 ??= ts; const u = (ts - t0)/1000 - k*.3; if (u > 0 && u < 2.4) set(50 + 38*Math.sin(u/2.4*Math.PI*2)); if (u < 2.4) requestAnimationFrame(sw); else set(50); }; requestAnimationFrame(sw); }, {threshold:.4}); io3.observe(el); }
+});
+
+/* ---------- contador grande ---------- */
+document.querySelectorAll('[data-count]').forEach(n => { if (!canObs) return; const end = +n.dataset.count; const io4 = new IntersectionObserver(es => { if (!es[0].isIntersecting) return; io4.disconnect(); const t0 = performance.now(); const f = t => { const u = Math.min(1, (t - t0)/1600), e = 1 - Math.pow(1-u, 3); n.textContent = Math.round(end*e); if (u < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }, {threshold:.5}); io4.observe(n); });
+
+/* ---------- widget do WhatsApp ---------- */
+const panel = $('#wapanel'), fab = $('#fab'), bubble = $('#bubble');
+const sel = {proc:'Avaliação + 10% OFF', dia:'', hora:'', nome:''};
+function nextDays(){ const out = [], d = new Date(); const names = ['dom','seg','ter','qua','qui','sex','sáb']; for (let i = 0; out.length < 4 && i < 9; i++){ const x = new Date(d); x.setDate(d.getDate() + i); if (x.getDay() === 0) continue; out.push(i === 0 ? 'Hoje' : i === 1 ? 'Amanhã' : `${names[x.getDay()]} ${String(x.getDate()).padStart(2,'0')}/${String(x.getMonth()+1).padStart(2,'0')}`); } return out; }
+function panelHTML(){
+  const days = nextDays(), hours = ['9h','10h30','14h','16h30','18h'];
+  const ch = (list, key) => `<div class="chips">${list.map(v => `<button class="chip" data-k="${key}" data-v="${v}" aria-pressed="${sel[key]===v}">${v}</button>`).join('')}</div>`;
+  const sum = [sel.proc, sel.dia, sel.hora].filter(Boolean).join(' · ');
+  return `<div class="wap-h"><div class="av">AM</div><div><b>Alê · Estética facial</b><small>online · responde em minutos</small></div><button class="x" id="wapx" aria-label="Fechar">×</button></div>
+  <div class="wap-b">
+    <div class="m">Oi! 😊 Me conta o que você quer e o melhor horário. Já te mando tudo confirmado, com <b>10% OFF de hoje</b>.</div>
+    <div class="q"><span>O que você quer tratar?</span>${ch(['Avaliação + 10% OFF','Melasma','Limpeza de pele','Peeling de algas','Microagulhamento','BB Glow','Blindagem'],'proc')}</div>
+    <div class="q"><span>Melhor dia</span>${ch(days,'dia')}</div>
+    <div class="q"><span>Melhor horário</span>${ch(hours,'hora')}</div>
+    <div class="q"><span>Seu nome</span><input id="wapn" placeholder="Como posso te chamar?" value="${sel.nome.replace(/"/g,'&quot;')}"></div>
+  </div>
+  <div class="wap-f"><div class="sum">${sum || 'Escolha o que quiser, ou só toque em enviar.'}</div><a class="btn wa" id="wapgo" href="#" target="_blank" rel="noopener">${WA_ICON}Enviar no WhatsApp</a><span class="note" style="text-align:center">Horários sugeridos · a Alê confirma na conversa</span></div>`;
+}
+function panelMsg(){ const parts = [`quero agendar: ${sel.proc}`]; if (sel.dia || sel.hora) parts.push(`de preferência ${[sel.dia, sel.hora].filter(Boolean).join(' às ')}`); return `${sel.nome ? 'aqui é a ' + sel.nome + '. ' : ''}${parts.join(', ')}. Quero garantir os 10% OFF de hoje!`; }
+function renderPanel(){ panel.innerHTML = panelHTML(); $('#wapgo').href = waURL(panelMsg());
+  panel.querySelectorAll('.chip').forEach(c => c.onclick = () => { sel[c.dataset.k] = sel[c.dataset.k] === c.dataset.v ? '' : c.dataset.v; const st = panel.querySelector('.wap-b').scrollTop; renderPanel(); panel.querySelector('.wap-b').scrollTop = st; });
+  $('#wapn').oninput = e => { sel.nome = e.target.value.trim(); $('#wapgo').href = waURL(panelMsg()); };
+  $('#wapx').onclick = () => { panel.hidden = true; }; }
+function openPanel(){ bubble.hidden = true; renderPanel(); panel.hidden = false; }
+fab.onclick = () => panel.hidden ? openPanel() : (panel.hidden = true);
+document.querySelectorAll('[data-open]').forEach(b => b.onclick = openPanel);
+$('#bubx').onclick = () => bubble.hidden = true;
+setTimeout(() => { if (panel.hidden) bubble.hidden = false; }, 6000);
+
+/* ---------- presente na saída ---------- */
+const exit = $('#exit');
+let exitShown = false; try { exitShown = sessionStorage.getItem('am-exit') === '1'; } catch(e){}
+function showExit(){ if (exitShown || exit.open) return; exitShown = true; try { sessionStorage.setItem('am-exit','1'); } catch(e){} exit.showModal(); }
+document.addEventListener('mouseout', e => { if (!e.relatedTarget && e.clientY < 12) showExit(); });
+let maxY = 0; addEventListener('scroll', () => { maxY = Math.max(maxY, scrollY); if (maxY > document.body.scrollHeight * .45 && scrollY < maxY - 900) showExit(); }, {passive:true});
+setTimeout(showExit, 45000);
+$('#exitno').onclick = () => exit.close();
+/* ---------- cadastro da análise grátis ---------- */
+const gate = $('#gate'), gform = $('#gateForm');
+const ESPELHO = 'https://claude.ai/artifact/6w5gF46s4C2wpDXyexz23z';
+const gv = () => ({nome:$('#g-nome').value.trim(), whats:$('#g-whats').value.trim(), email:$('#g-email').value.trim(), ok:$('#g-ok').checked});
+const valid = d => ({nome:d.nome.length >= 2, whats:d.whats.replace(/\D/g,'').length >= 10, email:/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email), ok:d.ok});
+function gupd(){ const v = valid(gv()); $('#gatego').disabled = !v.ok; }
+['g-nome','g-whats','g-email'].forEach(id => $('#' + id).addEventListener('input', e => { e.target.removeAttribute('aria-invalid'); gupd(); }));
+$('#g-ok').onchange = gupd;
+document.querySelectorAll('[data-gate]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); if (b.hasAttribute('data-from-exit')) exit.close(); exitShown = true; gate.showModal(); setTimeout(() => $('#g-nome').focus(), 50); }));
+$('#gatex').onclick = () => gate.close();
+gate.addEventListener('click', e => { if (e.target === gate) gate.close(); });
+gform.onsubmit = e => {
+  e.preventDefault();
+  const d = gv(), v = valid(d), miss = [];
+  if (!v.nome){ miss.push('seu nome'); $('#g-nome').setAttribute('aria-invalid','true'); }
+  if (!v.whats){ miss.push('um WhatsApp com DDD'); $('#g-whats').setAttribute('aria-invalid','true'); }
+  if (!v.email){ miss.push('um e-mail válido'); $('#g-email').setAttribute('aria-invalid','true'); }
+  if (!v.ok) miss.push('a autorização');
+  if (miss.length){ $('#gerr').innerHTML = `<div class="gerr">Falta: ${miss.join(', ')}.</div>`; return; }
+  try { localStorage.setItem('am-lead', JSON.stringify({...d, origem:'pagina-de-vendas', quando:new Date().toISOString()})); } catch(err){}
+  const first = d.nome.split(' ')[0];
+  gform.innerHTML = `<button type="button" class="x2" aria-label="Fechar" onclick="this.closest('dialog').close()">×</button><div class="done"><div class="tick">✓</div><h3>Pronto, ${first.replace(/[<>&"]/g,'')}!</h3><p>Sua análise está liberada. Mande a foto do rosto e veja o resultado em 1 minuto.</p><a class="btn dark big" href="${ESPELHO}" target="_blank" rel="noopener">Abrir minha análise <span class="arr">→</span></a><a class="btn wa" href="${waURL('acabei de liberar minha análise grátis. Já quero garantir os 10% OFF de hoje!')}" target="_blank" rel="noopener">${WA_ICON}Garantir também os 10% OFF</a><p class="note">Seus dados ficam com a Alê para te enviar o resultado e as novidades.</p></div>`;
+};
+
+exit.addEventListener('click', e => { if (e.target === exit) exit.close(); });
+})();
+</script>
