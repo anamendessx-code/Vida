@@ -9,3 +9,4 @@ Projeto de posicionamento, conteúdo, funil e CRM.
 | `03-funil-e-crm.md` | Funil próprio (teste → WhatsApp → avaliação → plano de 12 meses) e CRM (etapas, campos, rotina, indicadores) |
 | `crm/crm_alessandra_modelo.csv` | Modelo de planilha do CRM (importar no Google Sheets) |
 | `prototipo/crm-funil.html` | Protótipo interativo do funil e do CRM (dados fictícios) |
+| `prototipo/analise-de-pele.html` | Espelho da Pele: pré-avaliação facial por foto com IA (protótipo) |

@@ -1,0 +1,585 @@
+<title>Espelho da Pele</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: coluna única de leitura; o relatório abre com o mapa do rosto à esquerda e os achados à direita. Paleta da direção criativa da Alê: creme, areia, cobre, café, preto. */
+:root{
+  --bg:#F5EFE6; --surface:#FFFDF9; --sunk:#EDE3D5; --line:#DCCCB8;
+  --fg:#2A1E17; --muted:#7A6556; --copper:#A85A31; --copper-soft:#F1DCCB; --ink:#171210; --skin:#E9CDB5; --skin-line:#C9A487;
+  --ok:#3F7A4F; --ok-soft:#DDEBDD; --warn:#9A6A0C; --warn-soft:#F5E6C4; --late:#B03A2E; --late-soft:#F4D7D2;
+  --f-display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --f-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14100D; --surface:#1E1813; --sunk:#271F19; --line:#3A2E25;
+  --fg:#F2E8DC; --muted:#B39E8C; --copper:#E0915F; --copper-soft:#3D271A; --ink:#F2E8DC; --skin:#5A4334; --skin-line:#7E6250;
+  --ok:#7CC08C; --ok-soft:#1F3324; --warn:#E3B55A; --warn-soft:#3A2F17; --late:#EE8A7E; --late-soft:#3D1E1A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14100D; --surface:#1E1813; --sunk:#271F19; --line:#3A2E25;
+  --fg:#F2E8DC; --muted:#B39E8C; --copper:#E0915F; --copper-soft:#3D271A; --ink:#F2E8DC; --skin:#5A4334; --skin-line:#7E6250;
+  --ok:#7CC08C; --ok-soft:#1F3324; --warn:#E3B55A; --warn-soft:#3A2F17; --late:#EE8A7E; --late-soft:#3D1E1A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.serif{font-family:var(--f-display);font-weight:400}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.btn:hover{border-color:var(--copper)}
+.btn.primary{background:var(--copper);border-color:var(--copper);color:#fff}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.note{font-size:12.5px;color:var(--muted)}
+
+header.top{border-bottom:1px solid var(--line);background:var(--surface)}
+.top-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.am{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--copper);display:grid;place-items:center;font-family:var(--f-display);font-size:19px;color:var(--copper);flex:none}
+.brand b{font-family:var(--f-display);font-weight:400;font-size:22px;display:block;line-height:1.1}
+.brand small{color:var(--muted);font-size:12px}
+nav.tabs{margin-left:auto;display:flex;gap:4px}
+nav.tabs a{padding:8px 12px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:600;font-size:13.5px}
+nav.tabs a[aria-current="page"]{background:var(--copper-soft);color:var(--copper)}
+
+.hero{padding-block:36px 18px;display:grid;gap:10px}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,6vw,58px);line-height:1}
+.hero h1 em{color:var(--copper)}
+.hero p{margin:0;max-width:60ch;color:var(--muted);font-size:16px}
+
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-block:18px 28px}
+@media (max-width:860px){.steps{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;min-width:0;display:grid;gap:12px;align-content:start}
+.step h2{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1.05;display:flex;gap:10px;align-items:baseline}
+.step h2 .n{font-family:var(--f-mono);font-size:12px;color:var(--copper);border:1px solid var(--copper);border-radius:999px;padding:1px 8px;transform:translateY(-3px)}
+.q{display:grid;gap:6px}
+.q > span{font-size:13px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:6px 11px;font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--copper);border-color:var(--copper);color:#fff}
+.inp{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 11px}
+.drop{border:1.5px dashed var(--line);border-radius:var(--r);background:var(--bg);display:grid;place-items:center;text-align:center;padding:18px;min-height:220px;position:relative;overflow:hidden}
+.drop.over{border-color:var(--copper);background:var(--copper-soft)}
+.drop img{max-height:280px;border-radius:10px;object-fit:cover}
+.drop label{cursor:pointer;display:grid;gap:8px;justify-items:center}
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;font-size:12.5px;color:var(--muted);margin:0;padding:0;list-style:none}
+.tips li::before{content:"✓ ";color:var(--ok);font-weight:700}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--muted)}
+.check input{accent-color:var(--copper);margin-top:3px}
+.status{display:grid;gap:10px}
+.prog{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.prog li{display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--muted)}
+.prog li i{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);flex:none}
+.prog li.on{color:var(--fg)}
+.prog li.on i{border-color:var(--copper);border-top-color:transparent;animation:spin .9s linear infinite}
+.prog li.done i{background:var(--copper);border-color:var(--copper)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.msg{border-radius:10px;padding:10px 12px;font-size:13.5px}
+.msg.err{background:var(--late-soft);color:var(--late)}
+.msg.warn{background:var(--warn-soft);color:var(--warn)}
+
+/* relatório */
+.report{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,30px);display:grid;gap:26px;margin-bottom:48px}
+.rep-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:16px}
+.rep-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,4.4vw,44px);line-height:1}
+.tag{font-size:12px;font-weight:600;border-radius:999px;padding:4px 10px;background:var(--warn-soft);color:var(--warn)}
+.tag.live{background:var(--ok-soft);color:var(--ok)}
+.rep-grid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:820px){.rep-grid{grid-template-columns:1fr}}
+.face{display:grid;gap:12px;position:sticky;top:12px}
+@media (max-width:820px){.face{position:static}}
+.face svg{width:100%;max-width:320px;height:auto;display:block;margin-inline:auto}
+.face .photo{width:100%;max-width:320px;aspect-ratio:3/4;object-fit:cover;border-radius:14px;margin-inline:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted);justify-content:center}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:9px;height:9px;border-radius:50%}
+.summary{font-family:var(--f-display);font-size:clamp(21px,2.6vw,27px);line-height:1.25;margin:0}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px}
+.meta-row span{font-size:12.5px;background:var(--sunk);border-radius:999px;padding:4px 10px}
+.finds{display:grid;gap:10px;margin-top:6px}
+.find{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:8px;background:var(--bg)}
+.find-h{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.find-h h4{font-size:16px;display:flex;align-items:center;gap:8px}
+.find-h h4 i{width:11px;height:11px;border-radius:50%;flex:none}
+.meter{display:flex;gap:3px;align-items:center}
+.meter b{width:22px;height:6px;border-radius:3px;background:var(--line)}
+.meter b.on{background:var(--copper)}
+.meter small{font-size:11.5px;color:var(--muted);margin-left:6px}
+.find p{margin:0;font-size:14px}
+.find .why{color:var(--muted);font-size:13.5px}
+.zones{display:flex;flex-wrap:wrap;gap:5px}
+.zones span{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--muted)}
+.conf{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.good{display:flex;flex-wrap:wrap;gap:6px}
+.good span{font-size:13px;background:var(--ok-soft);color:var(--ok);border-radius:999px;padding:4px 11px}
+.alert{border-left:3px solid var(--late);background:var(--late-soft);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--fg)}
+.sec-t{font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1.1;margin-bottom:4px}
+.plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.plan{grid-template-columns:1fr}}
+.phase{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:10px;align-content:start;background:var(--bg)}
+.phase h4{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--copper)}
+.phase .ph-t{font-family:var(--f-display);font-size:22px;line-height:1.1}
+.proc{display:grid;gap:3px;padding-top:10px;border-top:1px solid var(--line)}
+.proc b{font-size:14.5px}
+.proc span{font-size:13px;color:var(--muted)}
+.proc .for{font-size:12px;color:var(--copper);font-weight:600}
+.proc .hold{font-size:12px;color:var(--warn);font-weight:600}
+.routine{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:620px){.routine{grid-template-columns:1fr}}
+.routine div{background:var(--sunk);border-radius:var(--r);padding:14px}
+.routine ol{margin:6px 0 0;padding-left:20px;display:grid;gap:4px;font-size:14px}
+.cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--ink);color:var(--bg);border-radius:16px;padding:20px}
+.cta h3{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1.1}
+.cta p{margin:4px 0 0;font-size:13.5px;opacity:.8}
+.cta .btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.cta .btn{background:transparent;color:var(--bg);border-color:color-mix(in srgb,var(--bg) 40%,transparent)}
+.cta .btn.primary{background:var(--copper);border-color:var(--copper);color:#fff}
+@media (max-width:620px){.cta{grid-template-columns:1fr}.cta .btns{justify-content:flex-start}}
+.disc{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+
+/* base */
+.kb{display:grid;gap:12px;margin-bottom:28px}
+.kb-row{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr) minmax(0,220px);gap:16px}
+@media (max-width:820px){.kb-row{grid-template-columns:1fr}}
+.kb-row h3{font-size:16px;display:flex;gap:8px;align-items:center}
+.kb-row h3 i{width:11px;height:11px;border-radius:50%}
+.kb-row .scale{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:4px}
+.kb-row p{margin:0;font-size:14px}
+.kb-row ul{margin:0;padding-left:18px;font-size:13.5px}
+.kb-procs{display:flex;flex-wrap:wrap;gap:6px;align-content:start}
+.kb-procs span{font-size:12.5px;background:var(--copper-soft);color:var(--copper);border-radius:999px;padding:3px 10px;font-weight:600}
+.srcs{columns:2 320px;font-size:13px;padding-left:18px}
+.srcs li{break-inside:avoid;margin-bottom:6px}
+.srcs a{color:var(--copper)}
+.how{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:28px}
+@media (max-width:820px){.how{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.how{grid-template-columns:1fr}}
+.how div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;font-size:13.5px}
+.how b{display:block;font-family:var(--f-display);font-weight:400;font-size:21px;margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:13.5px;z-index:60;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand"><div class="am" aria-hidden="true">AM</div><div><b>Espelho da Pele</b><small>Pré-avaliação com IA · Alê da pele · Brasília – DF</small></div></div>
+    <nav class="tabs" aria-label="Seções"><a href="#analise" data-tab="analise">Análise</a><a href="#base" data-tab="base">Base científica</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="v-analise">
+  <div class="hero">
+    <div class="eyebrow">Pré-avaliação facial · cerca de 1 minuto</div>
+    <h1>Tire uma foto.<br>Veja o que sua <em>pele</em> está pedindo.</h1>
+    <p>A IA olha a sua foto com os mesmos critérios que a Alê usa na avaliação: manchas, acne, poros, textura, linhas, firmeza, viço, vermelhidão e olheiras. Depois monta um plano com os tratamentos que fazem sentido para você.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <h2><span class="n">1</span>Sobre você</h2>
+      <div class="q"><span>O que mais te incomoda hoje?</span><div class="chips" id="c-queixa"></div></div>
+      <div class="q"><span>Faixa de idade</span><div class="chips" id="c-idade"></div></div>
+      <div class="q"><span>Algum destes casos?</span><div class="chips" id="c-contra"></div></div>
+      <div class="q"><span>Protetor solar</span><div class="chips" id="c-protetor"></div></div>
+    </div>
+    <div class="step">
+      <h2><span class="n">2</span>Sua foto</h2>
+      <div class="drop" id="drop">
+        <label for="file" id="drop-label">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" style="color:var(--copper)"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg>
+          <b>Tirar ou escolher uma foto</b>
+          <span class="note">De frente, rosto inteiro, sem filtro</span>
+        </label>
+        <input type="file" id="file" accept="image/jpeg,image/png,image/webp" capture="user" hidden>
+      </div>
+      <ul class="tips"><li>Luz de janela de frente</li><li>Sem maquiagem</li><li>Cabelo preso</li><li>Câmera na altura dos olhos</li></ul>
+      <label class="check"><input type="checkbox" id="lgpd"> Autorizo o envio da foto para análise por IA. Ela não fica guardada nesta página. Entendo que é uma pré-avaliação e não um diagnóstico (LGPD).</label>
+    </div>
+    <div class="step">
+      <h2><span class="n">3</span>Análise</h2>
+      <div class="status" id="status">
+        <p class="note" style="margin:0">Quando a foto e a autorização estiverem prontas, toque em analisar. A análise leva de 30 a 90 segundos.</p>
+        <ul class="prog" id="prog">
+          <li><i></i>Checando a qualidade da foto</li>
+          <li><i></i>Mapeando as zonas do rosto</li>
+          <li><i></i>Comparando com a base de critérios</li>
+          <li><i></i>Montando o seu plano</li>
+        </ul>
+        <div id="err"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn primary" id="go" disabled>Analisar minha pele</button>
+          <button class="btn" id="stop" hidden>Parar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="report"></div>
+</section>
+
+<section id="v-base" hidden>
+  <div class="hero">
+    <div class="eyebrow">O que a IA consulta</div>
+    <h1>A base por trás <em>de cada</em> apontamento</h1>
+    <p>Cada achado sai de uma lista fechada de categorias, com os sinais visuais que a IA deve procurar, a escala clínica de referência e os tratamentos do menu da Alê. A IA descreve o que vê; o plano é montado por regras fixas, então nunca aparece um procedimento que ela não faz.</p>
+  </div>
+  <div class="how">
+    <div><b>1 · Foto</b>Checa luz, ângulo, maquiagem e filtro. Se a foto não serve, pede outra em vez de chutar.</div>
+    <div><b>2 · Achados</b>Até 6 achados, cada um com zona do rosto, intensidade de 1 a 3 e nível de confiança.</div>
+    <div><b>3 · Segurança</b>Gestação, amamentação, Roacutan e rosácea suspendem procedimentos. Sinal suspeito vira encaminhamento ao dermatologista.</div>
+    <div><b>4 · Plano</b>Três fases (preparar, tratar, manter) montadas só com o menu da Alê, mais a rotina em casa.</div>
+  </div>
+  <div class="kb" id="kb"></div>
+  <h3 class="sec-t">Fontes e escalas de referência</h3>
+  <ul class="srcs">
+    <li>MASI/mMASI, índice de gravidade do melasma: <a href="https://pubmed.ncbi.nlm.nih.gov/20398959/" target="_blank" rel="noopener">PubMed</a></li>
+    <li>Melasma e qualidade de vida em brasileiras, Anais Brasileiros de Dermatologia: <a href="https://www.scielo.br/j/abd/a/dTbD5rB4YjtDf4LLFqc9DLf/abstract/?lang=en" target="_blank" rel="noopener">SciELO</a></li>
+    <li>Melasma: revisão clínica e epidemiológica: <a href="https://www.scielo.br/j/abd/a/WPYDvDFnT6JrMDr9ZgtGkxJ/?lang=en" target="_blank" rel="noopener">SciELO</a></li>
+    <li>Luz visível e protetor com óxido de ferro no melasma: <a href="https://pubmed.ncbi.nlm.nih.gov/24313385/" target="_blank" rel="noopener">PubMed</a></li>
+    <li>Hiperpigmentação (lentigos, HPI, melasma), MSD Manuals: <a href="https://www.msdmanuals.com/pt/profissional/dermatologia/distúrbios-de-pigmentação/hiperpigmentação" target="_blank" rel="noopener">MSD</a></li>
+    <li>Acne na mulher adulta, investigação e manejo: <a href="https://docs.bvsalud.org/biblioref/2018/02/879579/acne-na-mulher-adulta-investigacao-e-manejo-tatzie-boekok.pdf" target="_blank" rel="noopener">BVS</a></li>
+    <li>Escala GAGS (Global Acne Grading System), Doshi et al., 1997</li>
+    <li>Classificação de fotoenvelhecimento de Glogau</li>
+    <li>Fototipos de Fitzpatrick (I a VI)</li>
+    <li>Barreira cutânea e excesso de skincare: <a href="https://www.correiobraziliense.com.br/cbradar/barreira-cutanea-danificada-hidratante-ardendo-pele/" target="_blank" rel="noopener">Correio Braziliense</a></li>
+    <li>Regra ABCDE para lesões pigmentadas suspeitas (encaminhamento ao dermatologista)</li>
+    <li>Menu de procedimentos e "Antes de agendar" da Alê (contraindicações)</li>
+  </ul>
+</section>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const WHATS = '5561991140713', WHATS_TXT = '(61) 99114-0713';
+
+/* ---------- base de conhecimento ---------- */
+const PROCS = {
+  melasma:{nome:'Tratamento para Melasma', desc:'Protocolo personalizado de controle das manchas, com home care e fotoproteção.'},
+  limpeza:{nome:'Limpeza de Pele', desc:'Extração com técnica, controle da oleosidade e pele respirando, sem marcas.'},
+  algas:{nome:'Peeling de Algas', desc:'Renovação natural da pele: melhora textura, poros, manchas e viço.'},
+  micro:{nome:'Microagulhamento', desc:'Estímulo de colágeno para textura, poros, marcas de acne e firmeza.'},
+  bbglow:{nome:'BB Glow', desc:'Uniformiza o tom e ilumina a pele, com efeito natural de glow.'},
+  blindagem:{nome:'Blindagem da Pele', desc:'Fortalece a barreira da pele com hidratação profunda e proteção.'},
+  avaliacao:{nome:'Avaliação presencial', desc:'Lupa, fotos padronizadas e conversa para definir a melhor conduta.'},
+};
+const CATS = {
+  melasma:{nome:'Melasma', cor:'#8B5E3C', escala:'MASI / mMASI (0–24)', sinais:'Manchas acastanhadas, simétricas, de bordas irregulares, em testa, maçãs do rosto, buço e nariz. Pioram com sol, calor e hormônios.', procs:['melasma','blindagem'], fase:'tratar'},
+  manchas_sol:{nome:'Manchas de sol e sardas', cor:'#C08A3E', escala:'Lentigos solares · contagem e tamanho', sinais:'Pontos marrons bem delimitados, isolados, em áreas que pegam mais sol (maçãs, nariz, testa).', procs:['algas'], fase:'tratar'},
+  marcas_acne:{nome:'Marcas escuras pós-espinha', cor:'#A0623F', escala:'Hiperpigmentação pós-inflamatória', sinais:'Manchas planas marrons ou arroxeadas no lugar de espinhas antigas. Mais comuns em fototipos IV–VI.', procs:['algas','blindagem'], fase:'tratar'},
+  acne:{nome:'Espinhas ativas', cor:'#C8562E', escala:'GAGS simplificada: leve · moderada · grave', sinais:'Pápulas e pústulas inflamadas; mandíbula e queixo sugerem acne da mulher adulta. Nódulos ou cistos indicam encaminhamento.', procs:['limpeza'], fase:'preparar'},
+  cravos_poros:{nome:'Cravos, poros e oleosidade', cor:'#D79A2B', escala:'Zona T · intensidade visual', sinais:'Brilho na zona T, poros visíveis em nariz e bochechas, cravos abertos ou fechados.', procs:['limpeza','algas'], fase:'preparar'},
+  textura:{nome:'Textura irregular e cicatrizes', cor:'#6E7F4E', escala:'Cicatrizes atróficas · leve a profunda', sinais:'Relevo irregular, aspereza, cicatrizes de acne em "picadinho" ou depressões.', procs:['micro','algas'], fase:'tratar'},
+  linhas:{nome:'Linhas finas e rugas', cor:'#7A6C9A', escala:'Glogau I–IV', sinais:'Linhas na testa, entre as sobrancelhas, ao redor dos olhos e da boca; finas (textura) ou marcadas.', procs:['micro'], fase:'tratar'},
+  firmeza:{nome:'Perda de firmeza', cor:'#8B5E9E', escala:'Contorno e sustentação · leve a marcada', sinais:'Contorno da mandíbula menos definido, sulcos mais aparentes, pele menos densa.', procs:['micro'], fase:'tratar'},
+  tom_vico:{nome:'Tom irregular e falta de viço', cor:'#B98B5E', escala:'Uniformidade e luminosidade', sinais:'Pele opaca, cansada, com o tom variando entre áreas, sem brilho saudável.', procs:['bbglow','algas'], fase:'tratar'},
+  vermelhidao:{nome:'Vermelhidão e sensibilidade', cor:'#C0504D', escala:'Eritema · difuso ou localizado', sinais:'Vermelho nas bochechas e no nariz, vasinhos aparentes ou pele reativa. Persistente pode ser rosácea: encaminhar.', procs:['blindagem'], fase:'preparar'},
+  desidratacao:{nome:'Desidratação e barreira fragilizada', cor:'#4E8C86', escala:'Barreira cutânea · sinais visuais', sinais:'Descamação fina, aspecto repuxado, linhas finas de desidratação, sensibilidade a produtos.', procs:['blindagem'], fase:'preparar'},
+  olheiras:{nome:'Olheiras', cor:'#5B6B8C', escala:'Pigmentar · vascular · estrutural', sinais:'Escurecimento ou sombra abaixo dos olhos; o tipo muda a conduta.', procs:['avaliacao'], fase:'tratar'},
+};
+const ZONES = {testa:'Testa', glabela:'Entre as sobrancelhas', olhos:'Área dos olhos', nariz:'Nariz', bochechas:'Maçãs e bochechas', buco:'Buço', queixo:'Queixo', mandibula:'Mandíbula e contorno'};
+
+/* ---------- perguntas ---------- */
+const QUEIXAS = ['Manchas','Melasma','Espinhas','Cravos e poros','Oleosidade','Linhas e rugas','Flacidez','Pele sem viço','Olheiras','Vermelhidão','Textura / cicatrizes'];
+const IDADES = ['Até 24','25–34','35–44','45–54','55+'];
+const CONTRA = ['Gestante','Amamentando','Usei Roacutan nos últimos 6 meses','Tenho rosácea','Nenhum'];
+const PROTETOR = ['Todo dia','Às vezes','Quase nunca'];
+const state = {queixa:new Set(), idade:null, contra:new Set(), protetor:null, file:null};
+function chips(el, list, key, multi){
+  const box = $(el);
+  const draw = () => box.innerHTML = list.map(o => `<button class="chip" aria-pressed="${multi ? state[key].has(o) : state[key]===o}" data-v="${esc(o)}">${esc(o)}</button>`).join('');
+  box.onclick = e => { const b = e.target.closest('.chip'); if (!b) return; const v = b.dataset.v;
+    if (multi){ if (key==='contra' && v==='Nenhum'){ state.contra = new Set(state.contra.has('Nenhum')?[]:['Nenhum']); } else { state[key].delete('Nenhum'); state[key].has(v) ? state[key].delete(v) : state[key].add(v); } }
+    else state[key] = state[key]===v ? null : v;
+    draw(); };
+  draw();
+}
+chips('#c-queixa', QUEIXAS, 'queixa', true); chips('#c-idade', IDADES, 'idade'); chips('#c-contra', CONTRA, 'contra', true); chips('#c-protetor', PROTETOR, 'protetor');
+
+/* ---------- foto ---------- */
+const drop = $('#drop'), file = $('#file');
+function setFile(f){
+  if (!f) return;
+  if (!/^image\/(jpeg|png|webp)$/.test(f.type)){ showErr('Use uma foto em JPG, PNG ou WebP.'); return; }
+  state.file = f; showErr('');
+  const url = URL.createObjectURL(f);
+  drop.innerHTML = `<img src="${url}" alt="Sua foto"><button class="btn" id="swap" style="position:absolute;bottom:10px;right:10px">Trocar foto</button>`;
+  $('#swap').onclick = () => file.click();
+  ready();
+}
+file.onchange = () => setFile(file.files[0]);
+['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => setFile(e.dataTransfer.files[0]));
+$('#lgpd').onchange = ready;
+let sample = null, canImages = false;
+function ready(){ $('#go').disabled = !(state.file && $('#lgpd').checked && sample && canImages); }
+
+function showErr(t, kind='err'){ $('#err').innerHTML = t ? `<div class="msg ${kind}">${t}</div>` : ''; }
+
+/* ---------- prompt ---------- */
+function buildPrompt(){
+  const cats = Object.entries(CATS).map(([id,c]) => `- ${id}: ${c.nome}. Sinais: ${c.sinais} Escala: ${c.escala}.`).join('\n');
+  const zones = Object.entries(ZONES).map(([id,z]) => `${id} (${z})`).join(', ');
+  return `Você é a assistente de pré-avaliação estética da Alê (Alessandra Mendes), profissional de estética facial em Brasília especializada em pele e melasma. A imagem anexada é uma foto do rosto enviada pela própria pessoa, que autorizou a análise.
+
+TAREFA: observe a pele e devolva uma pré-avaliação estética visual. Não é diagnóstico médico. Nunca nomeie doenças além das categorias abaixo; use "sinais compatíveis com". Não comente atratividade, peso ou idade aparente. Tom acolhedor, direto e em português do Brasil, falando com "você".
+
+PRIMEIRO, cheque a foto: é um rosto humano real, de frente, nítido, com luz suficiente, sem filtro de beleza pesado e sem maquiagem pesada? Se não der para avaliar com segurança, devolva "foto_ok": false, explique em "problemas_foto" e deixe "achados" vazio.
+
+CATEGORIAS PERMITIDAS (use somente estes ids):
+${cats}
+
+ZONAS PERMITIDAS: ${zones}
+
+REGRAS:
+- Até 6 achados, do mais relevante ao menos. Só aponte o que é visível; na dúvida, confiança "baixa" ou omita.
+- Intensidade: 1 = leve, 2 = moderada, 3 = marcada.
+- Leve em conta o fototipo: o tom natural da pele nunca é mancha. Em fototipos altos, atenção a marcas pós-inflamatórias.
+- Diferencie melasma (simétrico, bordas irregulares, centrofacial ou malar) de manchas de sol (pontos isolados bem delimitados) e de marcas pós-espinha.
+- Se notar lesão pigmentada assimétrica, de bordas ou cores irregulares, ferida que não cicatriza, nódulos/cistos de acne ou vermelhidão persistente com vasinhos, inclua um alerta recomendando dermatologista.
+- "pontos_positivos": 1 a 3 qualidades reais da pele (ex.: boa hidratação aparente, poros discretos na bochecha).
+- "rotina": no máximo 4 passos de manhã e 4 à noite, só com categorias de cosmético de venda livre (ex.: "sabonete suave", "vitamina C", "hidratante com ceramidas", "protetor FPS 50 com cor"). Sem medicamentos, sem hidroquinona, sem ácido retinoico, sem marcas.
+
+O QUE A PESSOA CONTOU:
+- Incômodos: ${[...state.queixa].join(', ') || 'não informou'}
+- Faixa de idade: ${state.idade || 'não informou'}
+- Situações especiais: ${[...state.contra].join(', ') || 'não informou'}
+- Protetor solar: ${state.protetor || 'não informou'}
+
+RESPONDA SOMENTE com um objeto JSON neste formato:
+{"foto_ok": true, "problemas_foto": [], "fototipo_estimado": "III a IV (estimativa)", "resumo": "duas frases acolhedoras sobre o que a pele mostra", "pontos_positivos": ["..."], "achados": [{"categoria": "melasma", "intensidade": 2, "confianca": "media", "zonas": ["bochechas","buco"], "o_que_vejo": "uma frase sobre o que aparece na foto", "por_que_acontece": "uma frase simples sobre a causa provável"}], "alertas": ["..."], "rotina": {"manha": ["..."], "noite": ["..."]}}`;
+}
+
+/* ---------- análise ---------- */
+let ctl = null, tick = null;
+function progress(i){ document.querySelectorAll('#prog li').forEach((li,k) => { li.className = k < i ? 'done' : k === i ? 'on' : ''; }); }
+$('#go').onclick = async () => {
+  if (!sample || !state.file) return;
+  ctl = new AbortController();
+  $('#go').disabled = true; $('#stop').hidden = false; showErr('');
+  let step = 0; progress(0);
+  tick = setInterval(() => { step = Math.min(step + 1, 3); progress(step); }, 9000);
+  try {
+    const data = await sample.json(buildPrompt(), {images:[state.file], signal:ctl.signal, modelTier:'complex', cache:false});
+    clearInterval(tick); progress(4);
+    if (!data || typeof data !== 'object'){ throw {code:'invalid_json'}; }
+    if (data.foto_ok === false){
+      showErr('<b>Vamos tirar outra foto?</b> ' + esc((data.problemas_foto||[]).join(' ') || 'Não consegui avaliar a pele com segurança.') + ' Dica: luz de janela de frente, sem maquiagem e sem filtro.', 'warn');
+      progress(-1);
+    } else {
+      renderReport(normalize(data), URL.createObjectURL(state.file), true);
+      $('#report').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    }
+  } catch(e){
+    clearInterval(tick); progress(-1);
+    const c = e && e.code;
+    const copy = {
+      cancelled:'', not_granted:'A análise precisa da sua permissão para usar o Claude. Sem ela, veja o relatório de exemplo abaixo.',
+      sampling_disabled:'A análise por IA não está disponível nesta conta.', rate_limited:'Muitas análises seguidas. Espere alguns minutos e tente de novo.',
+      image_rejected:'Não consegui abrir essa foto. Tente outra, em JPG ou PNG.', images_unavailable:'Esta visualização não consegue enviar fotos.',
+      refused:'A IA não conseguiu analisar essa imagem. Tente uma foto do rosto, de frente e sem filtro.', invalid_json:'A resposta veio incompleta. Toque em analisar de novo.',
+      session_expired:'Sua sessão expirou. Entre de novo e tente outra vez.'
+    };
+    const t = c in copy ? copy[c] : 'Algo falhou na conexão. Tente de novo em instantes.';
+    if (t) showErr(t);
+  } finally {
+    $('#stop').hidden = true; ready();
+  }
+};
+$('#stop').onclick = () => ctl?.abort();
+
+function normalize(d){
+  const ach = (Array.isArray(d.achados) ? d.achados : []).filter(a => a && CATS[a.categoria]).slice(0,6).map(a => ({
+    categoria:a.categoria, intensidade:Math.min(3,Math.max(1,Math.round(+a.intensidade||1))), confianca:['baixa','media','alta'].includes(a.confianca)?a.confianca:'media',
+    zonas:(Array.isArray(a.zonas)?a.zonas:[]).filter(z => ZONES[z]), o_que_vejo:String(a.o_que_vejo||''), por_que_acontece:String(a.por_que_acontece||'')}));
+  const arr = x => Array.isArray(x) ? x.map(String).filter(Boolean) : [];
+  return {resumo:String(d.resumo||''), fototipo:String(d.fototipo_estimado||''), positivos:arr(d.pontos_positivos).slice(0,3), achados:ach, alertas:arr(d.alertas), rotina:{manha:arr(d.rotina?.manha).slice(0,4), noite:arr(d.rotina?.noite).slice(0,4)}};
+}
+
+/* ---------- plano por regras ---------- */
+function buildPlan(r){
+  const c = state.contra;
+  const pausa = c.has('Gestante') || c.has('Amamentando') || c.has('Usei Roacutan nos últimos 6 meses');
+  const rosacea = c.has('Tenho rosácea') || r.achados.some(a => a.categoria==='vermelhidao' && a.intensidade>=2);
+  const hold = p => {
+    if (pausa && ['melasma','algas','micro','bbglow'].includes(p)) return 'Aguardar: gestação, amamentação ou Roacutan. A Alê define o momento certo na avaliação.';
+    if (rosacea && ['melasma','micro','algas'].includes(p)) return 'Só depois de acalmar a pele, e com liberação do dermatologista se houver rosácea.';
+    return '';
+  };
+  const ph = {preparar:new Map(), tratar:new Map(), manter:new Map()};
+  const add = (fase, p, motivo) => { const m = ph[fase]; if (!m.has(p)) m.set(p, new Set()); m.get(p).add(motivo); };
+  const sorted = r.achados.slice().sort((a,b) => b.intensidade - a.intensidade);
+  for (const a of sorted){
+    const cat = CATS[a.categoria];
+    cat.procs.forEach((p,i) => {
+      let fase = cat.fase;
+      if (p === 'blindagem') fase = 'preparar';
+      if (a.categoria === 'melasma' && p === 'melasma') fase = 'tratar';
+      if (i > 0 && fase === 'tratar' && ph.tratar.size >= 2 && p !== 'blindagem') return;
+      add(fase, p, cat.nome);
+    });
+  }
+  if (r.achados.some(a => a.categoria==='melasma')) add('preparar','blindagem','Preparar a pele para o melasma');
+  if (!ph.preparar.size) add('preparar','limpeza','Começar com a pele limpa e equilibrada');
+  if (!ph.tratar.size) add('tratar','avaliacao','Definir o foco com a Alê');
+  // manter
+  if (r.achados.some(a => a.categoria==='melasma')) add('manter','melasma','Acompanhamento "Melasma sob controle": foto e nota mensais');
+  add('manter','limpeza','Manutenção a cada 30 a 45 dias');
+  ph.manter.delete('avaliacao');
+  return {ph, hold};
+}
+
+/* ---------- mapa do rosto ---------- */
+const ZONE_SHAPES = {
+  testa:'<ellipse cx="160" cy="92" rx="78" ry="32"/>',
+  glabela:'<ellipse cx="160" cy="142" rx="16" ry="13"/>',
+  olhos:'<ellipse cx="114" cy="170" rx="30" ry="14"/><ellipse cx="206" cy="170" rx="30" ry="14"/>',
+  nariz:'<path d="M148 160 L172 160 L182 238 Q160 250 138 238 Z"/>',
+  bochechas:'<ellipse cx="96" cy="226" rx="38" ry="34"/><ellipse cx="224" cy="226" rx="38" ry="34"/>',
+  buco:'<ellipse cx="160" cy="262" rx="30" ry="10"/>',
+  queixo:'<ellipse cx="160" cy="330" rx="34" ry="20"/>',
+  mandibula:'<path d="M70 268 Q90 330 132 350 L124 360 Q78 340 60 280 Z"/><path d="M250 268 Q230 330 188 350 L196 360 Q242 340 260 280 Z"/>',
+};
+function faceSVG(achados){
+  const fills = {};
+  achados.forEach(a => a.zonas.forEach(z => { if (!fills[z] || fills[z].i < a.intensidade) fills[z] = {cor:CATS[a.categoria].cor, i:a.intensidade}; }));
+  const zones = Object.entries(ZONE_SHAPES).map(([z,shape]) => {
+    const f = fills[z]; if (!f) return '';
+    return `<g fill="${f.cor}" fill-opacity="${.22 + f.i*.16}" stroke="${f.cor}" stroke-width="1.2"><title>${ZONES[z]}</title>${shape}</g>`;
+  }).join('');
+  return `<svg viewBox="0 0 320 400" role="img" aria-label="Mapa do rosto com as zonas apontadas">
+    <path d="M160 30 C 238 30 270 96 268 176 C 266 268 226 366 160 372 C 94 366 54 268 52 176 C 50 96 82 30 160 30 Z" fill="var(--skin)" stroke="var(--skin-line)" stroke-width="2"/>
+    <path d="M86 150 Q114 138 140 150" fill="none" stroke="var(--skin-line)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M180 150 Q206 138 234 150" fill="none" stroke="var(--skin-line)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M96 172 Q114 162 132 172 Q114 180 96 172 Z" fill="none" stroke="var(--skin-line)" stroke-width="1.8"/>
+    <path d="M188 172 Q206 162 224 172 Q206 180 188 172 Z" fill="none" stroke="var(--skin-line)" stroke-width="1.8"/>
+    <path d="M156 176 Q150 220 144 236 Q160 244 176 236" fill="none" stroke="var(--skin-line)" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M132 284 Q160 300 188 284 Q160 292 132 284 Z" fill="none" stroke="var(--skin-line)" stroke-width="2"/>
+    ${zones}
+  </svg>`;
+}
+
+/* ---------- relatório ---------- */
+function renderReport(r, photoUrl, live){
+  const {ph, hold} = buildPlan(r);
+  const cats = [...new Set(r.achados.map(a => a.categoria))];
+  const meter = i => `<span class="meter">${[1,2,3].map(k => `<b class="${k<=i?'on':''}"></b>`).join('')}<small>${['','leve','moderada','marcada'][i]}</small></span>`;
+  const phase = (key, titulo, sub) => {
+    const items = [...ph[key].entries()];
+    return `<div class="phase"><h4>${titulo}</h4><div class="ph-t">${sub}</div>${items.map(([p,mot]) => { const h = hold(p); return `<div class="proc"><b>${PROCS[p].nome}</b><span>${PROCS[p].desc}</span><span class="for">Para: ${esc([...mot].join(' · '))}</span>${h?`<span class="hold">${esc(h)}</span>`:''}</div>`; }).join('')}</div>`;
+  };
+  const topNames = r.achados.slice(0,3).map(a => CATS[a.categoria].nome.toLowerCase());
+  const waText = `Oi, Alê! Fiz a análise de pele no Espelho da Pele. Meus principais pontos: ${topNames.join(', ') || 'quero entender minha pele'}. Quero agendar minha avaliação presencial.`;
+  $('#report').innerHTML = `
+  <article class="report" aria-label="Relatório da pele">
+    <div class="rep-head">
+      <div><div class="eyebrow">Relatório da Pele · pré-avaliação</div><h2>${live ? 'O que a sua pele está pedindo' : 'Exemplo de relatório'}</h2></div>
+      <span class="tag ${live?'live':''}">${live ? 'Gerado agora a partir da sua foto' : 'Exemplo · cliente fictícia, 38 anos'}</span>
+    </div>
+    <div class="rep-grid">
+      <div class="face">
+        ${photoUrl ? `<img class="photo" src="${photoUrl}" alt="Foto analisada">` : ''}
+        ${faceSVG(r.achados)}
+        <div class="legend">${cats.map(c => `<span><i style="background:${CATS[c].cor}"></i>${CATS[c].nome}</span>`).join('')}</div>
+      </div>
+      <div style="display:grid;gap:16px;min-width:0">
+        <p class="summary">${esc(r.resumo)}</p>
+        <div class="meta-row">${r.fototipo ? `<span>Fototipo estimado: ${esc(r.fototipo)}</span>` : ''}<span>${r.achados.length} ponto${r.achados.length===1?'':'s'} de atenção</span></div>
+        ${r.positivos.length ? `<div><div class="eyebrow" style="margin-bottom:6px">O que já está bom</div><div class="good">${r.positivos.map(p => `<span>${esc(p)}</span>`).join('')}</div></div>` : ''}
+        ${r.alertas.length ? r.alertas.map(a => `<div class="alert"><b>Importante:</b> ${esc(a)}</div>`).join('') : ''}
+        <div><div class="eyebrow">Seu rosto mostra</div>
+        <div class="finds">${r.achados.map(a => `
+          <div class="find">
+            <div class="find-h"><h4><i style="background:${CATS[a.categoria].cor}"></i>${CATS[a.categoria].nome}</h4>${meter(a.intensidade)}</div>
+            <p>${esc(a.o_que_vejo)}</p>
+            <p class="why">${esc(a.por_que_acontece)}</p>
+            <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><div class="zones">${a.zonas.map(z => `<span>${ZONES[z]}</span>`).join('')}</div><span class="conf">confiança ${a.confianca}</span></div>
+          </div>`).join('') || '<p class="note">Nenhum ponto de atenção claro na foto. A avaliação presencial confirma.</p>'}
+        </div></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="sec-t">Seu plano com a Alê</h3>
+      <p class="note" style="margin:0 0 12px">Montado só com os tratamentos que a Alê oferece. Ordem, número de sessões e intervalos são definidos na avaliação presencial.</p>
+      <div class="plan">
+        ${phase('preparar','Fase 1','Preparar e equilibrar')}
+        ${phase('tratar','Fase 2','Tratar o principal')}
+        ${phase('manter','Fase 3','Manter o resultado')}
+      </div>
+    </div>
+
+    ${(r.rotina.manha.length || r.rotina.noite.length) ? `<div>
+      <h3 class="sec-t">Rotina em casa</h3>
+      <div class="routine"><div><div class="eyebrow">Manhã</div><ol>${r.rotina.manha.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div><div><div class="eyebrow">Noite</div><ol>${r.rotina.noite.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div></div>
+    </div>` : ''}
+
+    <div class="cta">
+      <div><h3>Confirme na avaliação presencial</h3><p>Lupa, fotos padronizadas e o seu Relatório da Pele completo em até 24 h. WhatsApp: <span style="user-select:all">${WHATS_TXT}</span></p></div>
+      <div class="btns">
+        <a class="btn primary" href="https://wa.me/${WHATS}?text=${encodeURIComponent(waText)}" target="_blank" rel="noopener">Agendar pelo WhatsApp</a>
+        <button class="btn" id="copy-msg">Copiar mensagem</button>
+      </div>
+    </div>
+    <p class="disc">Esta é uma pré-avaliação estética feita por inteligência artificial a partir de uma foto. Não é diagnóstico médico e não substitui a avaliação presencial. Luz, câmera, maquiagem e filtros mudam o resultado. Em caso de lesões que mudam de cor ou tamanho, feridas que não cicatrizam ou dor, procure um dermatologista.</p>
+  </article>`;
+  $('#copy-msg').onclick = () => {
+    try { navigator.clipboard.writeText(waText).then(() => toast('Mensagem copiada'), () => toast(waText)); } catch(e){ toast(waText); }
+  };
+}
+
+/* ---------- exemplo (fictício) ---------- */
+const DEMO = {
+  resumo:'Sua pele tem boa hidratação e um tom bonito. O ponto que mais chama atenção são manchas simétricas nas maçãs do rosto e no buço, com sinais de oleosidade na zona T.',
+  fototipo:'III a IV (estimativa)', positivos:['Boa hidratação aparente','Poucas linhas para a faixa de idade','Contorno firme'],
+  achados:[
+    {categoria:'melasma', intensidade:2, confianca:'alta', zonas:['bochechas','buco','testa'], o_que_vejo:'Manchas acastanhadas, simétricas e de bordas irregulares nas maçãs do rosto e no buço.', por_que_acontece:'Combinação de sol, luz visível e calor; hormônios costumam piorar o quadro.'},
+    {categoria:'cravos_poros', intensidade:2, confianca:'media', zonas:['nariz','testa'], o_que_vejo:'Brilho na zona T e poros visíveis no nariz, com alguns cravos.', por_que_acontece:'Produção de sebo mais alta nessa região, comum em pele mista.'},
+    {categoria:'marcas_acne', intensidade:1, confianca:'media', zonas:['mandibula','queixo'], o_que_vejo:'Algumas marcas escuras pequenas no queixo, de espinhas antigas.', por_que_acontece:'A inflamação da espinha deixa pigmento para trás, mais comum em peles morenas.'},
+    {categoria:'linhas', intensidade:1, confianca:'media', zonas:['olhos'], o_que_vejo:'Linhas finas no canto dos olhos ao sorrir.', por_que_acontece:'Movimento repetido e a perda natural de colágeno a partir dos 30.'},
+  ],
+  alertas:[], rotina:{manha:['Sabonete suave','Vitamina C','Hidratante leve oil-free','Protetor FPS 50 com cor, reaplicar de 2 em 2 horas'], noite:['Sabonete suave','Sérum com niacinamida','Hidratante com ceramidas']}
+};
+renderReport(DEMO, null, false);
+
+/* ---------- capacidade ---------- */
+(async () => {
+  try {
+    sample = await window.claude?.use?.('sample') ?? null;
+    if (sample){ const lim = await sample.limits().catch(() => null); canImages = !!lim?.images; }
+  } catch(e){ sample = null; }
+  if (!sample || !canImages){
+    showErr('A análise por foto funciona dentro do Claude. Aqui você vê o relatório de exemplo abaixo.', 'warn');
+  }
+  ready();
+})();
+
+/* ---------- base (aba) ---------- */
+$('#kb').innerHTML = Object.entries(CATS).map(([id,c]) => `
+  <div class="kb-row">
+    <div><h3><i style="background:${c.cor}"></i>${c.nome}</h3><div class="scale">${c.escala}</div></div>
+    <p>${c.sinais}</p>
+    <div class="kb-procs">${c.procs.map(p => `<span>${PROCS[p].nome}</span>`).join('')}</div>
+  </div>`).join('');
+
+/* ---------- navegação ---------- */
+function route(){
+  const cur = location.hash === '#base' ? 'base' : 'analise';
+  $('#v-analise').hidden = cur !== 'analise'; $('#v-base').hidden = cur !== 'base';
+  document.querySelectorAll('[data-tab]').forEach(a => a.setAttribute('aria-current', a.dataset.tab === cur ? 'page' : 'false'));
+}
+addEventListener('hashchange', route); route();
+
+let tt; function toast(m){ const t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => t.hidden = true, 3000); }
+})();
+</script>
