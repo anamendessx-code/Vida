@@ -17,3 +17,5 @@ Projeto de posicionamento, conteúdo, funil e CRM.
 | `gravacao/banco-de-takes-ale.pdf` | Banco de takes reaproveitáveis (reações, bordões, fórmulas de montagem) |
 | `gravacao/atendimento-whatsapp-ale.pdf` | Atendimento no WhatsApp: jornada, mensagens com o nome da cliente, ideias e automação |
 | `motion-acompanhamento/ACOMPANHAMENTO_REAL_ALE.mp4` | Motion 9:16 "Acompanhamento real" (57 s, locução + trilha). Scripts em `scripts/` |
+| `04-quiz-e-trafego.md` | Estratégia do quiz de qualificação, níveis de lead e configuração do tráfego |
+| `prototipo/quiz.html` + `prototipo/quiz/` | Quiz de 7 perguntas com resultado simples, acessível e personalizado |

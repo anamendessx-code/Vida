@@ -1,0 +1,543 @@
+<title>Teste da Pele Alê</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: uma coluna calma, uma pergunta por tela, botões grandes; resultado em blocos curtos com WhatsApp sempre à mão.
+   Tema claro único (estúdio AM), escolhido de propósito: alto contraste para quem lê com mais dificuldade. */
+:root{
+  --porcelain:#FAF6F2; --paper:#FFFFFF; --ink:#2B1F1A; --ink-2:#5E4B42; --line:#E6D8CC;
+  --clay:#97523E; --clay-soft:#B9705A; --blush:#F3DCD2; --peach:#F7C9B2; --champagne:#EAD3AE;
+  --wa:#1F8A4C; --wa-deep:#17703D; --ok:#1F8A4C;
+  --f:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:18px; --fs:1.1875rem;
+  color-scheme:light;
+}
+html{font-size:100%} html.big{font-size:118.75%}
+body{background:var(--porcelain);color:var(--ink);font-family:var(--f);font-size:var(--fs);line-height:1.55;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+h1,h2,h3{line-height:1.15;letter-spacing:-.02em;text-wrap:balance;margin:0}
+p{margin:0}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--clay);outline-offset:3px;border-radius:10px}
+a{color:var(--clay)}
+.wrap{max-width:660px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* barra de ajuda */
+.help{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--porcelain) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--porcelain)}
+.help .wrap{display:flex;align-items:center;gap:10px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1rem;margin-right:auto;white-space:nowrap}
+.mono{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--porcelain);font-size:.82rem;font-weight:800;letter-spacing:.02em}
+.tool{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font-size:.95rem;font-weight:700;cursor:pointer}
+.tool[aria-pressed="true"]{background:var(--ink);color:var(--porcelain);border-color:var(--ink)}
+.tool svg{width:20px;height:20px}
+@media (max-width:460px){.brand span{display:none}.tool{padding:0 12px}}
+@media (max-width:330px){.tool .lbl{display:none}}
+
+/* telas */
+.screen{padding-block:28px 140px}
+.fade{animation:in .45s ease both}
+@keyframes in{from{opacity:.2;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* abertura */
+.hero{position:relative;border-radius:28px;overflow:hidden;padding:34px 24px 28px;background:
+  radial-gradient(60% 70% at 90% 0%,var(--peach),transparent 70%),
+  radial-gradient(50% 60% at 0% 100%,var(--champagne),transparent 70%),var(--blush)}
+.hero .kick{display:inline-block;font-weight:700;font-size:.95rem;background:var(--paper);padding:6px 14px;border-radius:999px;color:var(--clay)}
+.hero h1{font-size:clamp(2rem,7vw,2.9rem);font-weight:800;margin:16px 0 12px}
+.hero h1 em{font-style:normal;color:var(--clay)}
+.hero p{font-size:1.15rem;color:var(--ink-2);max-width:30em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.facts div{background:color-mix(in srgb,var(--paper) 80%,transparent);border-radius:14px;padding:12px;font-size:.95rem;color:var(--ink-2)}
+.facts b{display:block;font-size:1.35rem;color:var(--ink)}
+@media (max-width:420px){.facts{grid-template-columns:1fr}.facts div{display:flex;gap:10px;align-items:baseline}}
+.big-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:64px;padding:14px 22px;border:0;border-radius:16px;background:var(--ink);color:var(--porcelain);font-size:1.2rem;font-weight:800;cursor:pointer;text-decoration:none;transition:transform .15s}
+.big-btn:hover{transform:translateY(-2px)}
+.big-btn.wa{background:var(--wa)} .big-btn.wa:hover{background:var(--wa-deep)}
+.big-btn.ghost{background:var(--paper);color:var(--ink);border:2px solid var(--line)}
+.big-btn svg{width:26px;height:26px;flex:none}
+.big-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.note{font-size:.95rem;color:var(--ink-2);text-align:center;margin-top:12px}
+.who{display:flex;gap:14px;align-items:center;margin-top:24px;padding:16px;border-radius:var(--r);background:var(--paper);border:1px solid var(--line)}
+.who .mono{width:54px;height:54px;font-size:1.05rem;flex:none}
+.who p{font-size:1rem;color:var(--ink-2)} .who b{color:var(--ink)}
+
+/* pergunta */
+.prog{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.back{min-height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);font-weight:700;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.back svg{width:20px;height:20px}
+.bar{flex:1;height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--clay);border-radius:99px;transition:width .4s}
+.step{font-weight:700;font-size:1rem;color:var(--ink-2);white-space:nowrap}
+.q{font-size:clamp(1.6rem,5.4vw,2.1rem);font-weight:800;margin-bottom:10px}
+.qhelp{color:var(--ink-2);margin-bottom:22px}
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:16px;width:100%;min-height:76px;padding:14px 18px;text-align:left;background:var(--paper);border:2px solid var(--line);border-radius:var(--r);cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.opt:hover{border-color:var(--clay-soft)}
+.opt .dot{flex:none;width:30px;height:30px;border-radius:50%;border:2.5px solid var(--ink-2);display:grid;place-items:center}
+.opt .dot svg{width:18px;height:18px;opacity:0}
+.opt b{display:block;font-size:1.15rem}
+.opt small{display:block;font-size:1rem;color:var(--ink-2);margin-top:2px}
+.opt[aria-checked="true"]{border-color:var(--clay);background:var(--blush)}
+.opt[aria-checked="true"] .dot{background:var(--clay);border-color:var(--clay);color:#fff}
+.opt[aria-checked="true"] .dot svg{opacity:1}
+.field{display:grid;gap:8px;margin-bottom:16px}
+.field label{font-weight:700;font-size:1.05rem}
+.field input[type=text],.field input[type=tel]{min-height:64px;padding:0 18px;border-radius:16px;border:2px solid var(--line);background:var(--paper);font-size:1.25rem}
+.field input:focus{border-color:var(--clay);outline:none}
+.err{color:#A3261B;font-weight:700;font-size:1rem}
+.check{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:16px;background:var(--paper);border:2px solid var(--line);cursor:pointer;margin-bottom:18px}
+.check input{width:28px;height:28px;flex:none;accent-color:var(--clay);margin:2px 0 0}
+.check span{font-size:1.02rem}
+.safe{display:flex;gap:8px;align-items:center;font-size:.95rem;color:var(--ink-2);margin-top:12px;justify-content:center}
+.safe svg{width:18px;height:18px}
+
+/* preparando */
+.loading{text-align:center;padding-top:60px}
+.ring{width:110px;height:110px;margin:0 auto 24px;border-radius:50%;border:8px solid var(--blush);border-top-color:var(--clay);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading ul{list-style:none;padding:0;margin:20px auto 0;display:grid;gap:10px;max-width:22em;text-align:left}
+.loading li{display:flex;gap:10px;align-items:center;color:var(--ink-2);opacity:.35;transition:opacity .3s}
+.loading li.on{opacity:1;color:var(--ink)}
+.loading li svg{width:22px;height:22px;color:var(--ok)}
+
+/* resultado */
+.res-head{border-radius:28px;padding:28px 22px;background:
+  radial-gradient(60% 70% at 100% 0%,var(--peach),transparent 70%),var(--blush)}
+.res-head .kick{font-weight:700;color:var(--clay)}
+.res-head h1{font-size:clamp(1.9rem,6.5vw,2.6rem);font-weight:800;margin:8px 0 10px}
+.res-head p{color:var(--ink-2);font-size:1.12rem}
+.tier{display:flex;gap:12px;align-items:flex-start;margin-top:18px;padding:14px 16px;border-radius:16px;background:var(--paper)}
+.tier svg{width:26px;height:26px;flex:none;color:var(--clay);margin-top:2px}
+.tier b{display:block}
+.tier .clock{font-variant-numeric:tabular-nums;font-weight:800;color:var(--clay)}
+.listen{margin-top:14px}
+section.blk{margin-top:30px}
+.blk h2{font-size:1.55rem;font-weight:800;margin-bottom:14px}
+.case{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.case{grid-template-columns:1fr}}
+.case div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;min-width:0}
+.case h3{font-size:1rem;font-weight:800;color:var(--clay);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.plan{background:var(--ink);color:var(--porcelain);border-radius:24px;padding:24px 22px}
+.plan .kick{color:var(--peach);font-weight:700}
+.plan h2{font-size:1.75rem;margin:6px 0 14px;color:var(--porcelain)}
+.plan ul{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:10px}
+.plan li{display:flex;gap:12px;align-items:flex-start;font-size:1.1rem}
+.plan li svg{width:24px;height:24px;flex:none;color:var(--peach);margin-top:2px}
+.plan .obs{font-size:.98rem;color:#E9DCD4;margin:-6px 0 18px}
+.media{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:18px;align-items:center}
+@media (max-width:560px){.media{grid-template-columns:1fr}}
+.media video{width:100%;max-width:100%;aspect-ratio:9/16;border-radius:20px;background:var(--ink);display:block}
+.media p{color:var(--ink-2)}
+.media b{color:var(--ink)}
+figure{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+figure img{display:block;width:100%;max-height:420px;object-fit:cover}
+figcaption{padding:12px 16px;font-size:.92rem;color:var(--ink-2)}
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:12px;counter-reset:s}
+.steps li{display:flex;gap:14px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;counter-increment:s}
+.steps li::before{content:counter(s);flex:none;width:36px;height:36px;border-radius:50%;background:var(--clay);color:#fff;font-weight:800;display:grid;place-items:center}
+.steps b{display:block}
+.steps span{color:var(--ink-2)}
+.places{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.places{grid-template-columns:1fr}}
+.place{background:var(--paper);border:2px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.place.mine{border-color:var(--clay)}
+.place small{display:inline-block;font-weight:700;color:var(--clay);font-size:.9rem;margin-bottom:4px}
+.place b{display:block;font-size:1.2rem}
+details{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px}
+summary{cursor:pointer;list-style:none;padding:18px;font-weight:800;font-size:1.1rem;display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:64px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.6rem;color:var(--clay);line-height:1}
+details[open] summary::after{content:"–"}
+details p{padding:0 18px 18px;color:var(--ink-2)}
+.tips{display:grid;gap:10px}
+.tips div{display:flex;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.tips svg{width:24px;height:24px;flex:none;color:var(--clay)}
+.number{text-align:center;margin-top:12px;color:var(--ink-2);font-size:1rem}
+.number b{color:var(--ink);font-variant-numeric:tabular-nums;user-select:all}
+.redo{display:block;margin:26px auto 0;background:none;border:0;color:var(--ink-2);text-decoration:underline;cursor:pointer;font-size:1rem;min-height:44px}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;background:color-mix(in srgb,var(--porcelain) 94%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.dock .wrap{padding-block:10px}
+.dock .big-btn{min-height:60px}
+.ex{display:block;text-align:center;margin-top:18px;font-size:.95rem;color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="help" aria-label="Ajuda de leitura">
+  <div class="wrap">
+    <div class="brand"><div class="mono" aria-hidden="true">AM</div><span>Alê da Pele</span></div>
+    <button class="tool" id="t-font" aria-pressed="false" title="Aumentar o tamanho da letra">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 19 8 5l5 14M4.8 14h6.4M16 12h6M19 9v6"/></svg><span class="lbl">Letra maior</span></button>
+    <button class="tool" id="t-voice" aria-pressed="false" title="Ouvir o que está escrito">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4zM16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span class="lbl">Ouvir</span></button>
+  </div>
+</header>
+
+<main class="wrap" id="app" aria-live="polite"></main>
+<div class="dock" id="dock" hidden><div class="wrap"><a class="big-btn wa" id="dock-btn" target="_blank" rel="noopener"></a></div></div>
+
+<script>
+/* ===== Ajuste aqui ===== */
+const CONFIG = {
+  whatsapp: '5561991140713',
+  whatsappTexto: '(61) 99114-0713',
+  instagram: 'https://instagram.com/alessandramendes.x',
+  precoAPartir: 'R$ 350',          // TROCAR pelo valor real de entrada do tratamento
+  desconto: '10% OFF na primeira sessão'
+};
+/* Meta Pixel: se o pixel estiver instalado na página, estes eventos são enviados. */
+function track(ev, data){ try{ if(window.fbq) fbq('trackCustom', ev, data||{}); }catch(e){} }
+
+const ICON = {
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.2z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+  star:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>',
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>'
+};
+
+const Q = [
+  {id:'nome', type:'text', q:'Para começar, qual é o seu nome?', help:'Assim a Alê já sabe com quem está falando.'},
+  {id:'queixa', q:'{nome}, o que mais te incomoda na sua pele hoje?', help:'Escolha a principal. Na conversa você conta o resto.', opts:[
+    {v:'manchas', t:'Manchas escuras', d:'Melasma, manchas de sol ou de gravidez'},
+    {v:'acne', t:'Marcas de espinha', d:'Manchinhas ou buraquinhos que ficaram'},
+    {v:'vico', t:'Pele sem brilho', d:'Poros abertos, oleosidade, pele cansada'},
+    {v:'rugas', t:'Rugas e linhas', d:'Na testa, entre as sobrancelhas, nos olhos'},
+    {v:'contorno', t:'Contorno do rosto', d:'Quero harmonizar de um jeito natural'},
+    {v:'avaliar', t:'Não sei dizer', d:'Quero que a Alê avalie para mim'}]},
+  {id:'tempo', q:'Há quanto tempo isso te incomoda?', opts:[
+    {v:0, t:'Menos de 6 meses'}, {v:1, t:'De 6 meses a 2 anos'}, {v:2, t:'Mais de 2 anos'}]},
+  {id:'tentou', q:'Você já tentou tratar?', opts:[
+    {v:0, t:'Nunca tratei'}, {v:1, t:'Só com cremes em casa'},
+    {v:2, t:'Já fiz procedimento, mas voltou'}, {v:3, t:'Já gastei muito e não resolveu'}]},
+  {id:'local', q:'Onde fica melhor para você ser atendida?', opts:[
+    {v:'ac', t:'Águas Claras', d:'Brasília, DF'}, {v:'gyn', t:'Setor Marista', d:'Goiânia, GO'},
+    {v:'fora', t:'Moro em outra cidade'}]},
+  {id:'quando', q:'Quando você gostaria de começar?', opts:[
+    {v:3, t:'Esta semana'}, {v:2, t:'Ainda este mês'}, {v:1, t:'Nos próximos meses'}, {v:0, t:'Só estou pesquisando'}]},
+  {id:'invest', q:'O tratamento com acompanhamento começa em {preco} e pode ser parcelado. Isso cabe para você agora?', help:'Responda com sinceridade. Isso ajuda a Alê a montar a melhor opção para você.', opts:[
+    {v:3, t:'Sim, cabe'}, {v:2, t:'Cabe se for parcelado'}, {v:0, t:'Agora não cabe'}]},
+  {id:'contato', type:'contact'}
+];
+
+const PLANS = {
+  manchas:{nome:'Melasma sob Controle', tema:'manchas escuras',
+    oque:'São manchas escuras no rosto, mais comuns na testa, nas bochechas e em cima da boca.',
+    porque:'Sol, calor e hormônios, como o anticoncepcional e a gravidez, fazem a pele produzir cor demais.',
+    faz:'Clareia com o Protocolo AM, um peeling coreano de algas sem ácidos, e monta uma rotina para casa.',
+    espera:'Manchas mais claras a cada sessão. Melasma não tem cura, mas tem controle, e é para isso que existe o acompanhamento.',
+    inclui:['Avaliação da pele com fotos','Protocolo AM: peeling de algas, sem ácidos','Rotina para casa com o seu nome','Produto de manutenção para a mancha não voltar','Acompanhamento pelo WhatsApp'],
+    img:'banco/melasma-1.jpg', cred:'Zappia et al., Photonics, 2024 · CC BY 4.0'},
+  acne:{nome:'Protocolo AM para marcas de espinha', tema:'marcas de espinha',
+    oque:'São as manchinhas escuras ou vermelhas e os pequenos buracos que a espinha deixa.',
+    porque:'A inflamação da espinha mancha a pele e, quando é mais funda, marca a textura.',
+    faz:'Protocolo AM para clarear e, quando precisa, microagulhamento com vitamina C para a textura.',
+    espera:'Pele mais lisa e com cor mais uniforme ao longo das sessões.',
+    inclui:['Avaliação da pele com fotos','Protocolo AM: peeling de algas, sem ácidos','Microagulhamento com vitamina C, se indicado','Rotina para casa com o seu nome','Acompanhamento pelo WhatsApp'],
+    img:'banco/acne-1.jpg', cred:'Al-Bakaa e Khalaf, Cosmetics, 2024 · CC BY 4.0'},
+  vico:{nome:'Glass Skin', tema:'pele sem brilho',
+    oque:'É a pele opaca, com poros aparentes, oleosa em umas partes e ressecada em outras.',
+    porque:'Células mortas acumuladas, limpeza errada e falta de hidratação deixam a pele sem luz.',
+    faz:'Limpeza profunda com produtos coreanos, máscaras, LED e peeling suave. A pele de vidro coreana.',
+    espera:'Pele mais limpa, lisa e com brilho saudável já na primeira sessão.',
+    inclui:['Limpeza profunda com produtos coreanos','Máscaras e LED','Peeling suave','Rotina para casa conforme o seu tipo de pele','Produto de manutenção e suporte pelo WhatsApp'],
+    img:null},
+  rugas:{nome:'Linhas de expressão', tema:'rugas e linhas',
+    oque:'São as linhas da testa, entre as sobrancelhas e ao redor dos olhos.',
+    porque:'Anos de movimento dos músculos do rosto e a perda natural de colágeno.',
+    faz:'Microagulhamento com vitamina C para firmar a pele e, quando indicado, toxina botulínica.',
+    espera:'Linhas mais suaves e um rosto descansado, sem perder as suas expressões.',
+    inclui:['Avaliação do rosto em repouso e em movimento','Microagulhamento com vitamina C','Toxina botulínica, se indicada','Rotina para casa com o seu nome','Retorno de revisão e suporte pelo WhatsApp'],
+    obs:'Procedimentos injetáveis são feitos por profissional habilitado.',
+    img:'banco/glabela.jpg', cred:'Kim et al., Toxins, 2022 · CC BY 4.0'},
+  contorno:{nome:'Harmonização Full Face natural', tema:'contorno do rosto',
+    oque:'É realçar o que já é seu: maçãs do rosto, queixo, mandíbula e lábios, em equilíbrio.',
+    porque:'Com o tempo o rosto perde sustentação e volume, e o contorno fica menos definido.',
+    faz:'Analisa as proporções do seu rosto e planeja pequenos ajustes, sempre naturais.',
+    espera:'Você mais descansada e harmônica, sem cara de procedimento.',
+    inclui:['Análise das proporções do rosto','Plano de harmonização por etapas','Retorno de revisão','Rotina de pele para manter o resultado','Suporte pelo WhatsApp'],
+    obs:'Procedimentos injetáveis são feitos por profissional habilitado.',
+    img:'banco/fullface.jpg', cred:'Bravo et al., Journal of Clinical Medicine, 2025 · CC BY 4.0'},
+  avaliar:{nome:'Avaliação completa da pele', tema:'a sua pele',
+    oque:'Você sente que algo não está bem, mas não sabe nomear. Isso é muito comum.',
+    porque:'Cada pele tem um tipo e uma história. Sem avaliação, a gente acaba usando o produto errado.',
+    faz:'Avalia a sua pele com calma, explica o que encontrou e começa com uma limpeza Glass Skin.',
+    espera:'Você sai sabendo o seu tipo de pele, o que usar e o que evitar.',
+    inclui:['Avaliação da pele com fotos','Limpeza Glass Skin','Rotina para casa com o seu nome','Plano de tratamento por etapas','Acompanhamento pelo WhatsApp'],
+    img:null}
+};
+
+const FAQ = [
+  ['Dói?','A maioria dos procedimentos é bem tranquila. O Protocolo AM e o Glass Skin não doem. No microagulhamento usamos anestésico em creme.'],
+  ['Quanto tempo leva para ver resultado?','No Glass Skin, já na primeira sessão. Em manchas e marcas, a melhora vem a cada sessão, e a Alê te mostra a evolução com fotos.'],
+  ['E se a mancha voltar?','Por isso existe o acompanhamento. Você leva uma rotina para casa e um produto de manutenção, e a Alê confere a sua pele pelo WhatsApp.'],
+  ['Posso parcelar?','Sim. A Alê te passa as opções de pagamento na conversa pelo WhatsApp.']
+];
+
+const S = {i:-1, a:{}};
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const firstName = () => (S.a.nome||'').trim().split(/\s+/)[0] || '';
+const fill = t => t.replace('{nome}', esc(firstName())).replace('{preco}', '<span style="white-space:nowrap">'+CONFIG.precoAPartir+'</span>');
+const optOf = (id) => { const q = Q.find(x=>x.id===id); return q && q.opts ? q.opts.find(o=>o.v===S.a[id]) : null; };
+
+/* ---------- ajuda de leitura ---------- */
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){ return null; } }
+const fontBtn = $('#t-font');
+function setBig(on){ document.documentElement.classList.toggle('big',on); fontBtn.setAttribute('aria-pressed',on); store('am-big', on?'1':'0'); }
+fontBtn.onclick = () => setBig(!document.documentElement.classList.contains('big'));
+if(store('am-big')==='1') setBig(true);
+
+const voiceBtn = $('#t-voice');
+const canSpeak = 'speechSynthesis' in window;
+if(!canSpeak) voiceBtn.hidden = true;
+function speak(text){
+  if(!canSpeak) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'pt-BR'; u.rate = .92;
+  const v = speechSynthesis.getVoices().find(v=>/pt[-_]BR/i.test(v.lang));
+  if(v) u.voice = v;
+  u.onend = u.onerror = () => voiceBtn.setAttribute('aria-pressed','false');
+  voiceBtn.setAttribute('aria-pressed','true');
+  speechSynthesis.speak(u);
+}
+voiceBtn.onclick = () => {
+  if(voiceBtn.getAttribute('aria-pressed')==='true'){ speechSynthesis.cancel(); voiceBtn.setAttribute('aria-pressed','false'); return; }
+  const el = app.querySelector('[data-read]') || app;
+  speak(el.innerText.replace(/\s+/g,' '));
+};
+
+/* ---------- telas ---------- */
+function intro(){
+  S.i = -1; dock(false);
+  app.innerHTML = `<div class="screen fade" data-read>
+    <div class="hero">
+      <span class="kick">Teste gratuito da pele</span>
+      <h1>Descubra o cuidado <em>certo</em> para a sua pele</h1>
+      <p>São 7 perguntas simples. No final você vê o seu resultado e fala direto com a Alê pelo WhatsApp.</p>
+      <div class="facts"><div><b>1 min</b>para responder</div><div><b>7</b>perguntas</div><div><b>Grátis</b>sem compromisso</div></div>
+      <button class="big-btn" id="go">Começar o teste</button>
+    </div>
+    <div class="who"><div class="mono" aria-hidden="true">AM</div>
+      <p><b>Alessandra Mendes, a Alê da Pele.</b> Esteticista especialista em melasma. Atende em Águas Claras (DF) e no Setor Marista (Goiânia).</p></div>
+    <p class="note">Toque em <b>Letra maior</b> ou em <b>Ouvir</b>, lá em cima, se precisar.</p>
+    <a class="ex" href="#exemplo">Ver um exemplo de resultado</a>
+  </div>`;
+  $('#go').onclick = () => { track('QuizIniciado'); go(0); };
+}
+
+function go(i){
+  if(canSpeak) speechSynthesis.cancel();
+  S.i = i; const q = Q[i]; dock(false);
+  const total = Q.length, pct = Math.round((i)/total*100);
+  const head = `<div class="prog">
+      <button class="back" id="back">${ICON.back}Voltar</button>
+      <div class="bar" role="progressbar" aria-valuenow="${i+1}" aria-valuemin="1" aria-valuemax="${total}" aria-label="Progresso do teste"><i style="width:${Math.max(pct,6)}%"></i></div>
+      <span class="step">${i+1} de ${total}</span></div>`;
+  let body = '';
+  if(q.type==='text'){
+    body = `<h1 class="q">${fill(q.q)}</h1><p class="qhelp">${q.help}</p>
+      <div class="field"><label for="f-nome">Seu nome</label>
+      <input type="text" id="f-nome" autocomplete="given-name" placeholder="Ex.: Maria" value="${esc(S.a.nome||'')}"></div>
+      <p class="err" id="e" hidden>Escreva o seu nome para continuar.</p>
+      <button class="big-btn" id="next">Continuar</button>`;
+  } else if(q.type==='contact'){
+    body = `<h1 class="q">${esc(firstName())}, seu resultado está pronto!</h1>
+      <p class="qhelp">Para onde a Alê pode mandar o seu plano e tirar as suas dúvidas?</p>
+      <div class="field"><label for="f-wa">Seu WhatsApp com DDD</label>
+      <input type="tel" id="f-wa" inputmode="numeric" autocomplete="tel-national" placeholder="(61) 99999-9999" value="${esc(S.a.whats||'')}"></div>
+      <label class="check" for="f-ok"><input type="checkbox" id="f-ok" ${S.a.ok?'checked':''}>
+        <span>Autorizo a Alê a falar comigo pelo WhatsApp sobre o meu resultado.</span></label>
+      <p class="err" id="e" hidden></p>
+      <button class="big-btn" id="next">Ver meu resultado</button>
+      <p class="safe">${ICON.lock}Seus dados ficam só com a Alê. Nada de spam.</p>`;
+  } else {
+    body = `<h1 class="q">${fill(q.q)}</h1>${q.help?`<p class="qhelp">${q.help}</p>`:'<div style="height:12px"></div>'}
+      <div class="opts" role="radiogroup" aria-label="${esc(q.q.replace(/\{.*?\}/g,''))}">
+      ${q.opts.map((o,k)=>`<button class="opt" role="radio" aria-checked="${S.a[q.id]===o.v}" data-k="${k}">
+        <span class="dot">${ICON.check}</span><span><b>${o.t}</b>${o.d?`<small>${o.d}</small>`:''}</span></button>`).join('')}
+      </div>`;
+  }
+  app.innerHTML = `<div class="screen fade" data-read>${head}${body}</div>`;
+  $('#back').onclick = () => i===0 ? intro() : go(i-1);
+  window.scrollTo({top:0});
+
+  if(q.type==='text'){
+    const inp = $('#f-nome'); setTimeout(()=>inp.focus(),50);
+    const next = () => { const v = inp.value.trim(); if(v.length<2){ $('#e').hidden=false; inp.focus(); return; } S.a.nome = v; go(i+1); };
+    $('#next').onclick = next; inp.onkeydown = e => { if(e.key==='Enter') next(); };
+  } else if(q.type==='contact'){
+    const inp = $('#f-wa');
+    inp.oninput = () => { let d = inp.value.replace(/\D/g,'').slice(0,11);
+      inp.value = d.length>6 ? `(${d.slice(0,2)}) ${d.slice(2,d.length-4)}-${d.slice(-4)}` : d.length>2 ? `(${d.slice(0,2)}) ${d.slice(2)}` : d; };
+    $('#next').onclick = () => {
+      const d = inp.value.replace(/\D/g,''), e = $('#e');
+      if(d.length<10){ e.textContent='Confira o número: coloque o DDD e o número, como (61) 99999-9999.'; e.hidden=false; inp.focus(); return; }
+      if(!$('#f-ok').checked){ e.textContent='Marque a autorização para a Alê poder te responder.'; e.hidden=false; return; }
+      S.a.whats = inp.value; S.a.ok = true; finish();
+    };
+  } else {
+    app.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+      app.querySelectorAll('.opt').forEach(x=>x.setAttribute('aria-checked','false'));
+      b.setAttribute('aria-checked','true');
+      S.a[q.id] = q.opts[+b.dataset.k].v;
+      setTimeout(()=>go(i+1), 380);
+    });
+  }
+}
+
+/* ---------- qualificação ---------- */
+function tier(a){
+  if(a.local==='fora') return 'fora';
+  if(a.invest===0 || a.quando===0) return 'nutrir';
+  if(a.quando>=2 && a.invest>=2) return 'quente';
+  return 'morna';
+}
+const TIER_CODE = {quente:'AM-1', morna:'AM-2', nutrir:'AM-3', fora:'AM-4'};
+
+function waMsg(a, extra){
+  const p = PLANS[a.queixa];
+  const linhas = [
+    `Oi, Alê! Sou a ${firstName()}. Fiz o teste da pele no site.`, '',
+    `• O que me incomoda: ${optOf('queixa').t}`,
+    `• Há quanto tempo: ${optOf('tempo').t}`,
+    `• Já tentei: ${optOf('tentou').t}`,
+    `• Onde: ${optOf('local').t}${optOf('local').d?' ('+optOf('local').d+')':''}`,
+    `• Quero começar: ${optOf('quando').t}`,
+    `• Investimento: ${optOf('invest').t}`, '',
+    extra || `Meu resultado foi: ${p.nome}. Quero agendar a minha avaliação!`,
+    '', `Teste ${TIER_CODE[tier(a)]}`
+  ];
+  return `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(linhas.join('\n'))}`;
+}
+
+function finish(){
+  const t = tier(S.a);
+  const lead = {...S.a, plano: PLANS[S.a.queixa].nome, nivel: t, codigo: TIER_CODE[t], data: new Date().toISOString()};
+  store('am-quiz', JSON.stringify(lead));
+  track('QuizConcluido', {nivel:t, queixa:S.a.queixa, local:S.a.local});
+  if(t==='quente' || t==='morna') track('LeadQualificado', {nivel:t, queixa:S.a.queixa});
+  app.innerHTML = `<div class="screen loading fade" data-read>
+    <div class="ring" aria-hidden="true"></div>
+    <h1 class="q">Preparando o seu resultado, ${esc(firstName())}…</h1>
+    <ul><li>${ICON.check}Lendo as suas respostas</li><li>${ICON.check}Escolhendo o melhor cuidado</li><li>${ICON.check}Separando a sua condição de hoje</li></ul></div>`;
+  const li = app.querySelectorAll('li');
+  li.forEach((el,k)=>setTimeout(()=>el.classList.add('on'), 350+k*550));
+  setTimeout(result, 2200);
+}
+
+function countdown(){
+  const n = new Date(), m = new Date(n); m.setHours(24,0,0,0);
+  const s = Math.max(0, Math.floor((m-n)/1000));
+  return [Math.floor(s/3600), Math.floor(s%3600/60), s%60].map(x=>String(x).padStart(2,'0')).join(':');
+}
+
+function result(){
+  const a = S.a, p = PLANS[a.queixa], t = tier(a), nome = esc(firstName());
+  const waMain = waMsg(a);
+  const tierHTML = {
+    quente:`<div class="tier">${ICON.star}<div><b>Você tem prioridade na agenda da Alê.</b>Condição de hoje: ${CONFIG.desconto}. Termina em <span class="clock" id="clock">${countdown()}</span>.</div></div>`,
+    morna:`<div class="tier">${ICON.star}<div><b>A Alê vai tirar todas as suas dúvidas, sem pressa.</b>Se decidir hoje, você ganha ${CONFIG.desconto}. Termina em <span class="clock" id="clock">${countdown()}</span>.</div></div>`,
+    nutrir:`<div class="tier">${ICON.sun}<div><b>Sem pressa. Comece pelos cuidados de casa.</b>Separamos dicas simples para você começar hoje. Quando estiver pronta, a Alê te espera.</div></div>`,
+    fora:`<div class="tier">${ICON.pin}<div><b>Por enquanto a Alê atende em Brasília e Goiânia.</b>Deixe o seu contato e ela te avisa quando estiver perto de você.</div></div>`
+  }[t];
+
+  const ctaLabel = t==='fora' ? 'Me avise quando a Alê vier' : t==='nutrir' ? 'Tirar uma dúvida com a Alê' : 'Falar com a Alê agora';
+  const ctaHref = t==='fora' ? waMsg(a, 'Moro em outra cidade. Quero ser avisada quando a Alê atender perto de mim!') : waMain;
+  const cta = (cls='') => `<a class="big-btn wa ${cls}" href="${ctaHref}" target="_blank" rel="noopener" data-wa>${ICON.wa}${ctaLabel}</a>`;
+
+  const tips = `<section class="blk"><h2>Para começar hoje, em casa</h2><div class="tips">
+      <div>${ICON.sun}<p><b>Protetor solar com cor, de 2 em 2 horas.</b> Até dentro de casa. É o que mais protege contra manchas.</p></div>
+      <div>${ICON.check}<p><b>Sabonete suave, duas vezes ao dia.</b> Água quente e esfoliação forte pioram a pele.</p></div>
+      <div>${ICON.star}<p><b>Não esprema espinhas nem cutuque manchas.</b> Isso deixa marcas que demoram a sair.</p></div></div>
+      <a class="big-btn ghost" href="${CONFIG.instagram}" target="_blank" rel="noopener" style="margin-top:14px">Ver mais dicas no Instagram da Alê</a></section>`;
+
+  const placeCard = (v, nomeL, cidade, info) => `<div class="place ${a.local===v?'mine':''}">${a.local===v?'<small>Sua escolha</small>':''}<b>${nomeL}</b>${cidade}<br><span style="color:var(--ink-2)">${info}</span></div>`;
+
+  app.innerHTML = `<div class="screen fade">
+    <div class="res-head" data-read>
+      <span class="kick">Seu resultado</span>
+      <h1>${nome}, o cuidado certo para você é o <span style="color:var(--clay)">${p.nome}</span></h1>
+      <p>Você contou que ${p.tema === 'a sua pele' ? 'quer entender a sua pele' : 'se incomoda com ' + p.tema} ${a.tempo===2?'há mais de 2 anos':a.tempo===1?'há algum tempo':'há pouco tempo'}${a.tentou>=2?' e que já tentou tratar sem resultado duradouro':''}. Veja abaixo, em palavras simples, o que acontece e como a Alê cuida disso.</p>
+      ${tierHTML}
+      ${canSpeak?`<button class="tool listen" id="ouvir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4zM16.5 8.5a5 5 0 0 1 0 7"/></svg>Ouvir o meu resultado</button>`:''}
+    </div>
+
+    <section class="blk"><h2>O seu caso, em palavras simples</h2>
+      <div class="case">
+        <div><h3>O que é</h3><p>${p.oque}</p></div>
+        <div><h3>Por que acontece</h3><p>${p.porque}</p></div>
+        <div><h3>O que a Alê faz</h3><p>${p.faz}</p></div>
+        <div><h3>O que esperar</h3><p>${p.espera}</p></div>
+      </div></section>
+
+    ${t==='nutrir' ? tips : ''}
+
+    <section class="blk"><div class="plan">
+      <span class="kick">Plano indicado para você</span>
+      <h2>${p.nome}</h2>
+      <ul>${p.inclui.map(x=>`<li>${ICON.check}<span>${x}</span></li>`).join('')}</ul>
+      ${p.obs?`<p class="obs">${p.obs}</p>`:''}
+      ${cta()}
+    </div></section>
+
+    <section class="blk"><h2>Como a Alê cuida de você</h2>
+      <div class="media">
+        <video controls playsinline preload="metadata" poster="quiz/poster.jpg" src="video/acompanhamento.mp4" aria-label="Vídeo de 1 minuto sobre o acompanhamento da Alê"></video>
+        <p><b>Assista com som: 1 minuto.</b><br>Aqui você não faz uma sessão e fica sozinha. A Alê acompanha cada caso, monta a sua rotina e responde você pelo WhatsApp.</p>
+      </div></section>
+
+    ${p.img?`<section class="blk"><h2>Exemplo de resultado</h2>
+      <figure><img src="${p.img}" alt="Antes e depois de tratamento de ${p.tema}" loading="lazy">
+      <figcaption>Imagem ilustrativa de estudo científico (${p.cred}). Os resultados variam de pessoa para pessoa.</figcaption></figure></section>`:''}
+
+    <section class="blk"><h2>Como funciona</h2>
+      <ol class="steps">
+        <li><div><b>Você chama a Alê no WhatsApp</b><span>As suas respostas já vão junto. Não precisa explicar tudo de novo.</span></div></li>
+        <li><div><b>Avaliação no consultório</b><span>Ela olha a sua pele de perto e confirma o melhor plano.</span></div></li>
+        <li><div><b>Tratamento e acompanhamento</b><span>Rotina para casa, produto de manutenção e suporte durante todo o tratamento.</span></div></li>
+      </ol></section>
+
+    <section class="blk"><h2>Onde a Alê atende</h2>
+      <div class="places">
+        ${placeCard('ac','Águas Claras','Brasília, DF','Atendimento durante a semana')}
+        ${placeCard('gyn','Setor Marista','Goiânia, GO','Datas mensais, vagas limitadas')}
+      </div></section>
+
+    <section class="blk"><h2>Perguntas comuns</h2>
+      ${FAQ.map(([q,r])=>`<details><summary>${q}</summary><p>${r}</p></details>`).join('')}
+    </section>
+
+    <section class="blk" style="text-align:center">${cta()}
+      <p class="number">Ou salve o número: <b>${CONFIG.whatsappTexto}</b></p></section>
+    <button class="redo" id="redo">Refazer o teste</button>
+  </div>`;
+  dock(true, ctaHref, ctaLabel);
+  window.scrollTo({top:0});
+  app.querySelectorAll('[data-wa]').forEach(el => el.addEventListener('click', ()=>track('WhatsAppClique',{nivel:t})));
+  const o = $('#ouvir'); if(o) o.onclick = () => speak(app.querySelector('.res-head').innerText.replace('Ouvir o meu resultado','') + '. ' + [...app.querySelectorAll('.case div')].map(d=>d.innerText).join('. '));
+  $('#redo').onclick = () => { S.a = {}; if(location.hash){ location.hash=''; } else intro(); };
+  const ck = $('#clock'); if(ck){ clearInterval(window._ck); window._ck = setInterval(()=>{ const c=$('#clock'); if(c) c.textContent = countdown(); else clearInterval(window._ck); },1000); }
+}
+
+function dock(on, href, label){
+  const d = $('#dock'); d.hidden = !on;
+  if(on){ const b = $('#dock-btn'); b.href = href; b.innerHTML = ICON.wa + label; b.onclick = ()=>track('WhatsAppClique',{origem:'barra'}); }
+}
+
+/* exemplo para a equipe ver o resultado sem responder */
+function route(){
+  if(location.hash==='#exemplo'){
+    S.a = {nome:'Maria', queixa:'manchas', tempo:2, tentou:2, local:'ac', quando:3, invest:2, whats:'(61) 99999-0000', ok:true};
+    result();
+  } else intro();
+}
+window.addEventListener('hashchange', route);
+route();
+</script>
