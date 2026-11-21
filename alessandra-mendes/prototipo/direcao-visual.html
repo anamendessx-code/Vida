@@ -1,0 +1,465 @@
+<title>Direção Visual AM</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: página de vendas viva (hero com scan de IA, seta guiada, antes/depois, prova, números) seguida das peças do funil e do CRM no mesmo estilo e da base do sistema.
+   Visual claro único, por escolha: porcelana da AM + terracota, vidro fosco, brilho "aurora" em movimento, grotesca moderna + mono para os rótulos de IA. */
+:root{
+  --porcelain:#FAF6F2; --white:#FFFFFF; --ink:#2B1F1A; --ink-2:#6E5A50; --line:rgba(120,84,66,.14);
+  --clay:#B9705A; --clay-deep:#97523E; --blush:#F3DCD2; --peach:#F7C9B2; --champagne:#EAD3AE; --sage:#7F9C82; --sage-soft:#E5EEE3;
+  --glass:rgba(255,255,255,.62); --glass-line:rgba(255,255,255,.9);
+  --f-sans:"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --shadow:0 30px 60px -30px rgba(110,62,42,.35), 0 2px 6px -2px rgba(110,62,42,.08);
+  --r-xl:32px; --r-lg:22px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--porcelain)}
+body{color:var(--ink);font-family:var(--f-sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;letter-spacing:-.035em;text-wrap:balance;font-weight:700}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--clay-deep);background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(10px);border-radius:999px;padding:6px 12px}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--clay);box-shadow:0 0 0 4px rgba(185,112,90,.18);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.35}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:15px 24px;font-weight:700;font-size:16px;border:1px solid transparent;text-decoration:none;transition:transform .25s,box-shadow .25s,background .25s}
+.btn.dark{background:var(--ink);color:var(--porcelain)}
+.btn.dark:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn.glass{background:var(--glass);border-color:var(--glass-line);backdrop-filter:blur(10px);color:var(--ink)}
+.btn.glass:hover{transform:translateY(-2px)}
+.btn .arr{display:inline-block;transition:transform .25s}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* aurora */
+.aurora{position:fixed;inset:-20vmax;z-index:0;pointer-events:none;filter:blur(60px);opacity:.75}
+.aurora span{position:absolute;border-radius:50%;mix-blend-mode:multiply;animation:drift 22s ease-in-out infinite alternate}
+.aurora span:nth-child(1){width:48vmax;height:48vmax;left:8%;top:2%;background:radial-gradient(circle,#F7C9B2,transparent 65%)}
+.aurora span:nth-child(2){width:42vmax;height:42vmax;right:6%;top:10%;background:radial-gradient(circle,#EAD3AE,transparent 65%);animation-duration:28s}
+.aurora span:nth-child(3){width:40vmax;height:40vmax;left:30%;top:45%;background:radial-gradient(circle,#F3DCD2,transparent 65%);animation-duration:34s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmax,-4vmax) scale(1.1)}100%{transform:translate(-5vmax,5vmax) scale(.95)}}
+.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,header,footer{position:relative;z-index:1}
+
+/* barra */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;padding-block:14px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--porcelain)}
+.bar-in{display:flex;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(16px);border-radius:999px;padding:8px 8px 8px 16px;box-shadow:0 10px 30px -20px rgba(110,62,42,.35)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+.logo b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--porcelain);font-size:13px;font-weight:700}
+.bar nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+.bar nav a{padding:8px 12px;border-radius:999px;color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
+.bar nav a:hover{background:rgba(255,255,255,.8);color:var(--ink)}
+.bar .tagv{font-family:var(--f-mono);font-size:11px;background:var(--ink);color:var(--porcelain);border-radius:999px;padding:8px 12px;white-space:nowrap}
+@media (max-width:760px){.bar nav{display:none}.bar .tagv{margin-left:auto}}
+
+section{padding-block:56px;scroll-margin-top:90px}
+#venda{scroll-margin-top:90px}
+.sec-label{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px;flex-wrap:wrap}
+.sec-label h2{font-size:clamp(34px,5vw,58px);line-height:1}
+.sec-label p{margin:0;color:var(--ink-2);max-width:42ch}
+.note{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-2);letter-spacing:.03em}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-block:36px 40px}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px}}
+.hero h1{font-size:clamp(46px,7.2vw,92px);line-height:.95;margin-block:18px 20px;font-weight:800}
+.hero h1 .soft{color:var(--clay);font-style:italic;font-weight:500}
+.hero p.lead{font-size:20px;color:var(--ink-2);max-width:42ch;margin:0}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.trust{display:flex;align-items:center;gap:14px;margin-top:26px;flex-wrap:wrap}
+.faces{display:flex}
+.faces span{width:34px;height:34px;border-radius:50%;border:2px solid var(--porcelain);margin-left:-10px;background:linear-gradient(140deg,#E9C3A9,#C98D6F)}
+.faces span:first-child{margin-left:0;background:linear-gradient(140deg,#F1D2BE,#D9A588)}
+.faces span:nth-child(3){background:linear-gradient(140deg,#C99474,#8E5B3F)}
+.trust small{color:var(--ink-2);font-size:14px}
+.trust b{color:var(--ink)}
+
+.scan{position:relative;aspect-ratio:4/5;border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow);background:linear-gradient(160deg,#EBC7B1,#D39C80 60%,#B97E62)}
+.scan .ph{position:absolute;inset:0}
+.scan svg{position:absolute;inset:0;width:100%;height:100%}
+.scan .sweep{position:absolute;left:0;right:0;height:26%;top:-26%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.35) 80%,rgba(255,255,255,.9) 99%,transparent);animation:sweep 4.2s cubic-bezier(.6,0,.4,1) infinite;mix-blend-mode:soft-light}
+@keyframes sweep{0%{top:-26%}60%{top:100%}100%{top:100%}}
+.chipf{position:absolute;display:flex;align-items:center;gap:10px;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(14px);border-radius:16px;padding:10px 12px;box-shadow:0 14px 30px -18px rgba(60,30,20,.5);animation:float 6s ease-in-out infinite}
+.chipf .k{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em}
+.chipf .v{font-weight:800;font-size:17px;letter-spacing:-.02em}
+.scan svg.ring{position:static;inset:auto;width:36px;height:36px;flex:none}
+@keyframes float{50%{transform:translateY(-8px)}}
+.phlabel{position:absolute;left:16px;bottom:16px;font-family:var(--f-mono);font-size:11px;color:rgba(255,255,255,.92);background:rgba(43,31,26,.35);backdrop-filter:blur(6px);border-radius:999px;padding:6px 10px}
+
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding-block:16px;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marquee .track{display:flex;gap:40px;width:max-content;animation:mq 32s linear infinite}
+.marquee span{font-size:clamp(22px,3vw,34px);font-weight:700;letter-spacing:-.03em;color:var(--ink);display:inline-flex;align-items:center;gap:40px;white-space:nowrap}
+.marquee span::after{content:"✦";color:var(--clay);font-size:.6em}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* tour */
+.tour{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:center;position:relative}
+@media (max-width:900px){.tour{grid-template-columns:1fr}}
+.tour .scan{aspect-ratio:4/5}
+.tcard{background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(18px);border-radius:var(--r-xl);padding:clamp(20px,3vw,32px);box-shadow:var(--shadow);display:grid;gap:18px;min-width:0}
+.tstep{display:flex;gap:6px;flex-wrap:wrap}
+.tstep button{border:1px solid var(--line);background:rgba(255,255,255,.7);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.tstep button[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--porcelain)}
+.trow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;align-items:start;padding-top:14px;border-top:1px solid var(--line)}
+@media (max-width:520px){.trow{grid-template-columns:1fr;gap:4px}}
+.trow .k{font-family:var(--f-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--clay-deep);padding-top:4px}
+.trow .v{font-size:17px;min-height:1.5em}
+.trow.big .v{font-size:clamp(24px,2.6vw,30px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.res{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.res .pct{font-size:40px;font-weight:800;letter-spacing:-.04em;color:var(--clay)}
+.res .src{font-family:var(--f-mono);font-size:11px;color:var(--ink-2)}
+.caret{display:inline-block;width:2px;height:1em;background:var(--clay);vertical-align:-2px;animation:blink 1s infinite;margin-left:2px}
+#tourLink{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:3}
+@media (max-width:900px){#tourLink{display:none}}
+
+/* antes/depois */
+.ba-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.ba-grid{grid-template-columns:1fr}}
+.ba{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);user-select:none;touch-action:none}
+.ba .layer{position:absolute;inset:0}
+.ba .before{background:radial-gradient(circle at 34% 46%,rgba(120,70,45,.45) 0 9%,transparent 15%),radial-gradient(circle at 66% 48%,rgba(120,70,45,.4) 0 8%,transparent 14%),radial-gradient(circle at 50% 64%,rgba(120,70,45,.3) 0 6%,transparent 11%),linear-gradient(165deg,#DDAE91,#C08566 70%,#A46C50)}
+.ba .after{background:radial-gradient(circle at 50% 40%,rgba(255,240,230,.55),transparent 55%),linear-gradient(165deg,#EBC4AA,#D19C7E 70%,#B88064)}
+.ba .sil{position:absolute;left:50%;top:14%;width:52%;aspect-ratio:3/4;transform:translateX(-50%);border-radius:50% 50% 46% 46%;background:rgba(255,255,255,.08);box-shadow:inset 0 -30px 60px rgba(0,0,0,.08)}
+.ba .handle{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;transform:translateX(-50%)}
+.ba .handle::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:44px;border-radius:50%;transform:translate(-50%,-50%);background:var(--glass);border:1px solid #fff;backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+.ba .handle::before{content:"‹ ›";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;font-weight:800;color:var(--ink);font-size:15px;white-space:nowrap}
+.ba .tag{position:absolute;top:14px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(10px);border-radius:999px;padding:5px 10px}
+.ba .cap{position:absolute;left:12px;right:12px;bottom:12px;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(14px);border-radius:16px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ba .cap b{font-size:15px}
+.ba .cap small{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2);letter-spacing:.04em}
+.ba .ph{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font-family:var(--f-mono);font-size:11px;color:rgba(255,255,255,.85);text-align:center;letter-spacing:.05em}
+
+/* prova */
+.proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.proof{grid-template-columns:1fr}}
+.quote{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;display:grid;gap:14px;align-content:start;box-shadow:0 1px 0 var(--line)}
+.quote .stars{color:var(--clay);letter-spacing:2px}
+.quote p{margin:0;font-size:17px;line-height:1.5}
+.quote .who{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}
+.quote .who span{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,#EBC4AA,#C08566)}
+.wa{background:#EFE7DD;border-radius:var(--r-lg);padding:18px;display:grid;gap:8px;align-content:start}
+.wa .m{background:#fff;border-radius:12px 12px 12px 4px;padding:9px 12px;font-size:15px;max-width:92%;box-shadow:0 1px 0 rgba(0,0,0,.05)}
+.wa .m.me{justify-self:end;background:#DCF3D0;border-radius:12px 12px 4px 12px}
+.wa time{display:block;font-family:var(--f-mono);font-size:10px;color:#8A7A6E;text-align:right;margin-top:2px}
+
+/* números */
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden}
+@media (max-width:900px){.nums{grid-template-columns:1fr 1fr}}
+.num{background:rgba(255,255,255,.72);backdrop-filter:blur(10px);padding:26px 22px;display:grid;gap:6px;min-width:0}
+.num .v{font-size:clamp(40px,5vw,62px);font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+.num .v em{font-style:normal;color:var(--clay)}
+.num .l{color:var(--ink-2);font-size:15px}
+.num .s{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2);opacity:.8}
+
+/* funil + crm */
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:900px){.duo{grid-template-columns:1fr}}
+.panel{background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(18px);border-radius:var(--r-xl);padding:clamp(20px,3vw,30px);box-shadow:var(--shadow);display:grid;gap:18px;align-content:start;min-width:0}
+.prog{height:6px;border-radius:999px;background:rgba(43,31,26,.08);overflow:hidden}
+.prog i{display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--clay),#D69A80);border-radius:999px}
+.panel h3{font-size:clamp(26px,3vw,34px);line-height:1.05}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:1px solid var(--line);background:rgba(255,255,255,.85);border-radius:18px;padding:16px;text-align:left;display:grid;gap:4px;transition:all .2s}
+.opt:hover{border-color:var(--clay);transform:translateY(-2px)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--porcelain);border-color:var(--ink)}
+.opt b{font-size:16px}
+.opt small{font-size:13px;opacity:.7}
+.leadc{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px}
+.score{position:relative;width:84px;height:84px}
+.score svg{width:100%;height:100%;transform:rotate(-90deg)}
+.score b{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:800;letter-spacing:-.03em}
+.hot{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;background:#FBE1D8;color:#A2442F;border-radius:999px;padding:4px 10px}
+.leadc h4{margin:4px 0 2px;font-size:18px;letter-spacing:-.02em}
+.leadc .meta{font-size:13.5px;color:var(--ink-2)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills span{font-size:12.5px;border-radius:999px;padding:4px 10px;background:var(--blush);color:var(--clay-deep);font-weight:600}
+.kan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.kan .col{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:18px;padding:10px;display:grid;gap:8px;align-content:start}
+.kan .col .h{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.kan .c{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;font-size:13.5px;display:grid;gap:4px}
+.kan .c b{font-size:14px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+
+/* sistema */
+.sys{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px}
+@media (max-width:900px){.sys{grid-template-columns:1fr}}
+.sw{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.sw div{border-radius:18px;aspect-ratio:1/1.1;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;font-size:13px;font-weight:600;border:1px solid var(--line)}
+.sw small{font-family:var(--f-mono);font-size:10.5px;font-weight:400;opacity:.8}
+.type .t1{font-size:clamp(44px,6vw,76px);font-weight:800;letter-spacing:-.05em;line-height:.95}
+.type .t2{font-size:22px;font-weight:600;letter-spacing:-.02em}
+.type .t3{color:var(--ink-2)}
+.need{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:700px){.need{grid-template-columns:1fr}}
+.need div{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.need b{display:block;font-size:15.5px}
+.need small{color:var(--ink-2);font-size:13.5px}
+.need .ck{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--clay);flex:none;display:grid;place-items:center;color:var(--clay);font-weight:800;font-size:13px}
+footer{padding-block:30px 60px;text-align:center;color:var(--ink-2);font-size:14px}
+.reveal{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{transform:translateY(18px)}to{transform:none}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="wrap bar">
+  <div class="bar-in">
+    <div class="logo"><b>AM</b>Alessandra Mendes</div>
+    <nav aria-label="Seções"><a href="#venda">Página de vendas</a><a href="#seta">Seta guiada</a><a href="#antes">Antes e depois</a><a href="#funil">Funil e CRM</a><a href="#base">Base</a></nav>
+    <span class="tagv">Direção visual · v1 para aprovar</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- HERO da página de vendas -->
+  <div id="venda" class="hero">
+    <div class="reveal">
+      <span class="eyebrow"><i></i>Avaliação facial com IA · Brasília</span>
+      <h1>Sua pele, lida por IA. <span class="soft">Cuidada pela Alê.</span></h1>
+      <p class="lead">Mande uma foto, veja em segundos o que seu rosto precisa e saia com um plano que acompanha você até o resultado.</p>
+      <div class="ctas"><a class="btn dark" href="#seta">Fazer minha análise grátis <span class="arr">→</span></a><a class="btn glass" href="#antes">Ver resultados reais</a></div>
+      <div class="trust"><div class="faces"><span></span><span></span><span></span><span></span></div><small><b>+30 anos</b> cuidando de pele · <b>4,9</b> ★ das clientes</small></div>
+      <p class="note" style="margin-top:14px">Números entre aspas na prévia: trocar pelos reais da Alê.</p>
+    </div>
+    <div class="scan reveal" id="heroScan" aria-label="Prévia do scan facial com IA">
+      <div class="ph"></div>
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" id="mesh"></svg>
+      <div class="sweep"></div>
+      <div class="chipf" style="left:14px;top:18%"><svg class="ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(43,31,26,.1)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#B9705A" stroke-width="4" stroke-dasharray="94" stroke-dashoffset="26" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg><div><div class="k">Simetria</div><div class="v">92%</div></div></div>
+      <div class="chipf" style="right:14px;top:46%;animation-delay:1.5s"><div><div class="k">Melasma · maçãs</div><div class="v">Moderado</div></div></div>
+      <div class="chipf" style="left:18px;bottom:68px;animation-delay:3s"><div><div class="k">Terço inferior</div><div class="v">−8% vs. médio</div></div></div>
+      <span class="phlabel">foto real da cliente entra aqui</span>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true"><div class="track"><span>Melasma</span><span>Limpeza de pele</span><span>Peeling de algas</span><span>Microagulhamento</span><span>BB Glow</span><span>Blindagem da pele</span><span>Melasma</span><span>Limpeza de pele</span><span>Peeling de algas</span><span>Microagulhamento</span><span>BB Glow</span><span>Blindagem da pele</span></div></div>
+
+  <!-- SETA GUIADA -->
+  <section id="seta">
+    <div class="sec-label"><h2>A seta que explica <span style="color:var(--clay)">e resolve.</span></h2><p>Cada ponto do rosto vira um passo: o problema, o motivo, o que a Alê faz e o resultado esperado. Avança sozinho, e a cliente também pode clicar.</p></div>
+    <div class="tour" id="tour">
+      <div class="scan" id="tourScan"><div class="ph"></div><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" id="mesh2"></svg><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" id="pins"></svg><span class="phlabel">foto da cliente · pontos medidos por IA</span></div>
+      <div class="tcard">
+        <div class="tstep" id="tsteps"></div>
+        <div class="trow big"><div class="k">Problema</div><div class="v" id="t-p"></div></div>
+        <div class="trow"><div class="k">Motivo</div><div class="v" id="t-m"></div></div>
+        <div class="trow"><div class="k">O que fazemos</div><div class="v" id="t-f"></div></div>
+        <div class="trow"><div class="k">Resultado</div><div class="v"><div class="res"><span class="pct" id="t-r"></span><span id="t-rt"></span></div><div class="res"><span class="src" id="t-s"></span></div></div></div>
+      </div>
+      <svg id="tourLink" aria-hidden="true"></svg>
+    </div>
+  </section>
+
+  <!-- ANTES E DEPOIS -->
+  <section id="antes">
+    <div class="sec-label"><h2>Resultados <span style="color:var(--clay)">de verdade.</span></h2><p>Arraste para comparar. Aqui entram só fotos reais de clientes da Alê, com autorização, mesma luz e mesmo ângulo.</p></div>
+    <div class="ba-grid">
+      <div class="ba" data-ba><div class="layer before"><div class="sil"></div></div><div class="layer after"><div class="sil"></div></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Melasma</b><small>8 SESSÕES · 12 SEMANAS</small></div><span class="hot" style="background:var(--sage-soft);color:#4C6B4F">Real</span></div></div>
+      <div class="ba" data-ba><div class="layer before"><div class="sil"></div></div><div class="layer after"><div class="sil"></div></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Marcas de acne</b><small>4 SESSÕES · MICROAGULHAMENTO</small></div><span class="hot" style="background:var(--sage-soft);color:#4C6B4F">Real</span></div></div>
+      <div class="ba" data-ba><div class="layer before"><div class="sil"></div></div><div class="layer after"><div class="sil"></div></div><div class="ph">foto real<br>antes / depois</div><span class="tag" style="left:12px">Antes</span><span class="tag" style="right:12px">Depois</span><div class="handle"></div><div class="cap"><div><b>Limpeza + peeling</b><small>1 SESSÃO · NO MESMO DIA</small></div><span class="hot" style="background:var(--sage-soft);color:#4C6B4F">Real</span></div></div>
+    </div>
+  </section>
+
+  <!-- PROVA SOCIAL -->
+  <section>
+    <div class="sec-label"><h2>Quem fez, <span style="color:var(--clay)">conta.</span></h2><p>Depoimentos e prints de WhatsApp reais, com autorização. Abaixo, só o layout com textos de exemplo.</p></div>
+    <div class="proof">
+      <div class="quote"><div class="stars">★★★★★</div><p>"[Exemplo de layout] Já tinha tentado de tudo pro melasma. Foi a primeira vez que alguém me explicou por que ele voltava."</p><div class="who"><span></span>Cliente · Asa Sul</div></div>
+      <div class="wa"><div class="m">[Exemplo] Alê, olha minha pele hoje 😭 nem passei base</div><div class="m">ninguém acredita que é a mesma pessoa<time>21:14</time></div><div class="m me">Que orgulho de você! Continua o protetor de 2 em 2h ☀️<time>21:16 ✓✓</time></div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"[Exemplo de layout] O atendimento é outro nível. Ela me mandou a rotina, acompanha toda semana e responde rápido."</p><div class="who"><span style="background:linear-gradient(140deg,#C99474,#8E5B3F)"></span>Cliente · Águas Claras</div></div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS -->
+  <section>
+    <div class="nums" id="nums">
+      <div class="num"><div class="v"><em>+</em><span data-count="30">0</span></div><div class="l">anos cuidando de pele</div><div class="s">confirmar com a Alê</div></div>
+      <div class="num"><div class="v"><span data-count="96">0</span><em>%</em></div><div class="l">melhoraram as cicatrizes de acne em 4 sessões de microagulhamento</div><div class="s">estudo, 45 pacientes</div></div>
+      <div class="num"><div class="v"><span data-count="1200">0</span><em>+</em></div><div class="l">peles avaliadas</div><div class="s">exemplo · trocar pelo real</div></div>
+      <div class="num"><div class="v"><span data-count="12">0</span></div><div class="l">meses de acompanhamento no plano de melasma</div><div class="s">"Melasma sob controle"</div></div>
+    </div>
+  </section>
+
+  <!-- FUNIL E CRM -->
+  <section id="funil">
+    <div class="sec-label"><h2>Funil e CRM <span style="color:var(--clay)">no mesmo estilo.</span></h2><p>A cliente responde em toques. A Alê recebe o lead pronto, com pontuação e próximo passo.</p></div>
+    <div class="duo">
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="color:var(--ink-2)">Pergunta 3 de 5</span><span class="mono" style="color:var(--clay-deep)">≈ 40 s</span></div>
+        <div class="prog"><i></i></div>
+        <h3>Quando você quer começar?</h3>
+        <div class="opts" id="opts">
+          <button class="opt" aria-pressed="true"><b>Esta semana</b><small>Tenho horário livre</small></button>
+          <button class="opt" aria-pressed="false"><b>Este mês</b><small>Quero me organizar</small></button>
+          <button class="opt" aria-pressed="false"><b>Em 3 meses</b><small>Antes do verão</small></button>
+          <button class="opt" aria-pressed="false"><b>Só pesquisando</b><small>Quero entender</small></button>
+        </div>
+        <a class="btn dark" href="#funil" style="justify-self:start">Continuar <span class="arr">→</span></a>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="color:var(--ink-2)">CRM · lead novo</span><span class="mono" style="color:var(--clay-deep)">há 2 min</span></div>
+        <div class="leadc">
+          <div class="score"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" fill="none" stroke="rgba(43,31,26,.08)" stroke-width="8"/><circle cx="42" cy="42" r="36" fill="none" stroke="#B9705A" stroke-width="8" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="34" id="scoreArc"/></svg><b>85</b></div>
+          <div><span class="hot">● Quente</span><h4>Mariana S. · Sudoeste</h4><div class="meta">Esta semana · R$ 500–1.000/mês · já tratou e voltou</div></div>
+        </div>
+        <div class="pills"><span>Melasma moderado</span><span>Assimetria de sobrancelha</span><span>Terço inferior curto</span></div>
+        <div class="kan">
+          <div class="col"><div class="h"><span>Lead novo</span><span>3</span></div><div class="c"><b><span class="dot" style="background:#B9705A"></span>Mariana S.</b>Responder em 5 min</div><div class="c"><b><span class="dot" style="background:#D6A35C"></span>Luana R.</b>Morno · 24 h</div></div>
+          <div class="col"><div class="h"><span>Avaliação</span><span>2</span></div><div class="c"><b><span class="dot" style="background:#7F9C82"></span>Juliana P.</b>Amanhã 10h</div></div>
+          <div class="col"><div class="h"><span>Plano ativo</span><span>5</span></div><div class="c"><b><span class="dot" style="background:#7F9C82"></span>Marina T.</b>Fase 2 · foto hoje</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BASE -->
+  <section id="base">
+    <div class="sec-label"><h2>A base <span style="color:var(--clay)">do estilo.</span></h2><p>As mesmas cores, letras e peças valem para o Espelho da Pele, a página de vendas, o funil e o CRM.</p></div>
+    <div class="sys">
+      <div class="panel">
+        <span class="mono" style="color:var(--ink-2)">Cores</span>
+        <div class="sw">
+          <div style="background:#FAF6F2">Porcelana<small>fundo</small></div>
+          <div style="background:#2B1F1A;color:#FAF6F2">Café<small>texto e botões</small></div>
+          <div style="background:#B9705A;color:#fff">Terracota<small>destaque</small></div>
+          <div style="background:linear-gradient(140deg,#F7C9B2,#EAD3AE)">Aurora<small>brilho de fundo</small></div>
+        </div>
+      </div>
+      <div class="panel type">
+        <span class="mono" style="color:var(--ink-2)">Tipografia</span>
+        <div class="t1">Aa Pele</div>
+        <div class="t2">Plus Jakarta Sans · títulos fortes, leitura fácil</div>
+        <div class="t3">Texto em 17 px, confortável no celular.</div>
+        <div class="mono" style="color:var(--clay-deep)">JetBrains Mono · rótulos de IA e dados</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><h2>O que eu preciso <span style="color:var(--clay)">de vocês.</span></h2><p>Para a página de vendas ficar com cara de "já fechado" quando a cliente chamar no WhatsApp.</p></div>
+    <div class="need">
+      <div><span class="ck">1</span><span><b>Fotos de antes e depois reais</b><small>De 6 a 10 casos, com autorização por escrito. Mesma luz e ângulo. Melasma, acne, limpeza e peeling.</small></span></div>
+      <div><span class="ck">2</span><span><b>Depoimentos</b><small>Prints de WhatsApp, avaliações do Google ou vídeos curtos de clientes (com autorização).</small></span></div>
+      <div><span class="ck">3</span><span><b>Fotos e vídeos da Alê</b><small>Atendendo, na sala, falando para a câmera. Os vídeos brutos de 14/11 já servem.</small></span></div>
+      <div><span class="ck">4</span><span><b>Números reais</b><small>Anos de experiência, clientes atendidas, nota no Google, quantas voltam.</small></span></div>
+      <div><span class="ck">5</span><span><b>Oferta</b><small>Preço da avaliação, planos (início, 6 e 12 meses), bônus, condição de pagamento e prazo.</small></span></div>
+      <div><span class="ck">6</span><span><b>Onde atende</b><small>Endereço ou bairro, dias em Goiânia, horários.</small></span></div>
+    </div>
+  </section>
+</main>
+<footer>Direção visual v1 · AM Estética · as peças com "[Exemplo]" e "foto real" são lugares reservados</footer>
+
+<script>
+(() => {
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ---------- malha facial (68 pontos, molde médio) ---------- */
+function landmarks(cx, cy, s, asym){
+  const P = [];
+  for (let i = 0; i <= 16; i++){ const t = (190 + i*10) * Math.PI/180; P.push([cx + 96*s*Math.cos(t), cy - 8*s - 128*s*Math.sin(t)]); }
+  const brow = (x0, dir, dy) => { for (let i = 0; i < 5; i++){ const u = i/4; P.push([cx + dir*(22 + 58*u)*s, cy - 58*s - Math.sin(u*Math.PI)*12*s + (dir < 0 ? u*6*s : u*6*s) + dy]); } };
+  brow(0,-1,0); brow(0,1,-asym);
+  for (let i = 0; i < 4; i++) P.push([cx, cy - 34*s + i*16*s]);
+  for (let i = 0; i < 5; i++) P.push([cx + (i-2)*10*s, cy + 34*s + Math.abs(i-2)*-3*s]);
+  const eye = dir => { const ex = cx + dir*46*s, ey = cy - 20*s; [[-1,0],[-.45,-.55],[.45,-.55],[1,0],[.45,.45],[-.45,.45]].forEach(([u,v]) => P.push([ex + u*17*s*dir, ey + v*12*s])); };
+  eye(-1); eye(1);
+  const my = cy + 72*s;
+  [[-1,0],[-.6,-.45],[-.2,-.6],[0,-.5],[.2,-.6],[.6,-.45],[1,0],[.6,.6],[.2,.8],[0,.8],[-.2,.8],[-.6,.6]].forEach(([u,v]) => P.push([cx + u*30*s, my + v*16*s]));
+  [[-.8,0],[-.3,-.15],[0,-.12],[.3,-.15],[.8,0],[.3,.2],[0,.22],[-.3,.2]].forEach(([u,v]) => P.push([cx + u*30*s, my + v*16*s]));
+  return P;
+}
+const GROUPS = [[0,17],[17,22],[22,27],[27,31],[31,36],[36,42,1],[42,48,1],[48,60,1],[60,68,1]];
+function meshSVG(P){
+  let lines = '';
+  GROUPS.forEach(([a,b,closed]) => { for (let i = a; i < b - 1; i++) lines += seg(P[i], P[i+1]); if (closed) lines += seg(P[b-1], P[a]); });
+  const extra = [[0,36],[16,45],[2,48],[14,54],[4,48],[12,54],[8,57],[31,48],[35,54],[27,39],[27,42],[30,33],[17,36],[26,45],[21,27],[22,27],[3,31],[13,35],[6,59],[10,55]];
+  extra.forEach(([a,b]) => lines += seg(P[a], P[b], .35));
+  return `<g class="ln">${lines}</g><g class="pt">${P.map((p,i) => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6" style="animation-delay:${(i*0.025).toFixed(3)}s"/>`).join('')}</g>`;
+  function seg(p, q, o=.7){ return `<line x1="${p[0].toFixed(1)}" y1="${p[1].toFixed(1)}" x2="${q[0].toFixed(1)}" y2="${q[1].toFixed(1)}" stroke-opacity="${o}" pathLength="1"/>`; }
+}
+const meshCSS = document.createElement('style');
+meshCSS.textContent = `
+  #mesh line,#mesh2 line{stroke:#fff;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;animation:dl 1.6s .4s ease forwards}
+  #mesh circle,#mesh2 circle{fill:#fff;opacity:0;animation:dp .4s ease forwards}
+  @keyframes dl{to{stroke-dashoffset:0}}
+  @keyframes dp{to{opacity:.95}}
+  .scan .ph{background:radial-gradient(ellipse 34% 40% at 50% 46%,rgba(255,226,208,.55),transparent 70%),radial-gradient(ellipse 60% 24% at 50% 100%,rgba(70,40,28,.35),transparent 70%)}
+  #pins .pin{cursor:pointer}
+  #pins .halo{animation:halo 1.8s infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes halo{0%{transform:scale(.6);opacity:.8}100%{transform:scale(2.2);opacity:0}}
+  @media (prefers-reduced-motion: reduce){#mesh line,#mesh2 line{stroke-dashoffset:0}#mesh circle,#mesh2 circle{opacity:.95}}`;
+document.head.appendChild(meshCSS);
+const P1 = landmarks(200, 230, 1.05, 4);
+document.getElementById('mesh').innerHTML = meshSVG(P1);
+const P2 = landmarks(200, 230, 1.05, 6);
+document.getElementById('mesh2').innerHTML = meshSVG(P2);
+
+/* ---------- seta guiada ---------- */
+const STEPS = [
+  {tab:'Sobrancelhas', pt:P2[24], p:'Sobrancelha direita 2,4 mm mais alta que a esquerda', m:'Músculo da testa mais forte de um lado, comum em quem franze ao falar.', f:'A Alê avalia a força de cada lado e equilibra o olhar no plano de harmonia.', r:'+1 a 3 mm', rt:'de equilíbrio no arco', s:'estudos de elevação da sobrancelha, 2 semanas'},
+  {tab:'Melasma', pt:[124,262], p:'Melasma moderado nas maçãs do rosto', m:'Sol, luz do celular, calor e hormônios estimulam o pigmento.', f:'Blindagem da pele, protocolo de melasma e protetor com cor, com foto mensal.', r:'−50%', rt:'no índice de melasma', s:'média em estudos de 12 semanas'},
+  {tab:'Queixo', pt:P2[8], p:'Terço inferior 8% menor que o terço médio', m:'Queixo levemente para dentro, o que encurta o perfil e marca o contorno.', f:'Plano de harmonia do contorno, explicado pela Alê na avaliação.', r:'81%', rt:'melhoraram a projeção do queixo', s:'ensaio clínico, 12 semanas'},
+  {tab:'Textura', pt:[284,300], p:'Marcas e cicatrizes de acne na lateral', m:'Inflamações antigas que deixaram relevo e pigmento.', f:'Microagulhamento em 4 sessões + peeling de algas para o tom.', r:'96%', rt:'melhoraram ao menos 1 grau', s:'estudo, 45 pacientes, 4 sessões'},
+];
+let cur = 0, timer = 0;
+const tsteps = document.getElementById('tsteps');
+tsteps.innerHTML = STEPS.map((s,i) => `<button data-i="${i}">${s.tab}</button>`).join('');
+tsteps.onclick = e => { const b = e.target.closest('button'); if (!b) return; show(+b.dataset.i, true); };
+function type(el, txt, speed){ if (reduce){ el.textContent = txt; return; } el.innerHTML = ''; let i = 0; const c = document.createElement('span'); c.className = 'caret'; const s = document.createElement('span'); el.append(s, c); const step = () => { s.textContent = txt.slice(0, ++i); if (i < txt.length) setTimeout(step, speed); else c.remove(); }; step(); }
+function show(i, user){
+  cur = i; const S = STEPS[i];
+  tsteps.querySelectorAll('button').forEach((b,k) => b.setAttribute('aria-current', k === i));
+  type(document.getElementById('t-p'), S.p, 16);
+  setTimeout(() => type(document.getElementById('t-m'), S.m, 10), 500);
+  setTimeout(() => type(document.getElementById('t-f'), S.f, 10), 1000);
+  document.getElementById('t-r').textContent = S.r; document.getElementById('t-rt').textContent = S.rt; document.getElementById('t-s').textContent = 'fonte: ' + S.s;
+  document.getElementById('pins').innerHTML = STEPS.map((s,k) => `<g class="pin" data-i="${k}" opacity="${k===i?1:.55}"><circle class="halo" cx="${s.pt[0]}" cy="${s.pt[1]}" r="9" fill="#fff"/><circle cx="${s.pt[0]}" cy="${s.pt[1]}" r="${k===i?8:6}" fill="${k===i?'#B9705A':'#fff'}" stroke="#fff" stroke-width="3"/></g>`).join('');
+  link();
+  clearTimeout(timer); timer = setTimeout(() => show((cur + 1) % STEPS.length), user ? 9000 : 6500);
+}
+document.getElementById('pins').addEventListener('click', e => { const g = e.target.closest('.pin'); if (g) show(+g.dataset.i, true); });
+function link(){
+  const tour = document.getElementById('tour'), svg = document.getElementById('tourLink'), sc = document.getElementById('tourScan'), card = tour.querySelector('.tcard');
+  const T = tour.getBoundingClientRect(), A = sc.getBoundingClientRect(), C = card.getBoundingClientRect();
+  if (C.left < A.right - 4){ svg.innerHTML = ''; return; }
+  const S = STEPS[cur];
+  const scale = Math.max(A.width/400, A.height/500), ox = (A.width - 400*scale)/2, oy = (A.height - 500*scale)/2;
+  const x1 = A.left - T.left + ox + S.pt[0]*scale, y1 = A.top - T.top + oy + S.pt[1]*scale;
+  const x2 = C.left - T.left + 2, y2 = C.top - T.top + 92;
+  svg.setAttribute('viewBox', `0 0 ${T.width} ${T.height}`);
+  const mx = (x1 + x2)/2;
+  svg.innerHTML = `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="#B9705A" stroke-width="2" stroke-dasharray="6 6" pathLength="400"><animate attributeName="stroke-dashoffset" from="400" to="0" dur="0.9s" fill="freeze"/></path><circle cx="${x2}" cy="${y2}" r="5" fill="#B9705A"/>`;
+}
+addEventListener('resize', link);
+show(0);
+
+/* ---------- antes/depois arrastável ---------- */
+document.querySelectorAll('[data-ba]').forEach((el, k) => {
+  const after = el.querySelector('.after'), h = el.querySelector('.handle');
+  const set = v => { v = Math.min(98, Math.max(2, v)); after.style.clipPath = `inset(0 0 0 ${v}%)`; h.style.left = v + '%'; };
+  set(50);
+  let drag = false;
+  const at = e => { const r = el.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); };
+  el.addEventListener('pointerdown', e => { drag = true; el.setPointerCapture(e.pointerId); at(e); });
+  el.addEventListener('pointermove', e => { if (drag) at(e); });
+  el.addEventListener('pointerup', () => drag = false);
+  if (!reduce){ let t0 = null; const sweep = ts => { if (drag) return; t0 ??= ts; const u = (ts - t0)/1000 - k*.4; if (u > 0 && u < 2.4){ set(50 + 38*Math.sin(u/2.4*Math.PI*2)); } if (u < 2.4) requestAnimationFrame(sweep); else set(50); }; requestAnimationFrame(sweep); }
+});
+
+/* ---------- números ---------- */
+const nums = document.querySelectorAll('[data-count]');
+const run = () => nums.forEach(n => { const end = +n.dataset.count; if (reduce){ n.textContent = end.toLocaleString('pt-BR'); return; } const t0 = performance.now(); const f = t => { const u = Math.min(1, (t - t0)/1400), e = 1 - Math.pow(1-u, 3); n.textContent = Math.round(end*e).toLocaleString('pt-BR'); if (u < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); });
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)){ run(); io.disconnect(); } }) : null;
+io ? io.observe(document.getElementById('nums')) : run();
+nums.forEach(n => n.textContent = n.dataset.count);
+
+/* ---------- opções do funil ---------- */
+document.getElementById('opts').onclick = e => { const b = e.target.closest('.opt'); if (!b) return; document.querySelectorAll('#opts .opt').forEach(x => x.setAttribute('aria-pressed', x === b)); };
+})();
+</script>
